@@ -257,3 +257,5 @@ main#contenu:focus { outline: none; }
 .pied .wp-block-social-links .wp-social-link svg, .pied .wp-block-social-links .wp-social-link:hover svg { color: inherit; }
 /* Listes d'articles : les cartes de la grille sont alignées en haut */
 .vf-liste .wp-block-post-template > li { margin: 0 !important; }
+/* Gabarit « Page pleine largeur » : une seule colonne */
+.mise-en-page.mise-en-page--pleine { grid-template-columns: minmax(0, 1fr); }
