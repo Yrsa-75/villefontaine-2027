@@ -10,7 +10,7 @@
 .entete.est-defile { border-bottom-color: var(--trait); box-shadow: 0 6px 24px rgba(15, 47, 55, .06); }
 .entete__barre { display: flex; align-items: center; gap: 28px; height: 96px; transition: height .3s var(--ease); }
 .entete.est-defile .entete__barre { height: 74px; }
-.entete__logo { flex: 0 0 auto; }
+.entete__logo { flex: 0 0 auto; display: block; line-height: 0; }
 .entete__logo img { width: 200px; height: auto; transition: width .3s var(--ease); }
 .entete.est-defile .entete__logo img { width: 160px; }
 .entete__actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
@@ -61,7 +61,7 @@
 .vf-immersif .entete:not(.est-defile):not(.menu-ouvert) .nav-principale__declencheur:hover,
 .vf-immersif .entete:not(.est-defile):not(.menu-ouvert) .nav-principale__declencheur[aria-expanded="true"] { background: rgba(255, 255, 255, .14); color: var(--blanc); }
 .vf-immersif .entete:not(.est-defile):not(.menu-ouvert) .bouton-rond { background: rgba(255, 255, 255, .12); border-color: rgba(255, 255, 255, .35); color: var(--blanc); }
-.vf-immersif .entete .logo-blanc { display: none; }
+.entete .logo-blanc { display: none; }
 .vf-immersif .entete:not(.est-defile):not(.menu-ouvert) .logo-blanc { display: block; }
 .vf-immersif .entete:not(.est-defile):not(.menu-ouvert) .logo-couleur { display: none; }
 .vf-immersif .entete.est-defile, .vf-immersif .entete.menu-ouvert { background: rgba(255, 255, 255, .86); backdrop-filter: saturate(180%) blur(18px); -webkit-backdrop-filter: saturate(180%) blur(18px); border-bottom-color: rgba(213, 227, 230, .8); }
