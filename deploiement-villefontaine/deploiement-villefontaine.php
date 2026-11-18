@@ -3,7 +3,7 @@
  * Plugin Name:       Déploiement Villefontaine
  * Plugin URI:        https://github.com/Yrsa-75/villefontaine-2027
  * Description:       Installe et met à jour le thème et les plugins Villefontaine depuis le dépôt GitHub du projet, et récupère les images du site actuel. Réservé aux administrateurs.
- * Version:           1.0.2
+ * Version:           1.0.3
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            YRSA
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_DEPLOI_VERSION', '1.0.2' );
+define( 'VF_DEPLOI_VERSION', '1.0.3' );
 
 /**
  * Dépôt GitHub (public) qui contient les fichiers .zip prêts à installer dans dist/.
@@ -47,7 +47,7 @@ function vf_deploi_elements() {
  * @return string[]
  */
 function vf_deploi_domaines_images() {
-	return array( 'villefontaine.fr', 'www.villefontaine.fr', 'i.calameoassets.com' ); // Couvertures des publications Calaméo, copiées une fois sur le site.
+	return array( 'villefontaine.fr', 'www.villefontaine.fr', 'www.calameo.com' ); // Calaméo : uniquement les couvertures (chemin /books/social/cover/), copiées une fois sur le site.
 }
 
 /**
@@ -221,9 +221,11 @@ function vf_deploi_importer_image( $url, $alt = '' ) {
 	$url  = esc_url_raw( $url );
 	$hote = strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) );
 	if ( 'https' !== wp_parse_url( $url, PHP_URL_SCHEME ) || ! in_array( $hote, vf_deploi_domaines_images(), true ) ) {
-		return new WP_Error( 'interdit', 'Seules les images de villefontaine.fr (et les couvertures Calaméo) peuvent être importées.' );
+		return new WP_Error( 'interdit', 'Seules les images de villefontaine.fr et les couvertures Calaméo peuvent être importées.' );
 	}
-	if ( ! preg_match( '/\.(jpe?g|png|gif|webp)$/i', (string) wp_parse_url( $url, PHP_URL_PATH ) ) ) {
+	$chemin = (string) wp_parse_url( $url, PHP_URL_PATH );
+	$calameo = 'www.calameo.com' === $hote;
+	if ( $calameo ? ! preg_match( '#^/books/social/cover/[A-Za-z0-9]+$#', $chemin ) : ! preg_match( '/\.(jpe?g|png|gif|webp)$/i', $chemin ) ) {
 		return new WP_Error( 'format', 'Format d’image non accepté.' );
 	}
 	$deja = get_posts(
@@ -251,8 +253,17 @@ function vf_deploi_importer_image( $url, $alt = '' ) {
 		return $args;
 	};
 	add_filter( 'http_request_args', $entetes, 10, 2 );
-	$id = media_sideload_image( $url, 0, null, 'id' );
+	$tmp = download_url( $url, 30 );
 	remove_filter( 'http_request_args', $entetes, 10 );
+	if ( is_wp_error( $tmp ) ) {
+		return $tmp;
+	}
+	$nom = $calameo ? 'couverture-' . basename( $chemin ) . '.jpg' : wp_basename( $chemin );
+	// WordPress vérifie ensuite le vrai type du fichier : un fichier qui n'est pas une image est refusé.
+	$id = media_handle_sideload( array( 'name' => sanitize_file_name( $nom ), 'tmp_name' => $tmp ), 0 );
+	if ( is_wp_error( $id ) ) {
+		wp_delete_file( $tmp );
+	}
 	if ( is_wp_error( $id ) ) {
 		return $id;
 	}
