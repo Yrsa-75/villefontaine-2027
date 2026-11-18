@@ -119,7 +119,8 @@ function vf_socle_elements_ariane( $post_id = 0 ) {
 				$elements[] = array( get_the_title( $page_actus ), get_permalink( $page_actus ) );
 			}
 			$cats = get_the_category( $post->ID );
-			if ( $cats ) {
+			// La catégorie n'est affichée que si elle apporte une information (pas « Actualités » sous « Actualités »).
+			if ( $cats && ( ! $page_actus || 0 !== strcasecmp( $cats[0]->name, get_the_title( $page_actus ) ) ) && 'uncategorized' !== $cats[0]->slug ) {
 				$elements[] = array( $cats[0]->name, get_category_link( $cats[0] ) );
 			}
 		} else {
