@@ -82,6 +82,8 @@ h1, h2, h3 { line-height: 1.15; margin: 0; }
 .haut-de-page:hover { background: var(--bleu-800); }
 .mise-en-page { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 56px; align-items: start; padding-top: 56px; }
 .lateral { position: sticky; top: 100px; display: grid; gap: 20px; }
+/* Colonne longue (navigation de rubrique) : elle défile normalement pour rester entièrement accessible. */
+.lateral:has(.vf-rubrique) { position: static; }
 .bloc-contenu + .bloc-contenu { margin-top: 64px; }
 .bloc-contenu > h2 { font-size: clamp(26px, 2.6vw, 32px); font-weight: 850; margin-bottom: 22px; scroll-margin-top: 110px; }
 .a-savoir { display: flex; gap: 18px; padding: 26px 28px; border-radius: var(--rayon); background: var(--vert-100); border-left: 0; }
@@ -153,8 +155,11 @@ body .bande h2 { font-family: var(--titre); font-weight: 700; font-size: clamp(2
 .contenu th { background: var(--bleu-50); color: var(--bleu-900); }
 .wp-element-button, .wp-block-button__link { transition: background .2s, transform .2s var(--ease); }
 .wp-block-button__link:hover { transform: translateY(-2px); }
+/* Le texte des boutons reste lisible au survol et au focus (la règle générale « a:hover » le rendait bleu foncé sur fond bleu foncé). */
+.wp-block-button__link:is(:hover, :focus-visible), .wp-element-button:is(:hover, :focus-visible) { color: var(--blanc); background: var(--bleu-800); }
+.wp-block-button.is-style-secondaire .wp-block-button__link:is(:hover, :focus-visible) { color: var(--bleu-800); }
 .wp-block-button.is-style-secondaire .wp-block-button__link { background: var(--blanc); color: var(--bleu-800); box-shadow: inset 0 0 0 2px var(--bleu-700); }
-.wp-block-button.is-style-secondaire .wp-block-button__link:hover { background: var(--bleu-100); }
+.wp-block-button.is-style-secondaire .wp-block-button__link:is(:hover, :focus-visible) { background: var(--bleu-100); }
 
 /* Styles de blocs proposés aux agents */
 .is-style-a-savoir { position: relative; padding: 26px 28px 26px 74px; border-radius: var(--rayon); background: var(--vert-100); }

@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/meme-rubrique",
+	"version": "1.3.0",
+	"title": "Dans la même rubrique",
+	"category": "villefontaine",
+	"icon": "list-view",
+	"description": "Liste automatique des autres pages de la même rubrique (colonne latérale).",
+	"textdomain": "socle-villefontaine",
+	"attributes": {},
+	"supports": { "html": false, "reusable": false, "multiple": false },
+	"editorScript": "vf-socle-meme-rubrique-editeur",
+	"style": "file:./style.css",
+	"render": "file:./rendu.php"
+}
