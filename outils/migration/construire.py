@@ -271,3 +271,64 @@ for ancien, (cle, ancre) in ancien_vers.items():
 json.dump({'version': 1, 'pages': pages_out, 'menu': menu, 'redirections': redirections}, open('pages.json', 'w'), ensure_ascii=False)
 print('\n'.join(rapport))
 print(len(pages_out), 'pages,', len(redirections), 'redirections')
+
+# ---------------------------------------------------------------------------
+# 6. Actualités et événements publiés depuis le 1er janvier 2026
+# ---------------------------------------------------------------------------
+import datetime
+DEPUIS = datetime.datetime(2026, 1, 1, tzinfo=datetime.timezone.utc)
+
+def convertit_item(p):
+    ctx = Contexte(p['titre'])
+    d = p['meta'].get('_elementor_data')
+    data = charge(d, None) if d else None
+    n = noeuds_elementor(data) if data else noeuds_html(p['contenu'])
+    blocs = nettoie_blocs(convertir_noeuds(n, ctx), p['slug'])
+    for c in ctx.contacts:
+        if any(c.values()):
+            blocs.append(b_contact(c))
+    image = ''
+    tid = p['meta'].get('_thumbnail_id')
+    if tid and tid.isdigit() and int(tid) in ATTACH:
+        image = original(ATTACH[int(tid)]['url'])
+    if not image:
+        image, blocs = premiere_image(blocs)
+    # Une image identique à l'image mise en avant en tête de contenu ferait doublon.
+    if image and blocs and blocs[0].startswith('<!-- wp:image') and image in blocs[0]:
+        blocs = blocs[1:]
+    return reecrit_liens('\n\n'.join(b for b in blocs if b)), image
+
+actus = []
+for p in items:
+    if p['type'] == 'post' and p['statut'] == 'publish' and p['date'] >= '2026-01-01':
+        contenu, image = convertit_item(p)
+        ext = texte_propre(BeautifulSoup(p.get('extrait') or '', 'lxml').get_text())
+        actus.append({'cle': 'actu-' + str(p['id']), 'titre': phrase(html.unescape(p['titre'])), 'slug': p['slug'], 'date': p['date'],
+                      'extrait': ext[:300], 'contenu': contenu, 'image': image,
+                      'categories': [t[2] for t in p['termes'] if t[0] == 'category'],
+                      'ancien': chemin_ancien(p)})
+
+evts = []
+for p in items:
+    if p['type'] != 'ajde_events' or p['statut'] != 'publish':
+        continue
+    m = p['meta']
+    d0 = datetime.datetime.fromtimestamp(int(m.get('evcal_srow') or 0), datetime.timezone.utc)
+    if d0 < DEPUIS:
+        continue
+    d1 = datetime.datetime.fromtimestamp(int(m.get('evcal_erow') or m.get('evcal_srow')), datetime.timezone.utc)
+    journee = m.get('evcal_allday') == 'yes'
+    contenu, image = convertit_item(p)
+    titre = html.unescape(p['titre']).strip()
+    evts.append({'cle': 'evt-' + str(p['id']), 'titre': titre, 'slug': p['slug'], 'date': p['date'], 'contenu': contenu, 'image': image,
+                 'debut': d0.strftime('%Y-%m-%d'), 'fin': d1.strftime('%Y-%m-%d') if d1.date() > d0.date() else '',
+                 'heure_debut': '' if journee else d0.strftime('%H:%M'),
+                 'heure_fin': '' if journee or m.get('evo_hide_endtime') == 'yes' or d1 <= d0 else d1.strftime('%H:%M'),
+                 'lieu': next((t[2] for t in p['termes'] if t[0] == 'event_location'), ''),
+                 'themes': [t[2] for t in p['termes'] if t[0] == 'event_type'],
+                 'infos': html.unescape(m.get('evcal_subtitle') or '').strip(),
+                 'lien': m.get('evcal_lmlink') or '',
+                 'annule': bool(re.search(r'annul', titre, re.I)),
+                 'ancien': chemin_ancien(p)})
+json.dump({'version': 1, 'actualites': actus, 'evenements': evts}, open('contenus.json', 'w'), ensure_ascii=False)
+print(len(actus), 'actualités,', len(evts), 'événements')

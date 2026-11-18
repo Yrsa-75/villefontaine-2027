@@ -15,4 +15,4 @@ for c in socle-villefontaine villefontaine actualites-villefontaine agenda-ville
   echo "$c $v"
 done
 printf '\n}\n' >> dist/versions.json
-mkdir -p dist/migration && cp outils/migration/pages.json dist/migration/pages.json
+mkdir -p dist/migration && cp outils/migration/pages.json outils/migration/contenus.json dist/migration/
