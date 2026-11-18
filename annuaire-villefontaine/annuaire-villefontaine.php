@@ -3,7 +3,7 @@
  * Plugin Name:       Annuaire Villefontaine
  * Plugin URI:        https://villefontaine.fr
  * Description:       Annuaire des lieux et services de la ville avec carte interactive (Leaflet, fond Plan IGN), filtres par catégorie, fiche par lieu, import et export Excel (CSV).
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.7
  * Requires PHP:      8.1
  * Requires Plugins:  socle-villefontaine
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_ANNUAIRE_VERSION', '1.0.0' );
+define( 'VF_ANNUAIRE_VERSION', '1.0.1' );
 define( 'VF_ANNUAIRE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VF_ANNUAIRE_URL', plugin_dir_url( __FILE__ ) );
 

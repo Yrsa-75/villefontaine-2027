@@ -94,3 +94,5 @@
 .bulle-lieu p { margin: 0 0 4px !important; font-size: 14px; }
 .bulle-lieu__cat { font-size: 12px !important; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--vert-700); }
 .bulle-lieu a { display: inline-block; margin-top: 4px; margin-right: 12px; font-weight: 700; color: var(--bleu-700); }
+/* Pastilles de catégorie lisibles sur le fond bleu foncé (contraste des couleurs sombres) */
+.carte-services .categories i, .liste-lieux i { box-shadow: 0 0 0 2px rgba(255, 255, 255, .9); }
