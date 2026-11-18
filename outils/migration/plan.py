@@ -16,14 +16,14 @@ RUBRIQUES = [
             ('engagements', 'Nos engagements', 'nos-engagements', ['nos-engagements'], {}),
             ('expression-groupes', 'Expression des groupes', 'expression-des-groupes', ['expressions-politiques'], {'extrait': 'Les tribunes des groupes politiques du conseil municipal.'}),
             ('instances-citoyennes', 'Instances citoyennes', 'instances-citoyennes', ['les-instances-citoyennes', 'conseil-citoyen'], {'sections': ['Les instances citoyennes', 'Le conseil citoyen']}),
-            ('cme', 'Conseil municipal des enfants', 'conseil-municipal-des-enfants', ['conseil-municipal-des-enfants'], {}),
+            ('cme', 'Conseil municipal des enfants', 'conseil-municipal-des-enfants', ['conseil-municipal-des-enfants'], {'extrait': 'Les jeunes élus de la ville et leurs projets.'}),
         ]}),
         ('budget', 'Budget de la commune', 'budget', ['budget'], {'extrait': 'Pour bien comprendre le budget et les investissements de la ville.'}),
         ('budget-participatif', 'Budget participatif', 'budget-participatif', ['budget-participatif-2-0'], {'extrait': 'Proposez et soutenez des projets pour votre quartier.'}),
         ('jumelage', 'Jumelage', 'jumelage', ['jumelages-internationaux'], {'extrait': 'Kahl am Main, Gremda, Wolfen-Bitterfeld et Salzano : nos quatre villes jumelles.'}),
-        ('marches-publics', 'Marchés publics', 'marches-publics', ['marches-publics'], {}),
+        ('marches-publics', 'Marchés publics', 'marches-publics', ['marches-publics'], {'extrait': 'Les consultations en cours de la ville et l’inscription aux alertes pour les entreprises.'}),
         ('recrutement', 'Villefontaine recrute', 'villefontaine-recrute', ['recrutement-ville', 'candidature-spontanee'], {'sections': ['Nos offres d’emploi', 'Candidature spontanée'], 'extrait': 'Offres d’emploi de la ville, candidature spontanée, stages et apprentissage.'}),
-        ('affichage-legal', 'Affichage légal', 'affichage-legal', ['affichage-legal', 'arretes-municipaux'], {'sections': ['Délibérations et publications', 'Arrêtés municipaux']}),
+        ('affichage-legal', 'Affichage légal', 'affichage-legal', ['affichage-legal', 'arretes-municipaux'], {'sections': ['Délibérations et publications', 'Arrêtés municipaux'], 'extrait': 'Délibérations, publications officielles et arrêtés municipaux.'}),
     ]),
     ('vie-quotidienne', 'Vie quotidienne', 'École, jeunesse, seniors, santé, emploi : les services de tous les jours.', [
         ('enfance-famille', 'Enfance, famille', 'enfance-famille', [], {'extrait': 'Scolarité, restauration scolaire, accueil de loisirs et petite enfance.', 'enfants': [
@@ -33,7 +33,7 @@ RUBRIQUES = [
         ]}),
         ('jeunesse', 'Jeunesse', 'jeunesse', [], {'extrait': 'Information jeunesse et Maisons pour tous.', 'enfants': [
             ('info-jeunes', 'Info Jeunes', 'info-jeunes', ['infojeunes'], {}),
-            ('maisons-pour-tous', 'Maisons pour tous', 'maisons-pour-tous', ['maisons-pour-tous'], {}),
+            ('maisons-pour-tous', 'Maisons pour tous', 'maisons-pour-tous', ['maisons-pour-tous'], {'extrait': 'Les maisons pour tous Florence Arthaud et Denise Tronchet : horaires et services.'}),
         ]}),
         ('seniors', 'Seniors', 'seniors', ['animations-et-associations-retraites'], {'extrait': 'Activités, accompagnement et services à domicile pour les Villards de plus de 60 ans.', 'agenda': 'seniors', 'enfants': [
             ('le-phare', 'Le Phare', 'le-phare', ['phare-senior-ccas'], {}),
@@ -49,7 +49,7 @@ RUBRIQUES = [
         ('sante-solidarite', 'Santé et solidarité', 'sante-solidarite', [], {'extrait': 'CCAS, action sociale, pouvoir d’achat, complémentaire santé.', 'enfants': [
             ('ccas', 'CCAS et action sociale', 'ccas-action-sociale', ['missions-ccas'], {}),
             ('maison-pouvoir-achat', 'Maison du pouvoir d’achat', 'maison-du-pouvoir-d-achat', ['maison-pouvoir-achat'], {}),
-            ('complementaire-sante', 'Complémentaire santé', 'complementaire-sante', ['la-complementaire-sante-des-villards'], {}),
+            ('complementaire-sante', 'Complémentaire santé', 'complementaire-sante', ['la-complementaire-sante-des-villards'], {'extrait': 'Ma commune ma santé : une complémentaire santé mutualisée pour faire des économies.'}),
             ('indicateurs', 'Qualité de l’eau et de l’air', 'qualite-eau-air', ['indicateurs'], {}),
         ]}),
         ('emploi', 'Économie, emploi et insertion', 'emploi-insertion', [], {'extrait': 'Mission locale, relais emploi du CCAS, chantier d’insertion.', 'enfants': [
@@ -72,14 +72,14 @@ RUBRIQUES = [
             ('risques-majeurs', 'Risques majeurs', 'risques-majeurs', ['risques-majeurs'], {}),
         ]}),
         ('logement', 'Logement et habitat', 'logement', [], {'extrait': 'S’installer, logement social, énergie.', 'enfants': [
-            ('s-installer', 'S’installer à Villefontaine', 's-installer', ['nouveaux-arrivants'], {}),
+            ('s-installer', 'S’installer à Villefontaine', 's-installer', ['nouveaux-arrivants'], {'extrait': 'Cérémonie d’accueil, kit de bienvenue et démarches d’emménagement.'}),
             ('logement-social', 'Logement social', 'logement-social', ['demande-de-logement-social'], {}),
             ('energie', 'Énergie : infos et conseils', 'energie', ['point-info-energie'], {}),
         ]}),
         ('urbanisme', 'Urbanisme', 'urbanisme', [], {'extrait': 'Plan local d’urbanisme, démarches et occupation du domaine public.', 'enfants': [
             ('plu', 'Plan local d’urbanisme (PLU)', 'plu', ['plu'], {}),
             ('demarches-urbanisme', 'Démarches d’urbanisme', 'demarches-urbanisme', ['demarches-urbanisme'], {}),
-            ('domaine-public', 'Occupation du domaine public', 'occupation-domaine-public', ['redevance-doccupation-du-domaine-public', 'demande-occupation-domaine-public-pour-chantier-prive'], {'sections': ['Redevance d’occupation du domaine public', 'Chantier privé sur le domaine public']}),
+            ('domaine-public', 'Occupation du domaine public', 'occupation-domaine-public', ['redevance-doccupation-du-domaine-public', 'demande-occupation-domaine-public-pour-chantier-prive'], {'sections': ['Redevance d’occupation du domaine public', 'Chantier privé sur le domaine public'], 'extrait': 'Terrasses, chantiers, étalages : demandes d’autorisation et redevance.'}),
         ]}),
         ('proprete', 'Propreté et déchets', 'proprete-dechets', [], {'extrait': 'Déchèteries et propreté de la ville.', 'enfants': [
             ('decheteries', 'Déchèteries', 'decheteries', ['decheteries'], {}),
