@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/plan-du-site",
+	"version": "1.2.0",
+	"title": "Plan du site",
+	"category": "villefontaine",
+	"icon": "networking",
+	"description": "Liste automatique et à jour de toutes les pages publiées, par rubrique.",
+	"textdomain": "socle-villefontaine",
+	"attributes": {},
+	"supports": { "html": false, "reusable": false, "multiple": false },
+	"editorScript": "vf-socle-plan-du-site-editeur",
+	"style": "file:./style.css",
+	"render": "file:./rendu.php"
+}

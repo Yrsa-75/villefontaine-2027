@@ -121,6 +121,7 @@ DEMARCHES = ('demarches', 'Vos démarches', 'Toutes les démarches administrativ
 HORS_MENU = [
     ('contact', 'Contact', 'contact', ['contact'], {'pleine': True}),
     ('mentions-legales', 'Mentions légales', 'mentions-legales', ['mentions-legales'], {'pleine': True}),
+    ('plan-du-site', 'Plan du site', 'plan-du-site', ['plan-site'], {'pleine': True, 'extrait': 'Toutes les pages du site, rubrique par rubrique.'}),
     ('donnees-personnelles', 'Données personnelles', 'donnees-personnelles', ['politique-confidentialite'], {'pleine': True}),
     ('charte-graphique', 'Charte graphique', 'charte-graphique', ['charte-graphique'], {'pleine': True}),
     ('decouvrir', 'Découvrir Villefontaine', 'decouvrir-villefontaine', ['presentation-ville'], {}),
@@ -136,7 +137,7 @@ REDIRECTIONS_SUPPLEMENTAIRES = {
     'voirie-proprete-dechets': 'proprete', 'accessibilite': 'accessibilite-ville', 'grands-projets-de-mandat': 'grands-projets', 'centre-ville': 'coeur-de-ville',
     'ville-innovante': 'campus', 'patrimoine-naturel-environnement': 'patrimoine', 'tourisme-patrimoine': 'patrimoine', 'culture': 'culture', 'art': 'street-art',
     'sport': 'sports', 'les-grands-rdv': 'grands-rdv', 'associations-villardes': 'associations', 'la-mairie': 'la-mairie', 'maison-du-pouvoir-achat': 'maison-pouvoir-achat',
-    'ville-de-villefontaine': 'decouvrir', 'ville-de-villefontaine-new': 'decouvrir', 'plan-site': 'accueil', 'enseignement-et-formation': 'enfance-famille',
+    'ville-de-villefontaine': 'decouvrir', 'ville-de-villefontaine-new': 'decouvrir', 'enseignement-et-formation': 'enfance-famille',
     'publications': '/kiosque/', 'le-magazine-municipal-villefontaine-le-mag': '/kiosque/', 'agenda': '/agenda/', 'actualites': '/actualites/', 'carte-villefontaine': '/carte-des-services/',
     'flashs-infos': '/actualites/', 'rdv-emploi': 'structures-emploi', 'scot': 'plu', 'zones-activite-economique': 'zones-activite', 'grands-projets': 'grands-projets',
 }

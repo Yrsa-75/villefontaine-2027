@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @return string[]
  */
 function vf_socle_liste_blocs() {
-	return array( 'entete', 'panneau-demarches', 'heros', 'acces-rapides', 'section', 'bandeau-page', 'fil-ariane', 'sommaire', 'encart-contact', 'sous-pages', 'documents', 'chiffres', 'cartes-liens', 'contact-carte', 'video', 'trombinoscope', 'formulaire-contact' );
+	return array( 'entete', 'panneau-demarches', 'heros', 'acces-rapides', 'section', 'bandeau-page', 'fil-ariane', 'sommaire', 'encart-contact', 'sous-pages', 'documents', 'chiffres', 'cartes-liens', 'contact-carte', 'video', 'trombinoscope', 'formulaire-contact', 'plan-du-site' );
 }
 
 /**

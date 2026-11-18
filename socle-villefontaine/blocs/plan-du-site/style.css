@@ -1,0 +1,10 @@
+/* Bloc « Plan du site » */
+.vf-plan ul { list-style: none; margin: 0; padding: 0; }
+.vf-plan a { font-weight: 600; }
+.vf-plan__essentiel { display: flex; flex-wrap: wrap; gap: 10px 26px; padding: 0 0 22px; margin: 0 0 26px !important; border-bottom: 1px solid var(--trait); }
+.vf-plan__pages { columns: 2 320px; column-gap: 48px; }
+.vf-plan__pages > li { break-inside: avoid; margin: 0 0 22px; }
+.vf-plan__pages > li > a { font-family: var(--wp--preset--font-family--unbounded); font-size: 18px; font-weight: 700; }
+.vf-plan__pages .children { margin: 8px 0 0 4px; padding-left: 16px; border-left: 2px solid var(--vert-100); }
+.vf-plan__pages .children li { margin: 6px 0; }
+.vf-plan__pages .children a { font-weight: 500; }
