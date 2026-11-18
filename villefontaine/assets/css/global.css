@@ -288,3 +288,9 @@ main#contenu:focus { outline: none; }
 .contenu .wp-block-quote { margin-inline: 0; padding: 4px 0 4px 24px; }
 .contenu .wp-block-quote cite { display: block; margin-top: 8px; font-size: 15px; color: var(--encre-douce); font-style: normal; }
 .contenu .wp-block-buttons { margin-block: 1.4em; }
+
+/* Longs mots et longues adresses (courriels, liens) : retour à la ligne plutôt que débordement sur mobile. */
+.contenu, .mise-en-page > * { min-width: 0; }
+.contenu :is(p, li, dd, td, th, summary, h2, h3, h4, figcaption) { overflow-wrap: break-word; }
+.contenu a { overflow-wrap: anywhere; }
+h1 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens: auto; }

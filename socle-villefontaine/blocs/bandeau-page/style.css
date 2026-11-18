@@ -12,7 +12,7 @@
 .bandeau-page__image::before { content: ""; position: absolute; left: -1px; top: 0; bottom: 0; width: 90px; z-index: 1; background: linear-gradient(90deg, var(--bleu-100), transparent); }
 
 @media (max-width: 760px) {
-  .bandeau-page { grid-template-columns: 1fr; }
+  .bandeau-page { grid-template-columns: minmax(0, 1fr); }
   .bandeau-page__texte { padding: 32px 24px; }
   .bandeau-page__image { min-height: 240px; }
   .bandeau-page__image::before { display: none; }
@@ -20,7 +20,10 @@
 
 /* Compléments WordPress */
 .bandeau-page h1 { font-size: clamp(32px, 4.2vw, 54px); overflow-wrap: break-word; hyphens: auto; }
-.bandeau-page--sans-image { grid-template-columns: 1fr; min-height: 0; background: linear-gradient(135deg, var(--bleu-100), var(--bleu-50) 60%, var(--vert-100)); }
+.bandeau-page--sans-image { grid-template-columns: minmax(0, 1fr); min-height: 0; background: linear-gradient(135deg, var(--bleu-100), var(--bleu-50) 60%, var(--vert-100)); }
 .bandeau-page--sans-image .bandeau-page__chapo { max-width: 760px; }
 .vf-page > .conteneur:first-child { padding-top: 24px; }
 @keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1); } }
+@media (max-width: 480px) {
+	.bandeau-page h1 { font-size: clamp(26px, 8.4vw, 34px); }
+}
