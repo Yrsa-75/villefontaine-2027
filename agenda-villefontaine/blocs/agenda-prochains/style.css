@@ -66,3 +66,22 @@
 /* Compléments WordPress */
 .evenement__fond { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(255, 255, 255, .85); background: radial-gradient(120% 90% at 85% 0%, rgba(167, 193, 60, .5), transparent 55%), linear-gradient(140deg, var(--bleu-700), var(--bleu-900)); }
 .vf-agenda .agenda > li[hidden] { display: none; }
+
+/* Format « liste » (pages thématiques) */
+.liste-evenements { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.ligne-evt { position: relative; display: grid; grid-template-columns: 150px 1fr auto; gap: 20px; align-items: center; padding: 12px; border-radius: var(--rayon); border: 1px solid var(--trait); background: var(--blanc); transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
+.ligne-evt:hover { transform: translateX(4px); box-shadow: var(--ombre); }
+.ligne-evt img { width: 150px; height: 100px; object-fit: cover; border-radius: 12px; }
+.ligne-evt h3 { font-size: 18px; font-weight: 750; margin-bottom: 4px; }
+.ligne-evt h3 a { color: var(--encre); text-decoration: none; }
+.ligne-evt h3 a::after { content: ""; position: absolute; inset: 0; }
+.ligne-evt:hover h3 a { text-decoration: underline; }
+.ligne-evt p { margin: 0; font-size: 15px; color: var(--encre-douce); }
+.ligne-evt .ligne-evt__date { width: 66px; height: 70px; border-radius: 14px; background: var(--vert-600); color: var(--blanc); display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; margin-right: 8px; }
+.ligne-evt .ligne-evt__date strong { font-size: 26px; font-weight: 850; }
+.ligne-evt .ligne-evt__date span { font-size: 13px; font-weight: 750; margin-top: 4px; }
+.vf-agenda-liste-compacte { margin-block: 2em; }
+.vf-agenda-liste-compacte > h2 { margin-bottom: 18px; }
+.ligne-evt:not(:has(img)) { grid-template-columns: 1fr auto; }
+.vf-agenda-liste-compacte__lien { margin-top: 16px; }
+@media (max-width: 600px) { .ligne-evt { grid-template-columns: 1fr auto; } .ligne-evt img { display: none; } }

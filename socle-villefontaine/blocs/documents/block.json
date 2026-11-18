@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/documents",
+	"version": "1.1.0",
+	"title": "Documents à télécharger",
+	"category": "villefontaine",
+	"icon": "media-document",
+	"description": "Liste de documents (PDF, Word, Excel…) avec leur type et leur poids.",
+	"textdomain": "socle-villefontaine",
+	"attributes": { "titre": { "type": "string", "default": "" }, "documents": { "type": "array", "default": [] } },
+	"supports": { "html": false, "reusable": false },
+	"editorScript": "vf-socle-documents-editeur",
+	"style": "file:./style.css",
+	
+	"render": "file:./rendu.php"
+}

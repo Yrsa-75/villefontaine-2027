@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/trombinoscope",
+	"version": "1.1.0",
+	"title": "Trombinoscope",
+	"category": "villefontaine",
+	"icon": "groups",
+	"description": "Portraits de personnes avec nom, fonction et mention (ex. les élus, une équipe).",
+	"textdomain": "socle-villefontaine",
+	"attributes": {
+		"titre": { "type": "string", "default": "" },
+		"personnes": { "type": "array", "default": [] },
+		"vedette": { "type": "boolean", "default": false }
+	},
+	"supports": { "html": false, "reusable": false, "anchor": true },
+	"editorScript": "vf-socle-trombinoscope-editeur",
+	"style": "file:./style.css",
+	"render": "file:./rendu.php"
+}

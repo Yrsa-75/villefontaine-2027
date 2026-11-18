@@ -1,0 +1,12 @@
+/* Bloc « Documents à télécharger » */
+.documents { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.documents a { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border-radius: 16px; border: 1px solid var(--trait); text-decoration: none; color: var(--encre); font-weight: 650; transition: background .2s, border-color .2s; }
+.documents a:hover { background: var(--bleu-50); border-color: var(--bleu-500); }
+.documents a span:last-child { margin-left: auto; font-weight: 400; font-size: 14.5px; color: var(--encre-douce); }
+.documents svg { color: var(--bleu-700); flex: 0 0 auto; }
+.vf-documents { margin-block: 1.6em; }
+.vf-documents > h2 { margin-bottom: 16px; }
+.documents a span.documents__info { margin-left: auto; font-weight: 400; font-size: 14.5px; color: var(--encre-douce); white-space: nowrap; }
+.documents a span:last-child { margin-left: auto; }
+.documents__titre { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 600px) { .documents a { flex-wrap: wrap; } .documents a span.documents__info { margin-left: 38px; } }

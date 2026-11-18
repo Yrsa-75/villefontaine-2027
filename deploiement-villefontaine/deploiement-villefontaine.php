@@ -3,7 +3,7 @@
  * Plugin Name:       Déploiement Villefontaine
  * Plugin URI:        https://github.com/Yrsa-75/villefontaine-2027
  * Description:       Installe et met à jour le thème et les plugins Villefontaine depuis le dépôt GitHub du projet, et récupère les images du site actuel. Réservé aux administrateurs.
- * Version:           1.0.3
+ * Version:           1.1.0
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            YRSA
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_DEPLOI_VERSION', '1.0.3' );
+define( 'VF_DEPLOI_VERSION', '1.1.0' );
 
 /**
  * Dépôt GitHub (public) qui contient les fichiers .zip prêts à installer dans dist/.
@@ -225,8 +225,8 @@ function vf_deploi_importer_image( $url, $alt = '' ) {
 	}
 	$chemin = (string) wp_parse_url( $url, PHP_URL_PATH );
 	$calameo = 'www.calameo.com' === $hote;
-	if ( $calameo ? ! preg_match( '#^/books/social/cover/[A-Za-z0-9]+$#', $chemin ) : ! preg_match( '/\.(jpe?g|png|gif|webp)$/i', $chemin ) ) {
-		return new WP_Error( 'format', 'Format d’image non accepté.' );
+	if ( $calameo ? ! preg_match( '#^/books/social/cover/[A-Za-z0-9]+$#', $chemin ) : ! preg_match( '/\.(jpe?g|png|gif|webp|pdf|docx?|xlsx?|odt|ods|pptx?|zip)$/i', $chemin ) ) {
+		return new WP_Error( 'format', 'Format de fichier non accepté.' );
 	}
 	$deja = get_posts(
 		array(
@@ -274,6 +274,8 @@ function vf_deploi_importer_image( $url, $alt = '' ) {
 	return array( 'id' => (int) $id, 'existant' => false );
 }
 
+require_once __DIR__ . '/migration.php';
+
 /**
  * Points d'accès (API REST de WordPress, session administrateur + jeton anti-falsification).
  */
@@ -307,6 +309,21 @@ add_action(
 				),
 				'callback'            => function ( WP_REST_Request $r ) {
 					return rest_ensure_response( vf_deploi_installer( $r['element'] ) );
+				},
+			)
+		);
+		register_rest_route(
+			'vf-deploiement/v1',
+			'/migration',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => $droits,
+				'args'                => array(
+					'etape' => array( 'required' => true, 'type' => 'string', 'enum' => array( 'pages', 'finaliser' ) ),
+					'debut' => array( 'type' => 'integer', 'default' => 0, 'minimum' => 0 ),
+				),
+				'callback'            => function ( WP_REST_Request $r ) {
+					return rest_ensure_response( 'pages' === $r['etape'] ? vf_deploi_migrer_pages( (int) $r['debut'] ) : vf_deploi_finaliser_migration() );
 				},
 			)
 		);

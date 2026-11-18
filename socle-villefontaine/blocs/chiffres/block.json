@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/chiffres",
+	"version": "1.1.0",
+	"title": "Chiffres clés",
+	"category": "villefontaine",
+	"icon": "chart-bar",
+	"description": "Quelques chiffres mis en valeur (3 à 6 recommandés).",
+	"textdomain": "socle-villefontaine",
+	"attributes": { "chiffres": { "type": "array", "default": [ { "nombre": "", "libelle": "" } ] } },
+	"supports": { "html": false, "reusable": false },
+	"editorScript": "vf-socle-chiffres-editeur",
+	"style": "file:./style.css",
+	
+	"render": "file:./rendu.php"
+}

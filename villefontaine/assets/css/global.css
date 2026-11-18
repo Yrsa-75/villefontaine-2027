@@ -259,3 +259,26 @@ main#contenu:focus { outline: none; }
 .vf-liste .wp-block-post-template > li { margin: 0 !important; }
 /* Gabarit « Page pleine largeur » : une seule colonne */
 .mise-en-page.mise-en-page--pleine { grid-template-columns: minmax(0, 1fr); }
+
+/* ==========================================================================
+   Contenus migrés : volets dépliables, galeries, images, citations
+   ========================================================================== */
+.contenu .wp-block-details { border: 1px solid var(--trait); border-radius: 16px; background: var(--blanc); padding: 0; margin-block-start: 10px; transition: border-color .2s, box-shadow .2s; }
+.contenu .wp-block-details + .wp-block-details { margin-block-start: 10px; }
+.contenu .wp-block-details[open] { border-color: var(--bleu-500); box-shadow: var(--ombre); }
+.contenu .wp-block-details > summary { position: relative; list-style: none; cursor: pointer; padding: 16px 56px 16px 20px; font-weight: 750; color: var(--bleu-900); border-radius: 16px; }
+.contenu .wp-block-details > summary::-webkit-details-marker { display: none; }
+.contenu .wp-block-details > summary::after { content: ""; position: absolute; right: 20px; top: 50%; width: 22px; height: 22px; margin-top: -11px; border-radius: 50%; background: var(--vert-100) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23476410' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center / 12px no-repeat; transition: transform .25s var(--ease); }
+.contenu .wp-block-details[open] > summary::after { transform: rotate(45deg); }
+.contenu .wp-block-details > summary:hover { background: var(--bleu-50); }
+.contenu .wp-block-details > summary:focus-visible { outline: 3px solid var(--bleu-700); outline-offset: 2px; }
+.contenu .wp-block-details > :not(summary) { margin: 0 20px 14px; }
+.contenu .wp-block-details > :not(summary):first-of-type { margin-top: 4px; }
+.contenu .wp-block-details > :last-child { margin-bottom: 18px; }
+.contenu .wp-block-gallery { gap: 12px; }
+.contenu .wp-block-gallery img { border-radius: 12px; }
+.contenu .wp-block-image { margin-block: 1.6em; }
+.contenu .wp-block-image img { max-height: 620px; width: auto; max-width: 100%; }
+.contenu .wp-block-quote { margin-inline: 0; padding: 4px 0 4px 24px; }
+.contenu .wp-block-quote cite { display: block; margin-top: 8px; font-size: 15px; color: var(--encre-douce); font-style: normal; }
+.contenu .wp-block-buttons { margin-block: 1.4em; }

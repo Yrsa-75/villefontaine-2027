@@ -1,9 +1,9 @@
 {
-  "socle-villefontaine": "1.0.1",
-  "villefontaine": "1.0.3",
+  "socle-villefontaine": "1.1.0",
+  "villefontaine": "1.0.4",
   "actualites-villefontaine": "1.0.0",
-  "agenda-villefontaine": "1.0.0",
+  "agenda-villefontaine": "1.1.0",
   "annuaire-villefontaine": "1.0.2",
   "kiosque-villefontaine": "1.0.0",
-  "deploiement-villefontaine": "1.0.3"
+  "deploiement-villefontaine": "1.1.0"
 }

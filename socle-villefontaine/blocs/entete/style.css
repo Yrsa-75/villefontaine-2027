@@ -103,3 +103,15 @@
 @media (max-width: 600px) {
   .admin-bar .entete { top: 0; }
 }
+
+/* Méga-menu, version 1.0.2 : colonnes équilibrées automatiquement (plus de zones vides
+   quand une rubrique a peu de sous-pages), panneau d'introduction à sa hauteur naturelle. */
+.mega__grille { grid-template-columns: 280px minmax(0, 1fr); align-items: start; gap: 44px; }
+.mega__intro { align-self: start; }
+.mega__intro:not(:has(img))::before { content: ""; display: block; height: 96px; background: radial-gradient(120% 120% at 90% 0%, rgba(167, 193, 60, .55), transparent 60%), linear-gradient(135deg, var(--bleu-700), var(--bleu-900)); }
+.mega__colonnes { display: block; columns: 3 200px; column-gap: 40px; }
+.mega__colonnes > li { break-inside: avoid; display: inline-block; width: 100%; margin: 0 0 22px; }
+@media (max-width: 1180px) {
+  .mega__grille { grid-template-columns: 230px minmax(0, 1fr); gap: 32px; }
+  .mega__colonnes { columns: 2 200px; }
+}
