@@ -110,4 +110,4 @@ def contact(ATTACH):
 
 SURCHARGES['contact'] = contact
 
-SURCHARGES['plan-du-site'] = lambda ATTACH: [b_paragraphe('Retrouvez ici toutes les pages du site. La liste se met à jour automatiquement.'), '<!-- wp:vf/plan-du-site /-->']
+SURCHARGES['plan-site'] = lambda ATTACH: [b_paragraphe('Retrouvez ici toutes les pages du site. La liste se met à jour automatiquement.'), '<!-- wp:vf/plan-du-site /-->']
