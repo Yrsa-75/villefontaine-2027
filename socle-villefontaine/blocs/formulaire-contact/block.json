@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/formulaire-contact",
+	"version": "1.2.0",
+	"title": "Formulaire de contact",
+	"category": "villefontaine",
+	"icon": "email",
+	"description": "Formulaire accessible, sans service tiers. Les messages sont envoyés au service choisi et conservés dans l’admin (menu Messages).",
+	"textdomain": "socle-villefontaine",
+	"attributes": {
+		"titre": { "type": "string", "default": "Écrire à la mairie" },
+		"intro": { "type": "string", "default": "" },
+		"destinataires": { "type": "array", "default": [] }
+	},
+	"supports": { "html": false, "reusable": false, "multiple": false },
+	"editorScript": "vf-socle-formulaire-contact-editeur",
+	"style": "file:./style.css",
+	"viewScript": "vf-socle-formulaire-contact-vue",
+	"render": "file:./rendu.php"
+}

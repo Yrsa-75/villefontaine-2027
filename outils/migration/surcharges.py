@@ -94,3 +94,18 @@ def marches(ATTACH):
     ]
 
 SURCHARGES = {'elus': elus, 'budget': budget, 'marches-publics': marches}
+
+def contact(ATTACH):
+    from convertir import b_contact
+    return [
+        b_paragraphe('Une question, une demande ? Écrivez-nous avec le formulaire ci-dessous : votre message est transmis directement au service concerné. Vous pouvez aussi nous appeler ou venir à l’accueil de l’hôtel de ville.'),
+        b_contact({'titre': 'Hôtel de ville', 'adresse': 'Place Pierre Mendès France\nBP 88, 38093 Villefontaine Cedex', 'tel': '04 74 96 00 00',
+                   'horaires': 'Lundi, mardi, mercredi et vendredi : 8 h 30 à 12 h et 13 h 30 à 17 h\nJeudi : 10 h 30 à 12 h et 13 h 30 à 17 h\n1er samedi du mois : 8 h 30 à 12 h'}),
+        b_a_savoir('Scolarité et enfance', [
+            b_paragraphe('Pour toute demande concernant l’école, la restauration scolaire ou l’accueil de loisirs, passez par le Portail Famille : vos démarches y sont traitées plus vite.'),
+            b_boutons([('Accéder au Portail Famille', 'https://villefontaine.portailfamille.net/')]),
+        ]),
+        '<!-- wp:vf/formulaire-contact /-->',
+    ]
+
+SURCHARGES['contact'] = contact
