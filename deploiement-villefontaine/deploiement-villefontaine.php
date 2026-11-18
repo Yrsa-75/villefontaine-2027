@@ -3,7 +3,7 @@
  * Plugin Name:       Déploiement Villefontaine
  * Plugin URI:        https://github.com/Yrsa-75/villefontaine-2027
  * Description:       Installe et met à jour le thème et les plugins Villefontaine depuis le dépôt GitHub du projet, et récupère les images du site actuel. Réservé aux administrateurs.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            YRSA
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_DEPLOI_VERSION', '1.0.0' );
+define( 'VF_DEPLOI_VERSION', '1.0.1' );
 
 /**
  * Dépôt GitHub (public) qui contient les fichiers .zip prêts à installer dans dist/.
@@ -47,7 +47,7 @@ function vf_deploi_elements() {
  * @return string[]
  */
 function vf_deploi_domaines_images() {
-	return array( 'villefontaine.fr', 'www.villefontaine.fr' );
+	return array( 'villefontaine.fr', 'www.villefontaine.fr', 'i.calameoassets.com' ); // Couvertures des publications Calaméo, copiées une fois sur le site.
 }
 
 /**
@@ -221,7 +221,7 @@ function vf_deploi_importer_image( $url, $alt = '' ) {
 	$url  = esc_url_raw( $url );
 	$hote = strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) );
 	if ( 'https' !== wp_parse_url( $url, PHP_URL_SCHEME ) || ! in_array( $hote, vf_deploi_domaines_images(), true ) ) {
-		return new WP_Error( 'interdit', 'Seules les images de villefontaine.fr peuvent être importées.' );
+		return new WP_Error( 'interdit', 'Seules les images de villefontaine.fr (et les couvertures Calaméo) peuvent être importées.' );
 	}
 	if ( ! preg_match( '/\.(jpe?g|png|gif|webp)$/i', (string) wp_parse_url( $url, PHP_URL_PATH ) ) ) {
 		return new WP_Error( 'format', 'Format d’image non accepté.' );
