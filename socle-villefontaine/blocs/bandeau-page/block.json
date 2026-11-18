@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/bandeau-page",
+	"version": "1.0.1",
+	"title": "Bandeau de page",
+	"category": "villefontaine",
+	"icon": "cover-image",
+	"description": "Haut de page automatique : fil d’Ariane, rubrique, titre, résumé (extrait) et image mise en avant de la page.",
+	"textdomain": "socle-villefontaine",
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"multiple": false
+	},
+	"editorScript": "vf-socle-bandeau-page-editeur",
+	"style": "file:./style.css",
+	"render": "file:./rendu.php"
+}

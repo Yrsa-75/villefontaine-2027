@@ -1,0 +1,6 @@
+/* Fil d’Ariane (styles repris de la maquette V3 validée) */
+.ariane ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; font-size: 15px; }
+.ariane li { display: flex; align-items: center; gap: 8px; }
+.ariane li + li::before { content: ""; width: 6px; height: 6px; border-right: 2px solid var(--encre-douce); border-top: 2px solid var(--encre-douce); transform: rotate(45deg); }
+.ariane [aria-current] { font-weight: 700; }
+.vf-article .ariane, .vf-liste .ariane { padding-top: 24px; margin-bottom: 8px; }

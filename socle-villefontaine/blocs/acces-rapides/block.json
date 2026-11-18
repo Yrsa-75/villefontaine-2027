@@ -1,0 +1,69 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/acces-rapides",
+	"version": "1.0.1",
+	"title": "Accès en 1 clic",
+	"category": "villefontaine",
+	"icon": "grid-view",
+	"description": "Tuiles d’accès direct (8 maximum) avec icône. Sur l’accueil, elles chevauchent le grand visuel.",
+	"textdomain": "socle-villefontaine",
+	"attributes": {
+		"titre": {
+			"type": "string",
+			"default": "Vos démarches en 1 clic"
+		},
+		"liens": {
+			"type": "array",
+			"default": [
+				{
+					"libelle": "Le Phare",
+					"url": "#",
+					"icone": "phare"
+				},
+				{
+					"libelle": "Les Maisons pour tous",
+					"url": "#",
+					"icone": "maison"
+				},
+				{
+					"libelle": "Portail Famille",
+					"url": "https://villefontaine.portailfamille.net/",
+					"icone": "famille"
+				},
+				{
+					"libelle": "Espace citoyen",
+					"url": "https://villefontaine.espace-citoyen.fr/#!portreq",
+					"icone": "citoyen"
+				},
+				{
+					"libelle": "Signalement",
+					"url": "#",
+					"icone": "signal"
+				},
+				{
+					"libelle": "Vie associative",
+					"url": "#",
+					"icone": "asso"
+				},
+				{
+					"libelle": "Budget participatif",
+					"url": "#",
+					"icone": "idee"
+				},
+				{
+					"libelle": "Contacter la mairie",
+					"url": "#",
+					"icone": "tel"
+				}
+			]
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "vf-socle-acces-rapides-editeur",
+	"style": "file:./style.css",
+	"render": "file:./rendu.php"
+}

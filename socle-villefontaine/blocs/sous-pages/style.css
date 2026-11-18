@@ -1,0 +1,22 @@
+/* Styles repris de la maquette V3 validée (tuiles) */
+.tuiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.tuile { position: relative; display: flex; gap: 18px; align-items: flex-start; padding: 24px; border-radius: var(--rayon); border: 1px solid var(--trait); background: var(--blanc); text-decoration: none; color: var(--encre); height: 100%; transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .3s; }
+.tuile:hover { transform: translateY(-4px); box-shadow: var(--ombre-forte); border-color: transparent; }
+.tuile__icone { flex: 0 0 56px; height: 56px; border-radius: 16px; background: var(--vert-100); color: var(--vert-700); display: flex; align-items: center; justify-content: center; transition: transform .4s var(--ease), background .3s, color .3s; }
+.tuile:hover .tuile__icone { background: var(--bleu-700); color: var(--blanc); transform: rotate(-6deg); }
+.tuile h3 { font-size: 20px; font-weight: 800; color: var(--bleu-800); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.tuile h3 svg { transition: transform .25s var(--ease); }
+.tuile:hover h3 svg { transform: translateX(4px); }
+.tuile p { margin: 0; font-size: 16px; color: var(--encre-douce); }
+
+@media (max-width: 760px) {
+  .tuiles { grid-template-columns: 1fr; }
+}
+
+/* Compléments WordPress : le titre de tuile n'est pas un <h3> (un lien ne peut pas contenir de titre) */
+.tuile__titre { font-size: 20px; font-weight: 800; color: var(--bleu-800); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; line-height: 1.25; }
+.tuile__titre svg { flex: 0 0 auto; transition: transform .25s var(--ease); }
+.tuile:hover .tuile__titre svg { transform: translateX(4px); }
+.tuile__resume { display: block; margin: 0; font-size: 16px; color: var(--encre-douce); }
+.vf-sous-pages > h2 { margin-bottom: 22px; }
+.vf-sous-pages + * { margin-top: 56px; }

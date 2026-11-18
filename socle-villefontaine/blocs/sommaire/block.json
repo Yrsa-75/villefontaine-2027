@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/sommaire",
+	"version": "1.0.1",
+	"title": "Sommaire de la page",
+	"category": "villefontaine",
+	"icon": "list-view",
+	"description": "Liste automatique des intertitres (niveau 2) de la page, avec mise en évidence de la partie en cours de lecture.",
+	"textdomain": "socle-villefontaine",
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"multiple": false
+	},
+	"editorScript": "vf-socle-sommaire-editeur",
+	"style": "file:./style.css",
+	"render": "file:./rendu.php"
+}

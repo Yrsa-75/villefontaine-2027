@@ -1,0 +1,22 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/kiosque",
+	"version": "1.0.0",
+	"title": "Kiosque",
+	"category": "villefontaine",
+	"icon": "book-alt",
+	"description": "Les dernières publications (magazine, guides) en éventail. Le lecteur Calaméo ne se charge qu’après accord du visiteur.",
+	"textdomain": "kiosque-villefontaine",
+	"attributes": {
+		"nombre": { "type": "number", "default": 6 },
+		"type": { "type": "number", "default": 0 },
+		"format": { "type": "string", "enum": [ "eventail", "grille", "seule" ], "default": "eventail" }
+	},
+	"usesContext": [ "postId", "postType" ],
+	"supports": { "html": false, "reusable": false },
+	"editorScript": "vf-kiosque-editeur",
+	"style": "file:./style.css",
+	"viewScript": "vf-kiosque-vue",
+	"render": "file:./rendu.php"
+}

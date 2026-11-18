@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/carte-services",
+	"version": "1.0.0",
+	"title": "Carte des services",
+	"category": "villefontaine",
+	"icon": "location-alt",
+	"description": "Carte interactive des lieux de l’annuaire, avec filtres par catégorie et liste accessible. Fond Plan IGN.",
+	"textdomain": "annuaire-villefontaine",
+	"attributes": {
+		"surtitre": { "type": "string", "default": "Près de chez vous" },
+		"titre": { "type": "string", "default": "Carte des services de la ville" },
+		"texte": { "type": "string", "default": "Bâtiments municipaux, écoles, équipements sportifs, aires de jeux, parkings, déchèteries : trouvez tout, en un coup d’œil." },
+		"lienTexte": { "type": "string", "default": "" },
+		"lienUrl": { "type": "string", "default": "" },
+		"format": { "type": "string", "enum": [ "encart", "pleine" ], "default": "encart" },
+		"categories": { "type": "array", "items": { "type": "number" }, "default": [] }
+	},
+	"supports": { "html": false, "reusable": false },
+	"editorScript": "vf-annuaire-carte-services-editeur",
+	"style": "file:./style.css",
+	"viewScript": "vf-annuaire-carte",
+	"render": "file:./rendu.php"
+}

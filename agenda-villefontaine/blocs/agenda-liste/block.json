@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/agenda-liste",
+	"version": "1.0.0",
+	"title": "Agenda complet",
+	"category": "villefontaine",
+	"icon": "calendar",
+	"description": "Tous les événements des 12 prochains mois, classés par mois, avec des filtres par thématique.",
+	"textdomain": "agenda-villefontaine",
+	"supports": { "html": false, "reusable": false, "multiple": false },
+	"editorScript": "vf-agenda-agenda-liste-editeur",
+	"style": "file:./style.css",
+	"viewScript": "vf-agenda-filtres",
+	"render": "file:./rendu.php"
+}

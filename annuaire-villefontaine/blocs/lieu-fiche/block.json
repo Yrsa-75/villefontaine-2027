@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/lieu-fiche",
+	"version": "1.0.0",
+	"title": "Fiche du lieu",
+	"category": "villefontaine",
+	"icon": "location",
+	"description": "Coordonnées, horaires et petite carte du lieu affiché.",
+	"textdomain": "annuaire-villefontaine",
+	"usesContext": [ "postId", "postType" ],
+	"supports": { "html": false, "reusable": false, "multiple": false },
+	"editorScript": "vf-annuaire-lieu-fiche-editeur",
+	"style": "file:./style.css",
+	"viewScript": "vf-annuaire-carte",
+	"render": "file:./rendu.php"
+}

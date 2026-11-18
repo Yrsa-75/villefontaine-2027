@@ -1,0 +1,43 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/section",
+	"version": "1.0.1",
+	"title": "Section avec titre",
+	"category": "villefontaine",
+	"icon": "align-wide",
+	"description": "Une section de page avec surtitre, titre et lien « Tout voir », qui contient d’autres blocs (actualités, agenda, kiosque…).",
+	"textdomain": "socle-villefontaine",
+	"attributes": {
+		"surtitre": {
+			"type": "string",
+			"default": ""
+		},
+		"titre": {
+			"type": "string",
+			"default": ""
+		},
+		"lienTexte": {
+			"type": "string",
+			"default": ""
+		},
+		"lienUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"fond": {
+			"type": "string",
+			"enum": [
+				"blanc",
+				"bleu"
+			],
+			"default": "blanc"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "vf-socle-section-editeur",
+	"render": "file:./rendu.php"
+}

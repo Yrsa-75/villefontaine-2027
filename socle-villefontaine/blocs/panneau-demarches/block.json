@@ -1,0 +1,65 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/panneau-demarches",
+	"version": "1.0.1",
+	"title": "Panneau « Vos démarches »",
+	"category": "villefontaine",
+	"icon": "index-card",
+	"description": "Panneau qui glisse depuis la droite avec la recherche et toutes les démarches par profil. Les démarches se modifient dans Apparence > Menus.",
+	"textdomain": "socle-villefontaine",
+	"attributes": {
+		"liensRapides": {
+			"type": "array",
+			"default": [
+				{
+					"libelle": "Espace citoyen",
+					"url": "https://villefontaine.espace-citoyen.fr/#!portreq",
+					"icone": "citoyen"
+				},
+				{
+					"libelle": "Portail Famille",
+					"url": "https://villefontaine.portailfamille.net/",
+					"icone": "famille"
+				},
+				{
+					"libelle": "Faire un signalement",
+					"url": "/signalement/",
+					"icone": "signal"
+				},
+				{
+					"libelle": "Contacter la mairie",
+					"url": "/contact/",
+					"icone": "tel"
+				}
+			]
+		},
+		"suggestions": {
+			"type": "array",
+			"default": [
+				{
+					"libelle": "Passeport",
+					"recherche": "passeport"
+				},
+				{
+					"libelle": "Acte de naissance",
+					"recherche": "naissance"
+				},
+				{
+					"libelle": "Réserver une salle",
+					"recherche": "salle"
+				}
+			]
+		}
+	},
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"editorScript": "vf-socle-panneau-demarches-editeur",
+	"style": "file:./style.css",
+	"viewScript": "vf-socle-panneau-demarches-vue",
+	"render": "file:./rendu.php"
+}

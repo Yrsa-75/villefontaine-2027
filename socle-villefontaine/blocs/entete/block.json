@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/entete",
+	"version": "1.0.1",
+	"title": "En-tête du site",
+	"category": "villefontaine",
+	"icon": "menu",
+	"description": "Logo, méga-menu principal, bouton « Vos démarches » et menu mobile. Le contenu du menu se modifie dans Apparence > Menus.",
+	"keywords": [
+		"menu",
+		"navigation",
+		"logo"
+	],
+	"textdomain": "socle-villefontaine",
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"multiple": false,
+		"reusable": false,
+		"lock": false
+	},
+	"editorScript": "vf-socle-entete-editeur",
+	"style": "file:./style.css",
+	"viewScript": "vf-socle-entete-vue",
+	"render": "file:./rendu.php"
+}

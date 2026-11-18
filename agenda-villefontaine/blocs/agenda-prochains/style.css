@@ -1,0 +1,68 @@
+/* Styles repris de la maquette V3 validée (agenda) */
+.filtres { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.filtres button { border: 1.5px solid var(--bleu-700); background: var(--blanc); color: var(--bleu-800); font-weight: 650; font-size: 15px; padding: 9px 18px; border-radius: 999px; transition: background .2s, color .2s, transform .2s var(--ease); }
+.filtres button:hover { transform: translateY(-2px); background: var(--bleu-100); }
+.filtres button[aria-pressed="true"] { background: var(--bleu-800); border-color: var(--bleu-800); color: var(--blanc); }
+.agenda { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.agenda li { transition: opacity .35s var(--ease), transform .35s var(--ease); }
+.agenda li[hidden] { display: none; }
+.evenement { position: relative; height: 100%; display: flex; flex-direction: column; background: var(--blanc); border-radius: var(--rayon); overflow: hidden; box-shadow: var(--ombre); transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+.evenement:hover { transform: translateY(-6px); box-shadow: var(--ombre-forte); }
+.evenement__media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bleu-100); }
+.evenement__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease); }
+.evenement:hover .evenement__media img { transform: scale(1.06); }
+.evenement__date { position: absolute; left: 14px; top: 14px; width: 66px; height: 70px; border-radius: 14px; background: var(--vert-600); color: var(--blanc); display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; box-shadow: 0 6px 16px rgba(0, 0, 0, .2); }
+.evenement__date strong { font-size: 27px; font-weight: 850; }
+.evenement__date span { font-size: 13px; font-weight: 750; margin-top: 4px; text-transform: lowercase; }
+.evenement__corps { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.evenement h3 { font-size: 18.5px; font-weight: 750; line-height: 1.3; }
+.evenement h3 a { color: var(--encre); text-decoration: none; }
+.evenement h3 a::after { content: ""; position: absolute; inset: 0; }
+.evenement:hover h3 a { text-decoration: underline; }
+.evenement__infos { margin: 0; font-size: 15px; color: var(--encre-douce); display: grid; gap: 4px; }
+.evenement__infos span { display: flex; gap: 8px; align-items: flex-start; }
+.evenement__infos svg { flex: 0 0 16px; margin-top: 3px; color: var(--bleu-700); }
+.evenement__theme { margin-top: auto; padding-top: 6px; font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--vert-700); }
+.agenda__vide { padding: 28px; text-align: center; background: var(--blanc); border-radius: var(--rayon); color: var(--encre-douce); }
+.frise-section { margin-top: 96px; padding: 88px 0 96px; background: var(--nuit); color: var(--blanc); position: relative; overflow: hidden; }
+.frise-section::before { content: ""; position: absolute; width: 700px; height: 700px; left: -200px; bottom: -380px; border-radius: 50%; background: radial-gradient(circle, rgba(167, 193, 60, .22), transparent 60%); filter: blur(30px); }
+.frise-section::after { content: ""; position: absolute; width: 600px; height: 600px; right: -160px; top: -300px; border-radius: 50%; background: radial-gradient(circle, rgba(111, 195, 211, .2), transparent 60%); filter: blur(30px); }
+.frise-section .conteneur { position: relative; z-index: 1; }
+.frise-section h2 { color: var(--blanc); }
+.frise-section .section__surtitre { color: var(--lueur-vert); }
+.frise-section .lien-fleche { color: var(--blanc); }
+.frise-section .filtres button { background: transparent; border-color: rgba(255, 255, 255, .4); color: var(--blanc); }
+.frise-section .filtres button:hover { background: rgba(255, 255, 255, .1); }
+.frise-section .filtres button[aria-pressed="true"] { background: var(--lueur-vert); border-color: var(--lueur-vert); color: var(--nuit); }
+.frise-section .bouton-rond { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .3); color: var(--blanc); }
+.frise-section .bouton-rond:hover { background: rgba(255, 255, 255, .18); }
+.frise-section .bouton-rond:disabled { opacity: .35; cursor: default; transform: none; }
+.frise { position: relative; }
+.frise::before { content: ""; position: absolute; left: 0; right: 0; top: 34px; height: 2px; background: linear-gradient(90deg, var(--lueur-vert), var(--lueur-bleu) 60%, transparent); opacity: .6; }
+.frise .agenda { display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: calc((100% - 3 * 24px) / 3.3); gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0 2px 8px; }
+.frise .agenda::-webkit-scrollbar { display: none; }
+.frise .agenda > li { scroll-snap-align: start; padding-top: 70px; position: relative; }
+.frise .agenda > li::before { content: ""; position: absolute; top: 27px; left: 26px; width: 16px; height: 16px; border-radius: 50%; background: var(--nuit); border: 3px solid var(--lueur-vert); box-shadow: 0 0 14px rgba(185, 214, 74, .8); }
+.frise .agenda > li .date-frise { position: absolute; top: 0; left: 56px; font-family: var(--titre); font-weight: 650; font-size: 28px; line-height: 1; color: var(--blanc); }
+.frise .agenda > li .date-frise small { font-family: Figtree, sans-serif; font-size: 14px; font-weight: 700; color: #BFD6DB; margin-left: 6px; letter-spacing: .04em; }
+.frise .evenement { background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .14); box-shadow: none; backdrop-filter: blur(6px); }
+.frise .evenement:hover { background: rgba(255, 255, 255, .1); box-shadow: 0 20px 40px rgba(0, 0, 0, .3); }
+.frise .evenement h3 a { color: var(--blanc); }
+.frise .evenement__infos { color: #CFE0E4; }
+.frise .evenement__infos svg { color: var(--lueur-bleu); }
+.frise .evenement__theme { color: var(--lueur-vert); }
+.frise .evenement__date { display: none; }
+
+@media (max-width: 1180px) {
+  .agenda { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .frise .agenda { grid-auto-columns: calc((100% - 24px) / 2.2); }
+}
+
+@media (max-width: 760px) {
+  .frise-section { padding: 64px 0; }
+  .frise .agenda { grid-auto-columns: 82%; }
+}
+
+/* Compléments WordPress */
+.evenement__fond { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: rgba(255, 255, 255, .85); background: radial-gradient(120% 90% at 85% 0%, rgba(167, 193, 60, .5), transparent 55%), linear-gradient(140deg, var(--bleu-700), var(--bleu-900)); }
+.vf-agenda .agenda > li[hidden] { display: none; }

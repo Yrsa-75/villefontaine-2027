@@ -1,0 +1,46 @@
+<!-- wp:template-part {"slug":"header","tagName":"div","className":"vf-zone-entete"} /-->
+
+<!-- wp:group {"tagName":"main","anchor":"contenu","className":"vf-liste","layout":{"type":"default"}} -->
+<main class="wp-block-group vf-liste" id="contenu"><!-- wp:group {"className":"conteneur","layout":{"type":"default"}} -->
+<div class="wp-block-group conteneur"><!-- wp:vf/fil-ariane /-->
+
+<!-- wp:query-title {"type":"archive","showPrefix":false} /-->
+
+<!-- wp:term-description /-->
+
+<!-- wp:query {"queryId":1,"query":{"perPage":12,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"layout":{"type":"default"}} -->
+<div class="wp-block-query"><!-- wp:post-template {"layout":{"type":"default"}} -->
+<!-- wp:group {"tagName":"article","className":"vf-carte","layout":{"type":"default"}} -->
+<article class="wp-block-group vf-carte"><!-- wp:post-featured-image {"sizeSlug":"vf-carte"} /-->
+
+<!-- wp:group {"className":"vf-carte__corps","layout":{"type":"default"}} -->
+<div class="wp-block-group vf-carte__corps"><!-- wp:post-terms {"term":"category"} /-->
+
+<!-- wp:post-title {"level":2,"isLink":true} /-->
+
+<!-- wp:post-date {"format":"j F Y"} /-->
+
+<!-- wp:post-excerpt {"excerptLength":22} /--></div>
+<!-- /wp:group --></article>
+<!-- /wp:group -->
+<!-- /wp:post-template -->
+
+<!-- wp:query-pagination {"paginationArrow":"arrow","layout":{"type":"flex","justifyContent":"center"}} -->
+<!-- wp:query-pagination-previous {"label":"Précédent"} /-->
+
+<!-- wp:query-pagination-numbers /-->
+
+<!-- wp:query-pagination-next {"label":"Suivant"} /-->
+<!-- /wp:query-pagination -->
+
+<!-- wp:query-no-results -->
+<!-- wp:paragraph {"className":"vf-vide"} -->
+<p class="vf-vide">Aucun contenu dans cette rubrique pour le moment.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results --></div>
+<!-- /wp:query -->
+</div>
+<!-- /wp:group --></main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"div","className":"vf-zone-pied"} /-->

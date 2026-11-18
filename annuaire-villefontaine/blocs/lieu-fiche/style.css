@@ -1,0 +1,23 @@
+/* Bloc « Fiche du lieu » */
+.lieu-fiche { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; margin: 24px 0 8px; }
+.lieu-fiche dl { margin: 0; display: grid; gap: 16px; align-content: start; padding: 26px 28px; border-radius: var(--rayon); background: var(--bleu-50); border: 1px solid var(--bleu-100); }
+.lieu-fiche dl > div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; }
+.lieu-fiche dt { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--bleu-800); }
+.lieu-fiche dt svg { color: var(--vert-600); flex: 0 0 auto; }
+.lieu-fiche dd { margin: 0; overflow-wrap: anywhere; }
+.lieu-fiche__carte { position: relative; min-height: 340px; border-radius: var(--rayon); overflow: hidden; border: 1px solid var(--trait); }
+.lieu-fiche .carte-ville { position: absolute; inset: 0; background: #EAF1E4; font-family: inherit; }
+@media (max-width: 860px) {
+  .lieu-fiche { grid-template-columns: 1fr; }
+  .lieu-fiche dl > div { grid-template-columns: 1fr; gap: 4px; }
+}
+.epingle { transform-box: fill-box; transform-origin: 50% 100%; animation: tombe .7s var(--ease) both; }
+.carte-services.est-visible .epingle { animation-play-state: running; }
+.carte-ville .leaflet-control-attribution { font-size: 11px; }
+.epingle-vf span { position: absolute; left: 0; top: 0; width: 32px; height: 42px; background: var(--c); border: 3px solid #FFFFFF; border-radius: 50% 50% 50% 0; transform: rotate(-45deg) scale(.82); transform-origin: 50% 50%; box-shadow: 0 6px 14px rgba(0, 0, 0, .3); animation: epingle-tombe .6s var(--ease) both; animation-delay: var(--d); }
+.epingle-vf span::after { content: ""; position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #FFFFFF; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.epingle-vf { width: 32px; height: 32px; }
+.epingle-vf span { width: 32px; height: 32px; top: 2px; }
+.leaflet-marker-icon:focus-visible span { outline: 3px solid var(--bleu-800); outline-offset: 3px; }
+.leaflet-popup-content-wrapper { border-radius: 14px; }
+@keyframes epingle-tombe { from { opacity: 0; transform: translateY(-24px) rotate(-45deg) scale(.82); } to { opacity: 1; transform: rotate(-45deg) scale(.82); } }

@@ -1,0 +1,16 @@
+/* Bloc « Infos de l'événement » */
+.evenement-infos { margin: 24px 0 8px; padding: 26px 28px; border-radius: var(--rayon); background: var(--bleu-50); border: 1px solid var(--bleu-100); max-width: 760px; }
+.evenement-infos dl { margin: 0; display: grid; gap: 16px; }
+.evenement-infos dl > div { display: grid; grid-template-columns: 170px 1fr; gap: 12px; }
+.evenement-infos dt { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--bleu-800); }
+.evenement-infos dt svg { color: var(--vert-600); flex: 0 0 auto; }
+.evenement-infos dd { margin: 0; }
+.evenement-infos__passe { margin: 0 0 16px; font-weight: 800; color: #8A2E12; }
+.evenement-infos__dates { margin-top: 18px; }
+.evenement-infos__dates summary { cursor: pointer; font-weight: 700; color: var(--bleu-700); }
+.evenement-infos__dates ul { columns: 2; margin: 10px 0 0; }
+@media (max-width: 760px) {
+  .evenement-infos { padding: 22px 20px; }
+  .evenement-infos dl > div { grid-template-columns: 1fr; gap: 4px; }
+  .evenement-infos__dates ul { columns: 1; }
+}

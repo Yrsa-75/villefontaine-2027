@@ -1,0 +1,67 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/heros",
+	"version": "1.0.1",
+	"title": "Grand visuel d’accueil",
+	"category": "villefontaine",
+	"icon": "cover-image",
+	"description": "Grande photo d’accueil avec le titre, l’info flash et la recherche. À placer une seule fois, en haut de la page d’accueil.",
+	"textdomain": "socle-villefontaine",
+	"attributes": {
+		"imageId": {
+			"type": "number",
+			"default": 0
+		},
+		"surtitre": {
+			"type": "string",
+			"default": "Connectée par nature"
+		},
+		"titre": {
+			"type": "string",
+			"default": "Bienvenue à"
+		},
+		"titreAccent": {
+			"type": "string",
+			"default": "Villefontaine"
+		},
+		"flashTexte": {
+			"type": "string",
+			"default": ""
+		},
+		"flashUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"suggestions": {
+			"type": "array",
+			"default": [
+				{
+					"texte": "Carte d’identité",
+					"url": "#panneau-demarches"
+				},
+				{
+					"texte": "Inscription scolaire",
+					"url": "#"
+				},
+				{
+					"texte": "Collecte des déchets",
+					"url": "#"
+				},
+				{
+					"texte": "Réserver une salle",
+					"url": "#panneau-demarches"
+				}
+			]
+		}
+	},
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"editorScript": "vf-socle-heros-editeur",
+	"style": "file:./style.css",
+	"viewScript": "vf-socle-heros-vue",
+	"render": "file:./rendu.php"
+}
