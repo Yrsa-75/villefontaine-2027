@@ -105,7 +105,7 @@ def contact(ATTACH):
             b_paragraphe('Pour toute demande concernant l’école, la restauration scolaire ou l’accueil de loisirs, passez par le Portail Famille : vos démarches y sont traitées plus vite.'),
             b_boutons([('Accéder au Portail Famille', 'https://villefontaine.portailfamille.net/')]),
         ]),
-        '<!-- wp:vf/formulaire-contact /-->',
+        '<!-- wp:vf/formulaire-contact ' + j({'destinataires': [{'libelle': 'Accueil de la mairie', 'courriel': 'accueil@example.org'}, {'libelle': 'État civil', 'courriel': 'etat-civil@example.org'}, {'libelle': 'Urbanisme', 'courriel': 'urbanisme@example.org'}]}) + ' /-->',
     ]
 
 SURCHARGES['contact'] = contact
