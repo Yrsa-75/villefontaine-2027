@@ -143,9 +143,11 @@ body .bande h2 { font-family: var(--titre); font-weight: 700; font-size: clamp(2
 .contenu > h2 { margin-block-start: 2.2em; margin-block-end: .2em; scroll-margin-top: 110px; }
 .contenu > h3 { margin-block-start: 1.8em; scroll-margin-top: 110px; }
 .contenu > :first-child { margin-block-start: 0; }
-.contenu ul, .contenu ol { padding-left: 1.3em; }
-.contenu li + li { margin-top: .35em; }
+.contenu :is(ul, ol):where(:not([class]), .wp-block-list) { padding-left: 1.3em; }
+.contenu :is(ul, ol):where(:not([class]), .wp-block-list) > li + li { margin-top: .35em; }
 .contenu li::marker { color: var(--vert-600); }
+/* Les blocs « section » (carte, agenda…) placés dans une page : espacés du contenu qui les entoure. */
+.contenu > .section { padding-top: 0; margin-block: 2.4em; }
 .contenu a:not(.wp-element-button):not(.bouton) { text-decoration-thickness: 1px; }
 .contenu figure { margin-inline: 0; }
 .contenu .wp-block-image img { border-radius: var(--rayon); height: auto; }
@@ -256,7 +258,10 @@ main#contenu:focus { outline: none; }
 }
 
 /* Accueil : les blocs gèrent eux-mêmes leurs espacements */
+/* Accueil : les sections gèrent leurs espacements ; seul le bandeau coloré garde sa marge haute pour ne pas coller au bloc du dessus. */
 .vf-accueil .wp-block-post-content > * { margin-block: 0; }
+.vf-accueil .wp-block-post-content > .bande { margin-top: 88px; }
+@media (max-width: 900px) { .vf-accueil .wp-block-post-content > .bande { margin-top: 64px; } }
 .vf-page .wp-block-post-content.contenu > .vf-sous-pages:first-child { margin-top: 0; }
 .contenu h2, .contenu h3, .contenu h4 { color: var(--bleu-900); }
 .pied .wp-block-social-links { display: flex; }
@@ -299,3 +304,6 @@ main#contenu:focus { outline: none; }
 .contenu :is(p, li, dd, td, th, summary, h2, h3, h4, figcaption) { overflow-wrap: break-word; }
 .contenu a { overflow-wrap: anywhere; }
 h1 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens: auto; }
+
+/* Accordéons : resserrés entre eux, mais nettement séparés de ce qui les précède. */
+.contenu :not(.wp-block-details) + .wp-block-details { margin-top: 1.4em; }

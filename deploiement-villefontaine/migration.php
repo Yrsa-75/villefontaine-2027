@@ -363,7 +363,7 @@ function vf_deploi_migrer_contenus( $etape, $debut ) {
 			'post_type'     => $type,
 			'post_status'   => 'publish',
 			'post_title'    => sanitize_text_field( $c['titre'] ),
-			'post_name'     => sanitize_title( $evt ? $c['titre'] : $c['slug'] ),
+			'post_name'     => sanitize_title( $c['slug'] ), // Même adresse que sur l'ancien site.
 			'post_content'  => $contenu,
 			'post_excerpt'  => sanitize_textarea_field( $c['extrait'] ?? '' ),
 			'post_date'     => sanitize_text_field( $c['date'] ),

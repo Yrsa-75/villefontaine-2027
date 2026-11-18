@@ -36,7 +36,7 @@
 
 @media (max-width: 760px) {
   .actus, .agenda { grid-template-columns: 1fr; }
-  .mosaique { grid-template-columns: 1fr; grid-auto-rows: 240px; }
+  .mosaique { grid-template-columns: 1fr; grid-auto-rows: minmax(240px, auto); }
   .tuile-actu--une, .tuile-actu--a, .tuile-actu--b, .tuile-actu--c, .tuile-actu--d { grid-column: auto; grid-row: span 1; }
   .tuile-actu--une { grid-row: span 2; }
   .mosaique .tuile-actu--c, .mosaique .tuile-actu--d, .mosaique .tuile-actu--e { grid-column: auto; grid-row: span 1; }
