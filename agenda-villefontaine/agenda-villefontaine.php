@@ -3,7 +3,7 @@
  * Plugin Name:       Agenda Villefontaine
  * Plugin URI:        https://villefontaine.fr
  * Description:       Agenda de la ville : événements ponctuels, sur plusieurs jours ou récurrents, thématiques, prochains rendez-vous sur l'accueil, page Agenda avec filtres.
- * Version:           1.1.0
+ * Version:           1.1.1
  * Requires at least: 6.7
  * Requires PHP:      8.1
  * Requires Plugins:  socle-villefontaine
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_AGENDA_VERSION', '1.1.0' );
+define( 'VF_AGENDA_VERSION', '1.1.1' );
 define( 'VF_AGENDA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VF_AGENDA_URL', plugin_dir_url( __FILE__ ) );
 

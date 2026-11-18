@@ -11,6 +11,27 @@ defined( 'ABSPATH' ) || exit;
  * Déclare le type « Événement » et la taxonomie « Thématique ».
  */
 function vf_agenda_types() {
+	// La taxonomie est déclarée AVANT le type d'événement : ses adresses (/agenda/thematique/…)
+	// doivent passer avant celles des événements (/agenda/…), sinon elles mènent à une page 404.
+	register_taxonomy(
+		'vf_theme_evenement',
+		'vf_evenement',
+		array(
+			'labels'            => array(
+				'name'          => 'Thématiques',
+				'singular_name' => 'Thématique',
+				'add_new_item'  => 'Ajouter une thématique',
+				'search_items'  => 'Rechercher une thématique',
+				'all_items'     => 'Toutes les thématiques',
+				'edit_item'     => 'Modifier la thématique',
+			),
+			'hierarchical'      => true,
+			'show_in_rest'      => true,
+			'show_admin_column' => true,
+			'rewrite'           => array( 'slug' => 'agenda/thematique', 'with_front' => false ),
+		)
+	);
+
 	register_post_type(
 		'vf_evenement',
 		array(
@@ -38,24 +59,6 @@ function vf_agenda_types() {
 			'template'      => array(
 				array( 'core/paragraph', array( 'placeholder' => 'Décrivez l’événement : programme, public, conditions…' ) ),
 			),
-		)
-	);
-	register_taxonomy(
-		'vf_theme_evenement',
-		'vf_evenement',
-		array(
-			'labels'            => array(
-				'name'          => 'Thématiques',
-				'singular_name' => 'Thématique',
-				'add_new_item'  => 'Ajouter une thématique',
-				'search_items'  => 'Rechercher une thématique',
-				'all_items'     => 'Toutes les thématiques',
-				'edit_item'     => 'Modifier la thématique',
-			),
-			'hierarchical'      => true,
-			'show_in_rest'      => true,
-			'show_admin_column' => true,
-			'rewrite'           => array( 'slug' => 'agenda/thematique', 'with_front' => false ),
 		)
 	);
 }
@@ -292,3 +295,14 @@ function vf_agenda_colonne_quand( $colonne, $post_id ) {
 	}
 }
 add_action( 'manage_vf_evenement_posts_custom_column', 'vf_agenda_colonne_quand', 10, 2 );
+
+/**
+ * Après une mise à jour du plugin, les règles d'adresses sont régénérées une fois.
+ */
+function vf_agenda_regles_a_jour() {
+	if ( get_option( 'vf_agenda_version_regles' ) !== VF_AGENDA_VERSION ) {
+		flush_rewrite_rules( false );
+		update_option( 'vf_agenda_version_regles', VF_AGENDA_VERSION, false );
+	}
+}
+add_action( 'init', 'vf_agenda_regles_a_jour', 99 );

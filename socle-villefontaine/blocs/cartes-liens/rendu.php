@@ -11,6 +11,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// Niveau des titres des cartes (2 si aucun intertitre ne les précède, 3 sinon) : hiérarchie RGAA.
+$vf_h = 2 === (int) ( $attributes['niveau'] ?? 3 ) ? 'h2' : 'h3';
+
 $vf_cartes = array_filter(
 	(array) $attributes['cartes'],
 	static function ( $c ) {
@@ -36,7 +39,7 @@ $vf_col = max( 2, min( 4, (int) $attributes['colonnes'] ) );
 	<li class="vf-carte-lien apparition<?php echo $vf_img ? '' : ' vf-carte-lien--icone'; ?>" style="--delai: <?php echo esc_attr( number_format( ( $vf_i % 3 ) * 0.06, 2, '.', '' ) ); ?>s">
 		<?php if ( $vf_img ) : ?><div class="vf-carte-lien__image"><?php echo $vf_img; // phpcs:ignore WordPress.Security.EscapeOutput ?></div><?php else : ?><span class="vf-carte-lien__icone"><?php echo vf_socle_icone( ! empty( $vf_c['icone'] ) ? $vf_c['icone'] : 'fleche', 26, 1.8 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span><?php endif; ?>
 		<div class="vf-carte-lien__corps">
-			<h3><?php if ( $vf_url ) : ?><a href="<?php echo esc_url( $vf_url ); ?>"<?php echo vf_socle_attributs_lien( $vf_url ); // phpcs:ignore WordPress.Security.EscapeOutput ?>><?php echo esc_html( $vf_c['titre'] ); ?><?php echo vf_socle_mention_lien( $vf_url ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a><?php else : ?><?php echo esc_html( $vf_c['titre'] ); ?><?php endif; ?></h3>
+			<<?php echo $vf_h; ?>><?php if ( $vf_url ) : ?><a href="<?php echo esc_url( $vf_url ); ?>"<?php echo vf_socle_attributs_lien( $vf_url ); // phpcs:ignore WordPress.Security.EscapeOutput ?>><?php echo esc_html( $vf_c['titre'] ); ?><?php echo vf_socle_mention_lien( $vf_url ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a><?php else : ?><?php echo esc_html( $vf_c['titre'] ); ?><?php endif; ?></<?php echo $vf_h; ?>>
 			<?php if ( ! empty( $vf_c['texte'] ) ) : ?><p><?php echo esc_html( $vf_c['texte'] ); ?></p><?php endif; ?>
 		</div>
 		<?php if ( $vf_url ) : ?><span class="vf-carte-lien__fleche" aria-hidden="true"><?php echo vf_socle_icone( 'fleche', 18, 2.2 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span><?php endif; ?>

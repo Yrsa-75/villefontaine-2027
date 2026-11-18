@@ -110,6 +110,62 @@ def nettoie_blocs(blocs, cle):
         out.append(b)
     return out
 
+
+# --- Contrôles qualité appliqués à tout contenu produit -----------------------------------
+H2_BLOCS = ('vf/sous-pages', 'vf/formulaire-contact', 'vf/plan-du-site', 'vf/agenda-prochains', 'vf/actualites-mosaique', 'vf/carte-services')
+MOTIF_BLOC = re.compile(r'<!-- wp:heading( \{.*?\})? -->\s*<h([1-6])([^>]*)>(.*?)</h\2>\s*<!-- /wp:heading -->|<!-- wp:(vf/[a-z-]+)( \{.*?\})? /-->', re.S)
+
+def niveaux(texte):
+    """Hiérarchie des titres sans saut de niveau (RGAA 9.1) : chaque titre vaut au plus le précédent + 1."""
+    etat = {'prec': 1}
+    def rep(m):
+        if m.group(5):
+            nom, attrs = m.group(5), json.loads(m.group(6)) if m.group(6) else {}
+            if nom == 'vf/cartes-liens':
+                attrs['niveau'] = 2 if etat['prec'] <= 1 else 3
+                return f'<!-- wp:vf/cartes-liens {j(attrs)} /-->'
+            if nom in H2_BLOCS or (nom in ('vf/trombinoscope', 'vf/documents') and attrs.get('titre')):
+                etat['prec'] = 2
+            return m.group(0)
+        attrs = json.loads(m.group(1)) if m.group(1) else {}
+        n = min(int(m.group(2)), etat['prec'] + 1, 6)
+        n = max(n, 2)
+        etat['prec'] = n
+        if n == 2:
+            attrs.pop('level', None)
+        else:
+            attrs['level'] = n
+        a = (' ' + j(attrs)) if attrs else ''
+        return f'<!-- wp:heading{a} -->\n<h{n}{m.group(3)}>{m.group(4)}</h{n}>\n<!-- /wp:heading -->'
+    return MOTIF_BLOC.sub(rep, texte)
+
+def liens_propres(texte):
+    """« www.site.fr » sans protocole -> https:// ; adresses qui n'en sont pas (texte collé) -> lien retiré."""
+    texte = re.sub(r'href="(www\.[^"]+)"', r'href="https://\1"', texte)
+    def rep(m):
+        href = html.unescape(m.group(1))
+        # Lien vers une page de l'ancien site qui n'a pas d'équivalent (brouillon, article ancien) : il disparaîtra avec lui.
+        if re.match(r'^https?://(www\.)?villefontaine\.fr/(?!wp-content/)', href):
+            return m.group(2)
+        if re.match(r'^(https?:|mailto:|tel:|/|#)', href) and ' ' not in href.strip():
+            return m.group(0)
+        return m.group(2)
+    return re.sub(r'<a [^>]*?href="([^"]*)"[^>]*>(.*?)</a>', rep, texte, flags=re.S)
+
+def titres_dans_listes(texte):
+    """Un titre placé dans un élément de liste servait de mise en forme : il devient du texte en gras."""
+    return re.sub(r'(<li[^>]*>)\s*<h[1-6][^>]*>(.*?)</h[1-6]>', r'\1<strong>\2</strong>', texte, flags=re.S)
+
+def images_externes(texte):
+    """Images hébergées ailleurs (émojis Facebook copiés-collés…) : elles chargeraient un service tiers sans
+    consentement (RGPD). Un bloc image externe est supprimé, une image dans le texte est remplacée par son alt."""
+    texte = re.sub(r'<!-- wp:image[^>]*-->\s*<figure[^>]*>\s*<img[^>]+src="(?!https://villefontaine\.fr/wp-content/)[^"]*"[^>]*>\s*</figure>\s*<!-- /wp:image -->\s*', '', texte)
+    return re.sub(r'<img[^>]+src="(?!https://villefontaine\.fr/wp-content/)[^"]*"[^>]*?(?:alt="([^"]*)")?[^>]*>', lambda m: m.group(1) or '', texte)
+
+def finalise(texte):
+    texte = images_externes(texte)
+    return niveaux(titres_dans_listes(liens_propres(reecrit_liens(texte))))
+
 def reecrit_liens(texte):
     def rep(m):
         url = html.unescape(m.group(2))
@@ -247,7 +303,7 @@ for n in noeuds:
                  b_boutons([('Accéder à l’Espace citoyen', 'https://villefontaine.espace-citoyen.fr/#!portreq'), ('Portail Famille', 'https://villefontaine.portailfamille.net/')])]
     if n['genre'] == 'demarches':
         blocs = [b_paragraphe('Cliquez sur une démarche pour afficher les informations : à qui elle s’adresse, les pièces à fournir et comment la faire.')] + blocs
-    contenu = reecrit_liens('\n\n'.join(b for b in blocs if b))
+    contenu = finalise('\n\n'.join(b for b in blocs if b))
     if not contenu.strip():
         notes.append('page sans contenu')
     pleine = o.get('pleine') or n['genre'] in ('demarches', 'demarches-accueil', 'rubrique')
@@ -301,7 +357,7 @@ def convertit_item(p):
     # Une image identique à l'image mise en avant en tête de contenu ferait doublon.
     if image and blocs and blocs[0].startswith('<!-- wp:image') and image in blocs[0]:
         blocs = blocs[1:]
-    return reecrit_liens('\n\n'.join(b for b in blocs if b)), image
+    return finalise('\n\n'.join(b for b in blocs if b)), image
 
 actus = []
 for p in items:

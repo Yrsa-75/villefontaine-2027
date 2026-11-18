@@ -51,7 +51,7 @@ foreach ( $vf_pubs as $vf_i => $vf_p ) {
 		$vf_style = sprintf( ' style="--ry: %sdeg; --tz: %dpx; --ty: %dpx; --z: %d"', number_format( -$vf_o * 8.8, 1, '.', '' ), (int) round( -40 * abs( $vf_o ) ), (int) round( 10 * abs( $vf_o ) ), (int) round( 10 - 2 * abs( $vf_o ) ) );
 	}
 	$vf_data = $vf_code ? ' data-calameo="' . esc_attr( $vf_code ) . '" data-titre="' . esc_attr( $vf_titre ) . '"' . ( $vf_pdf ? ' data-pdf="' . esc_url( $vf_pdf ) . '"' : '' ) : '';
-	$vf_h    = 'seule' === $vf_format ? 'h2' : 'h3';
+	$vf_h    = ( 'seule' === $vf_format || 2 === (int) ( $attributes['niveau'] ?? 3 ) ) ? 'h2' : 'h3';
 
 	$vf_cartes .= '<li' . $vf_style . '><article class="publication">';
 	$vf_cartes .= '<a class="publication__couv" href="' . esc_url( $vf_code || ! $vf_pdf ? $vf_lien : $vf_pdf ) . '"' . $vf_data . ' aria-label="' . esc_attr( 'Lire ' . $vf_titre . ( $vf_code ? ' en ligne' : '' ) ) . '">' . $vf_couv . '</a>';

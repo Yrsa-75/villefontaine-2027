@@ -129,6 +129,13 @@ HORS_MENU = [
 
 # Anciennes pages « carrefour » sans contenu propre : redirigées vers la rubrique la plus proche.
 REDIRECTIONS_SUPPLEMENTAIRES = {
+    # Anciennes adresses citées dans les contenus (relevées par la relecture du 18/11/2026).
+    'seniors/phare': 'le-phare', 'dynamisme-economique-et-culturel/the-village': 'the-village', 'place-du-centre-ville': 'coeur-de-ville',
+    'contacter-services-municipaux': 'services-municipaux', 'participer/conseil-municipal-enfants': 'cme',
+    'logement-habitat/trouver-un-logement': 'logement-social', 'sante-et-solidarite/action-sociale': 'ccas',
+    'operation-tranquillite-vacances': 'police-gendarmerie', 'dynamisme-economique-et-culturel/operations-grand-projet-coeur-de-ville': 'coeur-de-ville',
+    'histoire-et-patrimoine-architectural/sites-remarquables': 'patrimoine', 'histoire-et-patrimoine-architectural': 'patrimoine',
+    'participer/election': 'demarches-identite-citoyennete', 'dynamisme-economique-et-culturel/ville-poesie': 'culture',
     'habitant': 'demarches', 'professionnel': 'demarches-professionnels', 'association': 'associations', 'recherche-emploi': 'recrutement',
     'vie-municipale': 'la-mairie', 'participer': 'conseil-municipal', 'institutions-partenaires': 'jumelage', 'partenariats-jumelages': 'jumelage',
     'famille-enfance': 'enfance-famille', 'jeunesse-villarde': 'jeunesse', 'maison-pour-tous': 'maisons-pour-tous', 'seniors': 'seniors',

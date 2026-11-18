@@ -181,7 +181,7 @@ function vf_kiosque_gabarits() {
 		array(
 			'title'      => 'Kiosque',
 			'post_types' => array( 'vf_publication' ),
-			'content'    => $page( '<!-- wp:paragraph {"className":"section__surtitre"} --><p class="section__surtitre">Publications</p><!-- /wp:paragraph --><!-- wp:heading {"level":1} --><h1 class="wp-block-heading">Kiosque</h1><!-- /wp:heading -->', '<!-- wp:vf/kiosque {"nombre":48,"format":"grille"} /-->' ),
+			'content'    => $page( '<!-- wp:paragraph {"className":"section__surtitre"} --><p class="section__surtitre">Publications</p><!-- /wp:paragraph --><!-- wp:heading {"level":1} --><h1 class="wp-block-heading">Kiosque</h1><!-- /wp:heading -->', '<!-- wp:vf/kiosque {"nombre":48,"format":"grille","niveau":2} /-->' ),
 		)
 	);
 	register_block_template(

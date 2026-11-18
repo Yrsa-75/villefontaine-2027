@@ -3,7 +3,7 @@
  * Plugin Name:       Kiosque Villefontaine
  * Plugin URI:        https://villefontaine.fr
  * Description:       Publications de la ville (magazine, guides…) : couvertures en éventail, lecteur Calaméo chargé uniquement après accord du visiteur, téléchargement PDF.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.7
  * Requires PHP:      8.1
  * Requires Plugins:  socle-villefontaine
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_KIOSQUE_VERSION', '1.0.0' );
+define( 'VF_KIOSQUE_VERSION', '1.0.1' );
 define( 'VF_KIOSQUE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VF_KIOSQUE_URL', plugin_dir_url( __FILE__ ) );
 
