@@ -3,7 +3,7 @@
  * Plugin Name:       Déploiement Villefontaine
  * Plugin URI:        https://github.com/Yrsa-75/villefontaine-2027
  * Description:       Installe et met à jour le thème et les plugins Villefontaine depuis le dépôt GitHub du projet, et récupère les images du site actuel. Réservé aux administrateurs.
- * Version:           1.0.1
+ * Version:           1.0.2
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            YRSA
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_DEPLOI_VERSION', '1.0.1' );
+define( 'VF_DEPLOI_VERSION', '1.0.2' );
 
 /**
  * Dépôt GitHub (public) qui contient les fichiers .zip prêts à installer dans dist/.
@@ -242,7 +242,17 @@ function vf_deploi_importer_image( $url, $alt = '' ) {
 	require_once ABSPATH . 'wp-admin/includes/file.php';
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/image.php';
+	// Certains hébergeurs d'images (dont Calaméo) refusent les téléchargements qui se présentent comme « WordPress ».
+	$entetes = function ( $args, $adresse ) use ( $url ) {
+		if ( $adresse === $url ) {
+			$args['user-agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36';
+			$args['headers']    = array_merge( (array) ( $args['headers'] ?? array() ), array( 'Referer' => 'https://www.calameo.com/', 'Accept' => 'image/avif,image/webp,image/*,*/*;q=0.8' ) );
+		}
+		return $args;
+	};
+	add_filter( 'http_request_args', $entetes, 10, 2 );
 	$id = media_sideload_image( $url, 0, null, 'id' );
+	remove_filter( 'http_request_args', $entetes, 10 );
 	if ( is_wp_error( $id ) ) {
 		return $id;
 	}
