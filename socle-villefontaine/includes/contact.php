@@ -22,6 +22,7 @@ function vf_socle_champs_contact() {
 		'vf_contact_lien'     => array( 'string', 'esc_url_raw' ),
 		'vf_contact_horaires' => array( 'string', 'sanitize_textarea_field' ),
 		'vf_contact_pmr'      => array( 'boolean', 'rest_sanitize_boolean' ),
+		'vf_icone'            => array( 'string', 'sanitize_key' ),
 	);
 }
 
@@ -63,5 +64,6 @@ function vf_socle_panneau_contact() {
 		VF_SOCLE_VERSION,
 		true
 	);
+	wp_localize_script( 'vf-socle-panneau-contact', 'vfSocleIcones', vf_socle_icones_libelles() );
 }
 add_action( 'enqueue_block_editor_assets', 'vf_socle_panneau_contact' );

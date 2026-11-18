@@ -183,6 +183,11 @@ def b_agenda(theme):
         a = {'format': 'cartes', 'nombre': 9}
     return f'<!-- wp:vf/agenda-prochains {j(a)} /-->'
 
+ICONES = {'services-municipaux': 'maison', 'conseil-municipal': 'asso', 'budget': 'citoyen', 'budget-participatif': 'idee', 'jumelage': 'etoile',
+          'marches-publics': 'doc', 'recrutement': 'famille', 'affichage-legal': 'info', 'enfance-famille': 'famille', 'jeunesse': 'ecole', 'seniors': 'coeur',
+          'mobilite': 'bus', 'sante-solidarite': 'coeur', 'emploi': 'citoyen', 'commerces': 'tasse', 'services-publics': 'maison', 'tranquillite': 'alerte',
+          'logement': 'maison', 'urbanisme': 'lieu', 'proprete': 'poubelle', 'accessibilite-ville': 'pmr', 'grands-projets': 'idee', 'patrimoine': 'arbre',
+          'culture': 'etoile', 'sports': 'sport', 'jardins': 'arbre', 'grands-rdv': 'calendrier', 'associations': 'asso'}
 pages_out, rapport = [], []
 for n in noeuds:
     o = n['opts']
@@ -249,7 +254,7 @@ for n in noeuds:
     pages_out.append({
         'cle': n['cle'], 'titre': n['titre'], 'slug': n['slug'], 'parent': n['parent'], 'ordre': n['ordre'],
         'extrait': extrait[:300], 'contenu': contenu, 'image': image, 'gabarit': 'page-pleine-largeur' if pleine else '',
-        'contact': contact, 'statut': 'publish',
+        'contact': contact, 'statut': 'publish', 'icone': ICONES.get(n['cle'], o.get('icone', '')),
     })
     rapport.append(f"{n['chemin']:52} {n['genre']:17} {len(contenu):6} car. contacts:{len(contacts)} image:{'oui' if image else 'non'} {'; '.join(sorted(set(notes)))}")
 

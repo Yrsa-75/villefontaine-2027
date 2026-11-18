@@ -34,5 +34,20 @@
     );
   }
 
+  /* Icône de la page, affichée sur sa carte dans la page de rubrique parente. */
+  function Icone() {
+    var type = wp.data.useSelect(function (s) { return s('core/editor').getCurrentPostType(); }, []);
+    var meta = wp.data.useSelect(function (s) { return s('core/editor').getEditedPostAttribute('meta') || {}; }, []);
+    var editer = wp.data.useDispatch('core/editor').editPost;
+    if (type !== 'page') return null;
+    var libelles = (window.vfSocleIcones || {});
+    var exclues = ['chevron', 'fleche', 'loupe', 'croix', 'burger', 'haut', 'gauche', 'droite', 'fb', 'insta', 'yt', 'check'];
+    var options = [{ value: '', label: 'Par défaut (document)' }].concat(Object.keys(libelles).filter(function (k) { return exclues.indexOf(k) < 0; }).map(function (k) { return { value: k, label: libelles[k] }; }));
+    return el(Panneau, { name: 'vf-icone-page', title: 'Icône de la page' },
+      el(c.SelectControl, { label: 'Icône', help: 'Affichée sur la carte de cette page, dans sa rubrique, quand la page n’a pas d’image mise en avant.', value: meta.vf_icone || '', options: options, onChange: function (v) { editer({ meta: { vf_icone: v } }); }, __nextHasNoMarginBottom: true })
+    );
+  }
+
   wp.plugins.registerPlugin('vf-encart-contact', { render: Champs });
+  wp.plugins.registerPlugin('vf-icone-page', { render: Icone });
 })(window.wp);

@@ -171,7 +171,13 @@ ul.is-style-coches li::before { content: ""; position: absolute; left: 0; top: .
 .vf-page { padding-bottom: 8px; }
 .vf-page .mise-en-page { padding-top: 48px; }
 .vf-page .lateral:empty { display: none; }
-.vf-page--pleine .contenu { max-width: 860px; }
+.vf-page--pleine .contenu { max-width: none; }
+/* Pleine largeur : le texte garde une largeur confortable à lire, les blocs de navigation (cartes, trombinoscope, agenda, carte) prennent toute la place. */
+.vf-page--pleine .contenu > * { max-width: 860px; }
+.vf-page--pleine .contenu > :is(.vf-sous-pages, .vf-cartes, .vf-trombi, .vf-carte-bloc, .vf-agenda, .vf-chiffres, .alignwide, .alignfull) { max-width: none; }
+.vf-page--pleine .vf-sous-pages .tuiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 960px) { .vf-page--pleine .vf-sous-pages .tuiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .vf-page--pleine .vf-sous-pages .tuiles { grid-template-columns: 1fr; } }
 
 /* Articles (actualités) */
 .vf-article__tete { padding-top: 32px; max-width: 860px; }

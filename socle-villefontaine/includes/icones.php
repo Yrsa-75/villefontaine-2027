@@ -123,3 +123,14 @@ function vf_socle_icone( $nom, $taille = 24, $trait = 1.8 ) {
 		$icones[ $nom ]
 	);
 }
+
+/**
+ * Icône choisie pour une page (panneau « Icône de la page »), « doc » par défaut.
+ *
+ * @param WP_Post|int $page Page.
+ * @return string
+ */
+function vf_socle_icone_page( $page ) {
+	$nom = (string) get_post_meta( is_object( $page ) ? $page->ID : (int) $page, 'vf_icone', true );
+	return ( $nom && array_key_exists( $nom, vf_socle_icones_libelles() ) ) ? $nom : 'doc';
+}

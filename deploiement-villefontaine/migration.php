@@ -145,6 +145,7 @@ function vf_deploi_migrer_pages( $debut ) {
 			update_post_meta( $res, 'vf_contact_' . $champ, isset( $contact[ $champ ] ) ? sanitize_textarea_field( $contact[ $champ ] ) : '' );
 		}
 		update_post_meta( $res, 'vf_contact_pmr', ! empty( $contact['pmr'] ) );
+		update_post_meta( $res, 'vf_icone', sanitize_key( $p['icone'] ?? '' ) );
 		// Image mise en avant.
 		if ( ! empty( $p['image'] ) ) {
 			$im = vf_deploi_importer_image( $p['image'] );
