@@ -165,8 +165,22 @@ def images_externes(texte):
     texte = re.sub(r'<!-- wp:image[^>]*-->\s*<figure[^>]*>\s*<img[^>]+src="(?!https://villefontaine\.fr/wp-content/)[^"]*"[^>]*>\s*</figure>\s*<!-- /wp:image -->\s*', '', texte)
     return re.sub(r'<img[^>]+src="(?!https://villefontaine\.fr/wp-content/)[^"]*"[^>]*?(?:alt="([^"]*)")?[^>]*>', lambda m: m.group(1) or '', texte)
 
+from alts import ALTS
+def textes_alternatifs(texte):
+    """Ajoute le texte alternatif rédigé pour chaque image connue (alts.py), sans écraser un texte existant."""
+    def rep(m):
+        tag = m.group(0)
+        src = re.search(r'src="[^"]*/wp-content/uploads/([^"]+)"', tag)
+        if not src or src.group(1) not in ALTS:
+            return tag
+        alt = html.escape(ALTS[src.group(1)], quote=True)
+        if re.search(r'alt="[^"]+"', tag):
+            return tag
+        return re.sub(r'alt=""', f'alt="{alt}"', tag) if 'alt=""' in tag else tag.replace('<img ', f'<img alt="{alt}" ', 1)
+    return re.sub(r'<img [^>]*>', rep, texte)
+
 def finalise(texte):
-    texte = images_externes(texte)
+    texte = textes_alternatifs(images_externes(texte))
     return niveaux(titres_dans_listes(liens_propres(reecrit_liens(texte))))
 
 def reecrit_liens(texte):

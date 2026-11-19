@@ -155,7 +155,7 @@ def accessibilite(ATTACH):
         b_titre('État de conformité', 3),
         P('Le site villefontaine.fr est <strong>non conforme</strong> avec le référentiel général d’amélioration de l’accessibilité (RGAA), version 4.1.2, car il n’a pas encore fait l’objet d’un audit de conformité complet. Le site a été entièrement reconstruit en 2026 en suivant les règles du RGAA ; l’audit est programmé et ses résultats seront publiés sur cette page.'),
         b_titre('Contenus non accessibles connus', 3),
-        L(['Certaines images reprises de l’ancien site n’ont pas encore d’alternative textuelle (description) ; elles sont complétées progressivement.',
+        L(['Les images publiées avant la refonte ont reçu une description ; les schémas et cartes complexes n’ont pas encore de description détaillée.',
            'Certains documents à télécharger (PDF) publiés avant 2026 ne sont pas accessibles. Sur demande, nous vous transmettons leur contenu sous une forme adaptée.',
            'Les publications du kiosque sont consultables avec le service Calaméo, qui n’est pas entièrement accessible. La version PDF est proposée lorsqu’elle existe.',
            'Certaines vidéos ne disposent pas encore de sous-titres ni de transcription.']),
