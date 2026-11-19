@@ -307,3 +307,6 @@ h1 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens: auto; }
 
 /* Accordéons : resserrés entre eux, mais nettement séparés de ce qui les précède. */
 .contenu :not(.wp-block-details) + .wp-block-details { margin-top: 1.4em; }
+
+/* Résultats de recherche : la date n'a de sens que pour les actualités (celle d'une page est sa date de mise en ligne). */
+.search .wp-block-post-template > li:not(.type-post) .wp-block-post-date { display: none; }

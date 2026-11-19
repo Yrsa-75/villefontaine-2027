@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_THEME_VERSION', '1.0.8' );
+define( 'VF_THEME_VERSION', '1.0.9' );
 
 /**
  * Réglages de base du thème.
