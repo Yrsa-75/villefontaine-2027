@@ -15,6 +15,19 @@
   };
   var ORDRE = ['demarche', 'page', 'evenement', 'actualite', 'lieu'];
   var MAX = 8;
+  /* Mots du quotidien -> mots employés sur le site (la recherche essaie les deux). */
+  var SYNONYMES = {
+    'cantine': 'restauration scolaire', 'periscolaire': 'accueil de loisirs', 'centre de loisirs': 'accueil de loisirs',
+    'creche': 'petite enfance', 'nounou': 'petite enfance', 'assistante maternelle': 'petite enfance',
+    'poubelle': 'dechets', 'ordures': 'dechets', 'encombrants': 'decheteries', 'dechetterie': 'decheteries',
+    'carte d identite': 'identite', 'cni': 'identite', 'passport': 'passeport',
+    'bibliotheque': 'mediatheque', 'livres': 'mediatheque', 'piscine': 'sports', 'stade': 'sports', 'gymnase': 'sports',
+    'emploi': 'recrute', 'job': 'recrute', 'travail': 'emploi', 'stage': 'recrute',
+    'permis de construire': 'urbanisme', 'travaux': 'urbanisme', 'plu': 'plan local d urbanisme',
+    'police': 'police municipale', 'gendarmerie': 'police', 'mutuelle': 'complementaire sante',
+    'salle des fetes': 'reserver une salle', 'location de salle': 'reserver une salle', 'elections': 'citoyennete', 'vote': 'citoyennete',
+    'maire': 'elus', 'conseillers': 'elus', 'cimetiere': 'cimetiere', 'deces': 'deces', 'naissance': 'naissance'
+  };
   var index = null, chargement = null;
 
   function normaliser(t) { return (t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[’'`-]/g, ' '); }
@@ -34,6 +47,23 @@
   function chercher(saisie) {
     var q = normaliser(saisie).trim();
     if (q.length < 2 || !index) return [];
+    var variantes = [q];
+    if (q.length >= 3) {
+      Object.keys(SYNONYMES).forEach(function (k) { if (k.indexOf(q) === 0 || q.indexOf(k) === 0) variantes.push(SYNONYMES[k]); });
+    }
+    var meilleurs = {};
+    variantes.forEach(function (v, n) {
+      noter(v, n ? -1 : 0).forEach(function (r) {
+        if (!meilleurs[r.x.u] || meilleurs[r.x.u].s < r.s) meilleurs[r.x.u] = r;
+      });
+    });
+    var res = Object.keys(meilleurs).map(function (k) { return meilleurs[k]; });
+    res.sort(function (a, b) { return b.s - a.s || a.x.l.length - b.x.l.length; });
+    var garde = res.slice(0, MAX).map(function (r) { return r.x; });
+    return ORDRE.reduce(function (acc, t) { return acc.concat(garde.filter(function (x) { return x.t === t; })); }, []);
+  }
+
+  function noter(q, bonus) {
     var mots = q.split(/\s+/);
     var res = [];
     index.forEach(function (x) {
@@ -44,16 +74,13 @@
         if (p === 0) score += 6;
         else if (p > 0 && /\s/.test(x._l.charAt(p - 1))) score += 4;
         else if (p > 0) score += 2;
-        else if (x._m.indexOf(m) > -1) score += 1;
+        else if ((' ' + x._m).indexOf(' ' + m) > -1) score += 1;
         else return;
       }
       if (x._l.indexOf(q) === 0) score += 4;
-      res.push({ x: x, s: score });
+      res.push({ x: x, s: score + bonus });
     });
-    res.sort(function (a, b) { return b.s - a.s || a.x.l.length - b.x.l.length; });
-    // Garde les meilleurs, puis les regroupe par type dans un ordre fixe.
-    var garde = res.slice(0, MAX).map(function (r) { return r.x; });
-    return ORDRE.reduce(function (acc, t) { return acc.concat(garde.filter(function (x) { return x.t === t; })); }, []);
+    return res;
   }
 
   function surligner(el, texte, saisie) {
