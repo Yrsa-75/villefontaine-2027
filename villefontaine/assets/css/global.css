@@ -48,7 +48,7 @@ h1, h2, h3 { line-height: 1.15; margin: 0; }
 .bouton--clair:hover { background: var(--bleu-100); color: var(--bleu-800); }
 .recherche { display: flex; gap: 8px; background: var(--blanc); padding: 8px; border-radius: 18px; box-shadow: var(--ombre-forte); }
 .recherche input { flex: 1; min-width: 0; border: 0; padding: 0 14px; font: inherit; font-size: 18px; color: var(--encre); background: transparent; }
-.recherche input::placeholder { color: #66777C; }
+.recherche input::placeholder { color: #4A5A5F; }
 .recherche input:focus-visible { outline: none; }
 .recherche:focus-within { box-shadow: 0 0 0 3px var(--vert-400), var(--ombre-forte); }
 .recherche button { border: 0; border-radius: 12px; background: var(--bleu-700); color: var(--blanc); font-weight: 700; padding: 0 22px; min-height: 52px; display: inline-flex; align-items: center; gap: 8px; transition: background .2s; }

@@ -44,7 +44,14 @@
     try { points = JSON.parse(el.getAttribute('data-points')); couleurs = JSON.parse(el.getAttribute('data-couleurs')); } catch (e) { return; }
     if (!points.length) return;
 
-    var carte = L.map(el, { center: [45.6135, 5.15], zoom: 14, minZoom: 11, maxZoom: 18, scrollWheelZoom: false });
+    var carte = L.map(el, { center: [45.6135, 5.15], zoom: 14, minZoom: 11, maxZoom: 18, scrollWheelZoom: false, zoomControl: false });
+    // Boutons de zoom en français (Leaflet les fournit en anglais).
+    L.control.zoom({ zoomInTitle: 'Zoom avant', zoomOutTitle: 'Zoom arrière' }).addTo(carte);
+    // Bouton de fermeture des bulles en français.
+    carte.on('popupopen', function (e) {
+      var b = e.popup.getElement() && e.popup.getElement().querySelector('.leaflet-popup-close-button');
+      if (b) { b.setAttribute('aria-label', 'Fermer la bulle'); b.setAttribute('title', 'Fermer la bulle'); }
+    });
     carte.once('click focus', function () { carte.scrollWheelZoom.enable(); });
 
     L.tileLayer(
@@ -83,7 +90,8 @@
     var section = el.closest('section') || document;
     var boutons = section.querySelectorAll('.filtre-carte');
     var compte = section.querySelector('[data-compte]');
-    function appliquer() {
+    var annonce = section.querySelector('[data-annonce]');
+    function appliquer(annoncer) {
       var actives = {};
       boutons.forEach(function (b) { if (b.getAttribute('aria-pressed') === 'true') actives[b.getAttribute('data-categorie')] = true; });
       var n = 0;
@@ -93,11 +101,13 @@
       });
       section.querySelectorAll('.liste-lieux li').forEach(function (li) { li.hidden = !actives[li.getAttribute('data-categorie')]; });
       if (compte) compte.textContent = n;
+      // Message de statut (RGAA 7.5) : nombre de lieux affichés après un filtre.
+      if (annoncer && annonce) annonce.textContent = n + (n > 1 ? ' lieux affichés' : ' lieu affiché') + ' sur la carte et dans la liste.';
     }
     boutons.forEach(function (b) {
       b.addEventListener('click', function () {
         b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
-        appliquer();
+        appliquer(true);
       });
     });
     section.querySelectorAll('.liste-lieux button[data-point]').forEach(function (b) {

@@ -176,7 +176,7 @@ def b_tableau(t):
     th = lignes[0].find_all('th')
     tete = ''
     if th:
-        tete = '<thead><tr>' + ''.join(f'<th>{inline_html(c)}</th>' for c in th) + '</tr></thead>'
+        tete = '<thead><tr>' + ''.join(f'<th scope="col">{inline_html(c)}</th>' for c in th) + '</tr></thead>'
         lignes = lignes[1:]
     corps = ''.join('<tr>' + ''.join(f'<td>{inline_html(c)}</td>' for c in tr.find_all(['td', 'th'])) + '</tr>' for tr in lignes)
     return f'<!-- wp:table -->\n<figure class="wp-block-table"><table class="has-fixed-layout">{tete}<tbody>{corps}</tbody></table></figure>\n<!-- /wp:table -->'
@@ -285,7 +285,15 @@ def b_cartes(items, colonnes=3):
 def b_contact(d):
     return f'<!-- wp:vf/contact-carte {j(d)} /-->'
 
+# Titres des vidéos de l'ancien site (titre d'iframe pertinent, RGAA 2.2).
+TITRES_VIDEOS = {
+    'yxhFpFMDVCw': 'Le jardin collectif de Vaugelas',
+    'rHsVSqEwB8M': 'The Village, le French Outlet (vidéo de la Compagnie de Phalsbourg)',
+}
+
 def b_video(url, titre=''):
+    if not titre or titre.strip().lower() == 'vidéo':
+        titre = next((t for k, t in TITRES_VIDEOS.items() if k in url), titre)
     return f'<!-- wp:vf/video {j({"url": url, "titre": titre})} /-->'
 
 def b_details(titre, blocs_internes):

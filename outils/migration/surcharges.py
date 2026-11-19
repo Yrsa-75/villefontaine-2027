@@ -76,7 +76,15 @@ def details(titre, blocs, ouvert=False):
 def budget(ATTACH):
     out = [
         b_paragraphe('Chaque année, le conseil municipal débat des orientations budgétaires, vote le budget primitif (les prévisions de recettes et de dépenses) puis approuve le compte de l’année écoulée. Tous ces documents sont publics et consultables ci-dessous.'),
-        img_bloc(U + '2024/07/Diagramme.png', 'Schéma explicatif du budget de la ville'),
+        img_bloc(U + '2024/07/Diagramme.png', 'Graphique circulaire de la répartition des dépenses de la ville, détaillé dans le tableau qui suit'),
+        # Description détaillée du graphique (RGAA 1.6) sous forme de tableau.
+        '<!-- wp:table -->\n<figure class="wp-block-table"><table class="has-fixed-layout"><caption>Répartition des dépenses présentée dans le graphique</caption><thead><tr><th scope="col">Domaine</th><th scope="col">Montant</th><th scope="col">Part</th></tr></thead><tbody>'
+        '<tr><th scope="row">Éducation, familles</th><td>7,7 millions d’euros</td><td>29 %</td></tr>'
+        '<tr><th scope="row">Gestion des ressources, services généraux, administration, sécurité</th><td>6,5 millions d’euros</td><td>24 %</td></tr>'
+        '<tr><th scope="row">Culture, vie associative, action sociale, sport</th><td>4,8 millions d’euros</td><td>19 %</td></tr>'
+        '<tr><th scope="row">Environnement, aménagement, cadre de vie</th><td>4,1 millions d’euros</td><td>15 %</td></tr>'
+        '<tr><th scope="row">Autofinancement dégagé</th><td>3,4 millions d’euros</td><td>13 %</td></tr>'
+        '</tbody></table></figure>\n<!-- /wp:table -->',
         b_titre('Documents budgétaires', 2),
     ]
     for titre, ouvert, docs in BUDGETS:
@@ -116,7 +124,7 @@ SURCHARGES['plan-site'] = lambda ATTACH: [b_paragraphe('Retrouvez ici toutes les
 def accessibilite(ATTACH):
     from convertir import b_liste, b_details
     P = b_paragraphe
-    L = lambda items: b_liste(['<li>' + i + '</li>' for i in items])
+    L = lambda items: b_liste(items)
     return [
         P('La Ville de Villefontaine veut que son site soit utilisable par toutes et tous, quels que soient le matériel, le logiciel ou le handicap. Le site est conçu pour fonctionner avec les réglages de votre appareil : vous n’avez rien à installer.'),
         b_titre('Adapter l’affichage à vos besoins', 2),

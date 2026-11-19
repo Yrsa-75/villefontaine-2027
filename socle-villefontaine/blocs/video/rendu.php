@@ -25,7 +25,8 @@ if ( preg_match( '#(?:youtu\.be/|youtube\.com/(?:watch\?v=|embed/|shorts/))([A-Z
 if ( ! $vf_src ) {
 	return;
 }
-$vf_titre = $attributes['titre'] ? $attributes['titre'] : 'Vidéo';
+// Titre explicite (RGAA 2.2) ; à défaut, on précise au moins la page concernée.
+$vf_titre = $attributes['titre'] ? $attributes['titre'] : sprintf( 'Vidéo %1$s : %2$s', $vf_srv, get_the_title() );
 ?>
 <figure class="vf-video" data-src="<?php echo esc_url( $vf_src ); ?>" data-titre="<?php echo esc_attr( $vf_titre ); ?>">
 	<div class="vf-video__accord">
@@ -35,3 +36,13 @@ $vf_titre = $attributes['titre'] ? $attributes['titre'] : 'Vidéo';
 		<p><button type="button" class="bouton">Lire la vidéo<span class="visuellement-masque"> : <?php echo esc_html( $vf_titre ); ?></span></button> <a href="<?php echo esc_url( $vf_url ); ?>" target="_blank" rel="noopener">Voir sur <?php echo esc_html( $vf_srv ); ?><span class="visuellement-masque"> (nouvelle fenêtre)</span></a></p>
 	</div>
 </figure>
+<?php
+// Transcription textuelle (RGAA 4.1) : texte intégral de la vidéo, ouvert à la demande.
+$vf_transcription = trim( (string) ( $attributes['transcription'] ?? '' ) );
+if ( '' !== $vf_transcription ) :
+	?>
+<details class="vf-video__transcription">
+	<summary>Transcription textuelle<span class="visuellement-masque"> : <?php echo esc_html( $vf_titre ); ?></span></summary>
+	<div><?php echo wp_kses_post( wpautop( esc_html( $vf_transcription ) ) ); ?></div>
+</details>
+<?php endif; ?>

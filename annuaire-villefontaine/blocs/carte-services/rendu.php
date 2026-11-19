@@ -41,6 +41,7 @@ $vf_plein = 'pleine' === $attributes['format'];
 	<li><button type="button" class="filtre-carte" data-categorie="<?php echo esc_attr( $vf_nom ); ?>" aria-pressed="true"><i style="background: <?php echo esc_attr( $vf_coul ); ?>"></i><?php echo esc_html( $vf_nom ); ?></button></li>
 	<?php endforeach; ?>
 </ul>
+<p class="visuellement-masque" role="status" data-annonce></p>
 <details class="liste-lieux"<?php echo $vf_plein ? ' open' : ''; ?>><summary>Voir la liste des lieux (<span data-compte><?php echo (int) count( $vf_d['points'] ); ?></span>)</summary><ul>
 	<?php foreach ( $vf_d['points'] as $vf_p ) : ?>
 	<li data-categorie="<?php echo esc_attr( $vf_p['categorie'] ); ?>"><button type="button" data-point="<?php echo esc_attr( $vf_p['id'] ); ?>"><i style="background: <?php echo esc_attr( $vf_d['categories'][ $vf_p['categorie'] ] ); ?>"></i><span><strong><?php echo esc_html( $vf_p['nom'] ); ?></strong><small><?php echo esc_html( $vf_p['categorie'] . ( $vf_p['adresse'] ? ' · ' . $vf_p['adresse'] : '' ) ); ?></small></span></button></li>

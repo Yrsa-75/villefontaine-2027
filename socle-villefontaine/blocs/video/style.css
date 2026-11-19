@@ -6,3 +6,5 @@
 .vf-video__accord a { color: var(--blanc); }
 .vf-video__lecture { width: 70px; height: 70px; border-radius: 50%; background: rgba(255, 255, 255, .14); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
 @media (max-width: 600px) { .vf-video { aspect-ratio: auto; min-height: 280px; } .vf-video__accord { position: static; min-height: 280px; } }
+.vf-video__transcription { margin: -0.8em 0 1.6em; border: 1px solid var(--gris-200, #d5dee0); border-radius: var(--rayon); padding: 12px 18px; }
+.vf-video__transcription summary { cursor: pointer; font-weight: 700; }
