@@ -49,11 +49,14 @@ if ( '' === $vf_logo_html ) {
 	$vf_logo_html = '<span class="entete__nom">' . esc_html( get_bloginfo( 'name' ) ) . '</span>';
 }
 ?>
+<?php // Liens d'évitement (RGAA 12.7) : premiers éléments atteints au clavier, visibles au focus. ?>
+<a class="lien-evitement" href="#contenu">Aller au contenu</a>
+<?php if ( $vf_menu ) : ?><a class="lien-evitement" href="#menu-principal">Aller au menu</a><?php endif; ?>
 <header class="entete">
 <div class="conteneur entete__barre">
 <a class="entete__logo" href="<?php echo esc_url( $vf_accueil ); ?>" aria-label="<?php echo esc_attr( 'Ville de Villefontaine, retour à l’accueil' ); ?>"><?php echo $vf_logo_html; // phpcs:ignore WordPress.Security.EscapeOutput -- construit et échappé ci-dessus. ?></a>
 <?php if ( $vf_menu ) : ?>
-<nav class="nav-principale" aria-label="Menu principal"><ul>
+<nav class="nav-principale" id="menu-principal" aria-label="Menu principal" tabindex="-1"><ul>
 	<?php
 	foreach ( $vf_menu as $vf_r1 ) :
 		$vf_id = 'mega-' . $vf_r1['id'];

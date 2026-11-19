@@ -68,7 +68,7 @@
 .tiroir .bouton--lueur { border: 0; }
 
 @media (max-width: 1180px) {
-  .nav-principale, .entete__actions .bouton-texte { display: none; }
+  .nav-principale, .entete__actions .bouton-texte, .lien-evitement[href="#menu-principal"] { display: none; }
   .burger { display: inline-flex; }
 }
 

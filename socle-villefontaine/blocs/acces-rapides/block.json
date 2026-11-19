@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "vf/acces-rapides",
-	"version": "1.1.0",
+	"version": "1.4.3",
 	"title": "Accès en 1 clic",
 	"category": "villefontaine",
 	"icon": "grid-view",
@@ -18,12 +18,12 @@
 			"default": [
 				{
 					"libelle": "Le Phare",
-					"url": "#",
+					"url": "/vie-quotidienne/seniors/le-phare/",
 					"icone": "phare"
 				},
 				{
 					"libelle": "Les Maisons pour tous",
-					"url": "#",
+					"url": "/vie-quotidienne/jeunesse/maisons-pour-tous/",
 					"icone": "maison"
 				},
 				{
@@ -38,22 +38,22 @@
 				},
 				{
 					"libelle": "Signalement",
-					"url": "#",
+					"url": "/signalement/",
 					"icone": "signal"
 				},
 				{
 					"libelle": "Vie associative",
-					"url": "#",
+					"url": "/sortir-bouger/associations/",
 					"icone": "asso"
 				},
 				{
 					"libelle": "Budget participatif",
-					"url": "#",
+					"url": "/la-mairie/budget-participatif/",
 					"icone": "idee"
 				},
 				{
 					"libelle": "Contacter la mairie",
-					"url": "#",
+					"url": "/contact/",
 					"icone": "tel"
 				}
 			]
