@@ -82,7 +82,7 @@ $vf_logo = get_theme_file_uri( 'assets/img/logo-villefontaine-blanc.png' );
 <!-- wp:group {"className":"pied__bas","layout":{"type":"default"}} -->
 <div class="wp-block-group pied__bas"><!-- wp:group {"className":"conteneur","layout":{"type":"default"}} -->
 <div class="wp-block-group conteneur"><!-- wp:paragraph -->
-<p><a href="/accessibilite-du-site/">Accessibilité : non conforme</a></p>
+<p><a href="/accessibilite-du-site/">Accessibilité : partiellement conforme</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
