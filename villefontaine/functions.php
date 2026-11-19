@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_THEME_VERSION', '1.0.10' );
+define( 'VF_THEME_VERSION', '1.0.11' );
 
 /**
  * Réglages de base du thème.
@@ -174,6 +174,10 @@ function vf_theme_allegement() {
 	remove_action( 'wp_head', 'wlwmanifest_link' );
 }
 add_action( 'init', 'vf_theme_allegement' );
+
+// Le lien d'évitement automatique de WordPress ferait doublon avec ceux de l'en-tête (« Aller au contenu », « Aller au menu »).
+remove_action( 'wp_enqueue_scripts', 'wp_enqueue_block_template_skip_link' );
+remove_action( 'wp_footer', 'the_block_template_skip_link' );
 
 /**
  * Photo par défaut du grand visuel d'accueil (tant qu'aucune photo n'est choisie dans le bloc).

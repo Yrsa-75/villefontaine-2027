@@ -111,3 +111,68 @@ def contact(ATTACH):
 SURCHARGES['contact'] = contact
 
 SURCHARGES['plan-site'] = lambda ATTACH: [b_paragraphe('Retrouvez ici toutes les pages du site. La liste se met à jour automatiquement.'), '<!-- wp:vf/plan-du-site /-->']
+
+
+def accessibilite(ATTACH):
+    from convertir import b_liste, b_details
+    P = b_paragraphe
+    L = lambda items: b_liste(['<li>' + i + '</li>' for i in items])
+    return [
+        P('La Ville de Villefontaine veut que son site soit utilisable par toutes et tous, quels que soient le matériel, le logiciel ou le handicap. Le site est conçu pour fonctionner avec les réglages de votre appareil : vous n’avez rien à installer.'),
+        b_titre('Adapter l’affichage à vos besoins', 2),
+        b_details('Agrandir le texte', [
+            L(['<strong>Ordinateur</strong> : touches <kbd>Ctrl</kbd> et <kbd>+</kbd> pour agrandir, <kbd>Ctrl</kbd> et <kbd>-</kbd> pour réduire, <kbd>Ctrl</kbd> et <kbd>0</kbd> pour revenir à la normale (<kbd>Cmd</kbd> à la place de <kbd>Ctrl</kbd> sur Mac). Le site reste lisible jusqu’à un agrandissement de 400 %.',
+               '<strong>iPhone, iPad</strong> : Réglages, Luminosité et affichage, Taille du texte.',
+               '<strong>Android</strong> : Paramètres, Affichage, Taille de police (le chemin peut varier selon le modèle).']),
+        ]),
+        b_details('Renforcer les contrastes', [
+            L(['<strong>Windows</strong> : Paramètres, Accessibilité, Thèmes de contraste.',
+               '<strong>Mac</strong> : Réglages Système, Accessibilité, Affichage, Augmenter le contraste.',
+               '<strong>iPhone, iPad</strong> : Réglages, Accessibilité, Affichage et taille du texte, Augmenter le contraste.',
+               '<strong>Android</strong> : Paramètres, Accessibilité, Texte à contraste élevé.']),
+        ]),
+        b_details('Faire lire la page à voix haute', [
+            L(['<strong>Navigateur Edge</strong> : bouton « Lecture à voix haute » ou touches <kbd>Ctrl</kbd>, <kbd>Maj</kbd> et <kbd>U</kbd>.',
+               '<strong>Windows</strong> : le Narrateur se lance avec <kbd>Ctrl</kbd>, <kbd>Windows</kbd> et <kbd>Entrée</kbd>.',
+               '<strong>Mac</strong> : VoiceOver se lance avec <kbd>Cmd</kbd> et <kbd>F5</kbd>.',
+               '<strong>iPhone, iPad</strong> : Réglages, Accessibilité, Contenu énoncé (ou VoiceOver).',
+               '<strong>Android</strong> : Paramètres, Accessibilité, Sélectionner pour prononcer (ou TalkBack).']),
+        ]),
+        b_details('Réduire les animations', [
+            P('Si vous activez la réduction des animations sur votre appareil, le site la respecte automatiquement : plus aucun mouvement ni défilement animé.'),
+            L(['<strong>Windows</strong> : Paramètres, Accessibilité, Effets visuels, Effets d’animation.',
+               '<strong>Mac, iPhone, iPad</strong> : Accessibilité, Réduire les animations.',
+               '<strong>Android</strong> : Paramètres, Accessibilité, Supprimer les animations.']),
+        ]),
+        b_details('Naviguer au clavier', [
+            L(['<kbd>Tab</kbd> pour avancer d’un lien ou d’un bouton à l’autre, <kbd>Maj</kbd> et <kbd>Tab</kbd> pour revenir en arrière.',
+               '<kbd>Entrée</kbd> pour ouvrir un lien ou activer un bouton, <kbd>Échap</kbd> pour fermer un menu ou une fenêtre.',
+               'En haut de chaque page, les liens « Aller au contenu » et « Aller au menu » apparaissent à la première pression sur <kbd>Tab</kbd>.']),
+        ]),
+        b_titre('Déclaration d’accessibilité', 2),
+        P('La Ville de Villefontaine s’engage à rendre ses sites internet, intranet, extranet et ses progiciels accessibles conformément à l’article 47 de la loi n° 2005-102 du 11 février 2005.'),
+        P('Cette déclaration d’accessibilité s’applique au site <strong>villefontaine.fr</strong>.'),
+        b_titre('État de conformité', 3),
+        P('Le site villefontaine.fr est <strong>non conforme</strong> avec le référentiel général d’amélioration de l’accessibilité (RGAA), version 4.1.2, car il n’a pas encore fait l’objet d’un audit de conformité complet. Le site a été entièrement reconstruit en 2026 en suivant les règles du RGAA ; l’audit est programmé et ses résultats seront publiés sur cette page.'),
+        b_titre('Contenus non accessibles connus', 3),
+        L(['Certaines images reprises de l’ancien site n’ont pas encore d’alternative textuelle (description) ; elles sont complétées progressivement.',
+           'Certains documents à télécharger (PDF) publiés avant 2026 ne sont pas accessibles. Sur demande, nous vous transmettons leur contenu sous une forme adaptée.',
+           'Les publications du kiosque sont consultables avec le service Calaméo, qui n’est pas entièrement accessible. La version PDF est proposée lorsqu’elle existe.',
+           'Certaines vidéos ne disposent pas encore de sous-titres ni de transcription.']),
+        b_titre('Établissement de cette déclaration', 3),
+        P('Cette déclaration a été établie le 19 novembre 2026.'),
+        P('Technologies utilisées pour la réalisation du site : HTML5, CSS, JavaScript, WAI-ARIA.'),
+        P('Vérifications réalisées pendant la construction du site : tests automatisés (axe-core, Lighthouse) sur l’ensemble des modèles de page, navigation complète au clavier, affichage sur téléphone et à 320 pixels de large, hiérarchie des titres et des liens de toutes les pages.'),
+        b_titre('Retour d’information et contact', 3),
+        P('Si vous n’arrivez pas à accéder à un contenu ou à un service, contactez-nous pour être orienté vers une alternative accessible ou obtenir le contenu sous une autre forme :'),
+        L(['par le <a href="/contact/">formulaire de contact</a> ;',
+           'par téléphone au 04 74 96 00 00 ;',
+           'par courrier : Mairie de Villefontaine, Place Pierre Mendès France, BP 88, 38093 Villefontaine Cedex.']),
+        b_titre('Voies de recours', 3),
+        P('Si vous avez signalé un défaut d’accessibilité qui vous empêche d’accéder à un contenu ou à un service du site et que vous n’avez pas obtenu de réponse satisfaisante, vous pouvez :'),
+        L(['écrire un message au <a href="https://formulaire.defenseurdesdroits.fr/">Défenseur des droits</a> ;',
+           'contacter <a href="https://www.defenseurdesdroits.fr/carte-des-delegues">le délégué du Défenseur des droits dans votre région</a> ;',
+           'envoyer un courrier par la poste (gratuit, ne pas mettre de timbre) : Défenseur des droits, Libre réponse 71120, 75342 Paris CEDEX 07.']),
+    ]
+
+SURCHARGES['x-accessibilite-du-site'] = accessibilite

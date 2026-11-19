@@ -20,7 +20,7 @@
   --largeur: 1240px;
   --ease: cubic-bezier(.2, .7, .2, 1); }
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 120px; } /* l'élément atteint au clavier ou par une ancre n'est pas caché sous l'en-tête fixe */
 body { margin: 0;
   background: var(--blanc);
   color: var(--encre);
@@ -310,3 +310,6 @@ h1 { overflow-wrap: break-word; hyphens: auto; -webkit-hyphens: auto; }
 
 /* Résultats de recherche : la date n'a de sens que pour les actualités (celle d'une page est sa date de mise en ligne). */
 .search .wp-block-post-template > li:not(.type-post) .wp-block-post-date { display: none; }
+
+/* Touches du clavier citées dans les textes d'aide */
+.contenu kbd { font: inherit; font-size: .88em; font-weight: 700; padding: 1px 7px; border: 1px solid var(--trait); border-bottom-width: 2px; border-radius: 6px; background: var(--bleu-50, #f4f9fa); white-space: nowrap; }

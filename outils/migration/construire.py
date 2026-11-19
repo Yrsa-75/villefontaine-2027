@@ -9,6 +9,9 @@ from surcharges import SURCHARGES
 
 items = json.load(open('items.json'))
 PAGES = {p['slug']: p for p in items if p['type'] == 'page' and p['statut'] == 'publish'}
+# Pages nouvelles, sans équivalent sur l'ancien site : contenu entièrement écrit dans surcharges.py.
+for _cle in ('x-accessibilite-du-site',):
+    PAGES[_cle] = {'slug': _cle, 'titre': '', 'meta': {}, 'contenu': '', 'extrait': '', 'lien': '/' + _cle + '/', 'id': 0, 'parent': 0, 'type': 'page', 'statut': 'publish'}
 ATTACH = {p['id']: p for p in items if p['type'] == 'attachment'}
 PAR_ID = {p['id']: p for p in items if p['type'] == 'page'}
 
@@ -329,6 +332,7 @@ for ancien, (cle, ancre) in ancien_vers.items():
         continue
     redirections[ancien] = (NOUVEAU[cle]['chemin'] + '#' + ancre) if ancre and cle in NOUVEAU else cle
 
+redirections = {k: v for k, v in redirections.items() if not k.startswith('/x-')}
 json.dump({'version': 1, 'pages': pages_out, 'menu': menu, 'redirections': redirections}, open('pages.json', 'w'), ensure_ascii=False)
 print('\n'.join(rapport))
 print(len(pages_out), 'pages,', len(redirections), 'redirections')
