@@ -7,6 +7,12 @@ from convertir import *
 import plan
 from surcharges import SURCHARGES
 
+IMAGES_RUBRIQUES = {
+    'la-mairie': 'https://villefontaine.fr/wp-content/uploads/2025/04/hdv-facade-2025-e1743604891450.jpg',
+    'vie-quotidienne': 'https://villefontaine.fr/wp-content/uploads/2019/05/Mode_doux.jpg',
+    'cadre-de-vie': 'https://villefontaine.fr/wp-content/uploads/2019/05/Etang_vaugelas.jpg',
+    'sortir-bouger': 'https://villefontaine.fr/wp-content/uploads/2025/04/20250621_222129-scaled.jpg',
+}
 items = json.load(open('items.json'))
 PAGES = {p['slug']: p for p in items if p['type'] == 'page' and p['statut'] == 'publish'}
 # Pages nouvelles, sans équivalent sur l'ancien site : contenu entièrement écrit dans surcharges.py.
@@ -267,6 +273,8 @@ for n in noeuds:
     blocs, contacts, image, extrait = [], [], '', o.get('extrait', '')
     notes = []
     sections = o.get('sections')
+    # Photo des pages de rubrique : affichée à gauche du méga-menu.
+    image = IMAGES_RUBRIQUES.get(n['slug'], '')
     for i, s in enumerate(n['sources']):
         bl, ctx, im, ex = convertit_source(s)
         notes += ctx.notes
@@ -398,7 +406,7 @@ for p in items:
     d1 = datetime.datetime.fromtimestamp(int(m.get('evcal_erow') or m.get('evcal_srow')), datetime.timezone.utc)
     journee = m.get('evcal_allday') == 'yes'
     contenu, image = convertit_item(p)
-    titre = html.unescape(p['titre']).strip()
+    titre = re.sub(r'\s*\(cop(y|ie)\)\s*$', '', html.unescape(p['titre']).strip(), flags=re.I)
     evts.append({'cle': 'evt-' + str(p['id']), 'titre': titre, 'slug': p['slug'], 'date': p['date'], 'contenu': contenu, 'image': image,
                  'debut': d0.strftime('%Y-%m-%d'), 'fin': d1.strftime('%Y-%m-%d') if d1.date() > d0.date() else '',
                  'heure_debut': '' if journee else d0.strftime('%H:%M'),
