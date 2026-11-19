@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "vf/agenda-liste",
-	"version": "1.1.0",
+	"version": "1.1.2",
 	"title": "Agenda complet",
 	"category": "villefontaine",
 	"icon": "calendar",

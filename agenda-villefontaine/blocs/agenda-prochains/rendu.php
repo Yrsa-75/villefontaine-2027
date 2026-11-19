@@ -37,7 +37,7 @@ if ( 'liste' === ( $attributes['format'] ?? 'cartes' ) ) {
 		echo get_the_post_thumbnail( $vf_p, 'medium', array( 'alt' => '', 'loading' => 'lazy', 'decoding' => 'async' ) ); // phpcs:ignore WordPress.Security.EscapeOutput
 		echo '<div><h3><a href="' . esc_url( get_permalink( $vf_p ) ) . '">' . esc_html( get_the_title( $vf_p ) ) . '</a></h3>';
 		echo '<p>' . esc_html( vf_agenda_quand( $vf_p->ID, $vf_occ ) . ( $vf_lieu ? ' · ' . $vf_lieu : '' ) ) . '</p></div>';
-		echo '<p class="ligne-evt__date" aria-hidden="true"><strong>' . esc_html( gmdate( 'j', $vf_jour ) ) . '</strong><span>' . esc_html( vf_agenda_noms( 'mois_courts' )[ (int) gmdate( 'n', $vf_jour ) ] ) . '</span></p>';
+		echo '<p class="ligne-evt__date" aria-hidden="true"><strong>' . esc_html( gmdate( 'j', $vf_jour ) ) . '</strong><span>' . esc_html( vf_agenda_noms( 'mois' )[ (int) gmdate( 'n', $vf_jour ) ] ) . '</span></p>';
 		echo '</li>';
 	}
 	$vf_lien_tout = $vf_theme ? get_term_link( $vf_theme, 'vf_theme_evenement' ) : $vf_archive;

@@ -256,7 +256,7 @@ function vf_agenda_carte( $occ, $index = 0, $titre = 3 ) {
 
 	$html  = '<li data-theme="' . esc_attr( $terme ? $terme->slug : 'autre' ) . '" class="apparition" style="--delai: ' . esc_attr( number_format( ( $index % 3 ) * 0.07, 2, '.', '' ) ) . 's"><article class="evenement">';
 	$html .= '<div class="evenement__media">' . ( $image ? $image : '<span class="evenement__fond" aria-hidden="true">' . vf_socle_icone( 'calendrier', 40, 1.6 ) . '</span>' );
-	$html .= '<p class="evenement__date" style="margin: 0"><strong>' . esc_html( gmdate( 'j', $t ) ) . '</strong><span>' . esc_html( vf_agenda_noms( 'mois_courts' )[ (int) gmdate( 'n', $t ) ] ) . '</span></p></div>';
+	$html .= '<p class="evenement__date" style="margin: 0"><strong>' . esc_html( gmdate( 'j', $t ) ) . '</strong><span>' . esc_html( vf_agenda_noms( 'mois' )[ (int) gmdate( 'n', $t ) ] ) . '</span></p></div>';
 	$html .= '<div class="evenement__corps"><' . $h . '><a href="' . esc_url( get_permalink( $post ) ) . '">' . esc_html( get_the_title( $post ) ) . '</a></' . $h . '>';
 	$html .= '<p class="evenement__infos"><span>' . vf_socle_icone( 'horloge', 16, 2 ) . esc_html( vf_agenda_quand( $post->ID, $occ ) ) . '</span>';
 	if ( $lieu ) {
