@@ -36,7 +36,8 @@
 .immersif .heros__suggestions { margin-top: 12px; gap: 6px; font-size: 12.5px; }
 .immersif .heros__suggestions a { background: rgba(255, 255, 255, .1); padding: 4px 11px; }
 @keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1); } }
-@keyframes monte { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+/* Pas de fondu (opacity) : le titre du grand visuel est l’élément principal de la page, il doit s’afficher tout de suite (LCP). */
+@keyframes monte { from { transform: translateY(16px); } to { transform: none; } }
 @keyframes derive1 { to { transform: translate(8vw, 6vh) scale(1.15); } }
 @keyframes derive2 { to { transform: translate(-10vw, -8vh) scale(.9); } }
 @keyframes clignote { 50% { opacity: .25; } }

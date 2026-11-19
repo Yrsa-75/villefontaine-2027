@@ -23,7 +23,6 @@ $vf_tel  = preg_replace( '/[^0-9+]/', '', $vf['vf_tel'] );
 $vf_tel  = ( $vf_tel && '0' === $vf_tel[0] ) ? '+33' . substr( $vf_tel, 1 ) : $vf_tel;
 $vf_carte = '' !== $vf['vf_lat'] && '' !== $vf['vf_lng'] && ! ( defined( 'REST_REQUEST' ) && REST_REQUEST );
 if ( $vf_carte ) {
-	wp_enqueue_style( 'vf-leaflet' );
 	$vf_termes = get_the_terms( $vf_id, 'vf_categorie_lieu' );
 	$vf_terme  = ( $vf_termes && ! is_wp_error( $vf_termes ) ) ? $vf_termes[0] : null;
 	$vf_cat    = $vf_terme ? $vf_terme->name : 'Lieu';

@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_THEME_VERSION', '1.0.9' );
+define( 'VF_THEME_VERSION', '1.0.10' );
 
 /**
  * Réglages de base du thème.
@@ -190,3 +190,30 @@ function vf_theme_image_heros() {
 	);
 }
 add_filter( 'vf_socle_heros_image_defaut', 'vf_theme_image_heros' );
+
+/**
+ * Description de la page pour les moteurs de recherche (<meta name="description">) :
+ * résumé de la page s'il existe, sinon début du texte ; slogan du site pour l'accueil et les listes.
+ */
+function vf_theme_meta_description() {
+	$texte = '';
+	if ( is_singular() && ! is_front_page() ) {
+		$post  = get_queried_object();
+		$texte = has_excerpt( $post ) ? $post->post_excerpt : wp_strip_all_tags( strip_shortcodes( excerpt_remove_blocks( $post->post_content ) ) );
+	} elseif ( is_post_type_archive() ) {
+		$texte = (string) get_the_post_type_description();
+	} elseif ( is_category() || is_tax() ) {
+		$texte = term_description();
+	}
+	if ( ! trim( wp_strip_all_tags( (string) $texte ) ) ) {
+		$texte = get_bloginfo( 'description' );
+	}
+	if ( ! trim( (string) $texte ) || 'Un site utilisant WordPress' === $texte ) {
+		$texte = 'Site officiel de la Ville de Villefontaine (Isère) : vos démarches, l’actualité, l’agenda, les services et lieux de la ville.';
+	}
+	$texte = trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( (string) $texte ) ) );
+	if ( $texte ) {
+		printf( '<meta name="description" content="%s">' . "\n", esc_attr( wp_html_excerpt( $texte, 155, '…' ) ) );
+	}
+}
+add_action( 'wp_head', 'vf_theme_meta_description', 2 );

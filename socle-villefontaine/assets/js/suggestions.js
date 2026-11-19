@@ -6,6 +6,12 @@
 (function () {
   'use strict';
   if (!window.vfSuggestions) return;
+  if (window.vfSuggestions.css) {
+    var feuille = document.createElement('link');
+    feuille.rel = 'stylesheet';
+    feuille.href = window.vfSuggestions.css;
+    document.head.appendChild(feuille);
+  }
   var TYPES = {
     demarche: 'Démarches',
     page: 'Pages',

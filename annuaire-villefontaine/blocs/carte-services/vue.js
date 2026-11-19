@@ -5,10 +5,41 @@
    ========================================================================== */
 (function () {
   'use strict';
-  if (!window.L) return;
   var reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cartes = document.querySelectorAll('.carte-ville[data-points]');
+  if (!cartes.length) return;
 
-  document.querySelectorAll('.carte-ville[data-points]').forEach(function (el) {
+  /* Performance : la bibliothèque de carte (environ 160 Ko) n'est téléchargée que lorsque la carte
+     approche de l'écran, et non au chargement de la page. */
+  var promesse = null;
+  function chargerLeaflet() {
+    if (window.L) return Promise.resolve();
+    if (promesse) return promesse;
+    var res = window.vfAnnuaire || {};
+    promesse = new Promise(function (ok, ko) {
+      var css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = res.css;
+      document.head.appendChild(css);
+      var js = document.createElement('script');
+      js.src = res.js;
+      js.onload = ok;
+      js.onerror = ko;
+      document.head.appendChild(js);
+    });
+    return promesse;
+  }
+  function demarrer(el) { chargerLeaflet().then(function () { initialiser(el); }).catch(function () {}); }
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (e) { if (e.isIntersecting) { obs.unobserve(e.target); demarrer(e.target); } });
+    }, { rootMargin: '400px 0px' });
+    cartes.forEach(function (el) { obs.observe(el); });
+  } else {
+    cartes.forEach(demarrer);
+  }
+
+  function initialiser(el) {
     var points, couleurs;
     try { points = JSON.parse(el.getAttribute('data-points')); couleurs = JSON.parse(el.getAttribute('data-couleurs')); } catch (e) { return; }
     if (!points.length) return;
@@ -80,5 +111,5 @@
       });
     });
     setTimeout(function () { carte.invalidateSize(); }, 900);
-  });
+  }
 })();

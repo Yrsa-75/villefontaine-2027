@@ -176,7 +176,14 @@ function vf_socle_script_suggestions() {
 			'strategy'  => 'defer',
 		)
 	);
-	wp_localize_script( 'vf-socle-suggestions', 'vfSuggestions', array( 'index' => esc_url_raw( rest_url( 'vf-socle/v1/index' ) ) ) );
-	wp_enqueue_style( 'vf-socle-suggestions', VF_SOCLE_URL . 'assets/css/suggestions.css', array(), VF_SOCLE_VERSION );
+	// La feuille de style est ajoutée par le script lui-même : elle ne bloque pas l'affichage de la page.
+	wp_localize_script(
+		'vf-socle-suggestions',
+		'vfSuggestions',
+		array(
+			'index' => esc_url_raw( rest_url( 'vf-socle/v1/index' ) ),
+			'css'   => VF_SOCLE_URL . 'assets/css/suggestions.css?ver=' . VF_SOCLE_VERSION,
+		)
+	);
 }
 add_action( 'wp_enqueue_scripts', 'vf_socle_script_suggestions' );

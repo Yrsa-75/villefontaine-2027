@@ -24,7 +24,6 @@ if ( ! $vf_d['points'] ) {
 }
 $vf_apercu = defined( 'REST_REQUEST' ) && REST_REQUEST;
 if ( ! $vf_apercu ) {
-	wp_enqueue_style( 'vf-leaflet' );
 }
 $vf_id    = wp_unique_id( 'carte-' );
 $vf_titre = trim( (string) $attributes['titre'] );
