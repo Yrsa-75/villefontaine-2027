@@ -135,9 +135,26 @@
   });
 
   /* ---------- Ouverture demandée par un autre bloc (ex. recherche de l'accueil) ---------- */
+  /* Nombre de démarches dont le libellé contient le texte (sans tenir compte des accents ni des majuscules). */
+  function compter(texte) {
+    var q = normaliser(texte.trim());
+    if (!q) return 0;
+    return Array.prototype.filter.call(panneau.querySelectorAll('.panneau__liste a .libelle'), function (s) {
+      return normaliser(s.dataset.texte).indexOf(q) > -1;
+    }).length;
+  }
+  /* Si l'appelant le demande (detail.siResultats), le panneau ne s'ouvre que lorsqu'au moins une démarche
+     correspond ; detail.ouvert indique en retour s'il s'est ouvert (l'événement est traité immédiatement). */
   document.addEventListener('vf:ouvrir-demarches', function (e) {
-    champ.value = (e.detail && e.detail.recherche) || '';
+    var d = e.detail || {};
+    var texte = d.recherche || '';
+    if (d.siResultats && texte.trim() && compter(texte) === 0) {
+      d.ouvert = false;
+      return;
+    }
+    champ.value = texte;
     ouvrir();
     filtrer();
+    d.ouvert = true;
   });
 })();
