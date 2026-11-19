@@ -68,3 +68,43 @@ function vf_socle_image_sans_sizes_orphelin( $html ) {
 }
 add_filter( 'wp_get_attachment_image', 'vf_socle_image_sans_sizes_orphelin' );
 add_filter( 'post_thumbnail_html', 'vf_socle_image_sans_sizes_orphelin' );
+
+/**
+ * Images légendées : relie la légende à l'image (RGAA 1.9).
+ *
+ * La balise figure reçoit role="group" et un aria-label identique à la légende.
+ *
+ * @param string $contenu HTML du bloc image.
+ * @return string
+ */
+function vf_socle_image_legendee( $contenu ) {
+	if ( false === stripos( $contenu, '<figcaption' ) || ! preg_match( '#<figcaption[^>]*>(.*?)</figcaption>#is', $contenu, $m ) ) {
+		return $contenu;
+	}
+	$legende = trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( $m[1] ) ) );
+	if ( '' === $legende || ! class_exists( 'WP_HTML_Tag_Processor' ) ) {
+		return $contenu;
+	}
+	$p = new WP_HTML_Tag_Processor( $contenu );
+	if ( $p->next_tag( 'figure' ) ) {
+		if ( null === $p->get_attribute( 'role' ) ) {
+			$p->set_attribute( 'role', 'group' );
+		}
+		if ( null === $p->get_attribute( 'aria-label' ) ) {
+			$p->set_attribute( 'aria-label', $legende );
+		}
+	}
+	return $p->get_updated_html();
+}
+add_filter( 'render_block_core/image', 'vf_socle_image_legendee' );
+
+/**
+ * Extrait vide : rien n'est affiché plutôt qu'un paragraphe vide (RGAA 8.9).
+ *
+ * @param string $contenu HTML du bloc extrait.
+ * @return string
+ */
+function vf_socle_extrait_vide( $contenu ) {
+	return '' === trim( html_entity_decode( wp_strip_all_tags( $contenu ), ENT_QUOTES, 'UTF-8' ), " \t\n\r\0\x0B\xC2\xA0" ) ? '' : $contenu;
+}
+add_filter( 'render_block_core/post-excerpt', 'vf_socle_extrait_vide' );

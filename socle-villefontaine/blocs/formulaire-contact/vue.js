@@ -34,11 +34,17 @@
     var bouton = form.querySelector('button[type="submit"]');
     var champs = Array.prototype.slice.call(form.querySelectorAll('input:not([type="hidden"]):not([name="site_web"]), select, textarea'));
 
-    // Jeton anti-robots demandé au chargement (jamais mis en cache).
-    fetch(form.dataset.jeton, { credentials: 'same-origin', cache: 'no-store' })
-      .then(function (r) { return r.json(); })
-      .then(function (d) { jeton.value = d.jeton || ''; })
-      .catch(function () {});
+    // Jeton anti-robots demandé au chargement (jamais mis en cache), puis renouvelé toutes les 4 heures :
+    // le visiteur n'est soumis à aucune limite de temps pour remplir le formulaire (RGAA 13.1).
+    // Le nouveau jeton ne remplace l'ancien qu'après 4 secondes, car le serveur refuse un jeton trop récent.
+    function chargerJeton() {
+      fetch(form.dataset.jeton, { credentials: 'same-origin', cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { setTimeout(function () { jeton.value = d.jeton || jeton.value; }, jeton.value ? 4000 : 0); })
+        .catch(function () {});
+    }
+    chargerJeton();
+    setInterval(chargerJeton, 4 * 60 * 60 * 1000);
 
     // Une erreur signalée disparaît dès que la saisie la corrige (pendant la frappe, et non à la sortie
     // du champ : la mise en page ne bouge donc pas au moment où l'on clique sur le champ suivant).
