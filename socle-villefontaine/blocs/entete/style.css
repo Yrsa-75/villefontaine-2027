@@ -37,7 +37,7 @@
 .mega__rang2 svg { opacity: 0; transform: translateX(-4px); transition: opacity .2s, transform .25s var(--ease); }
 .mega__rang2:hover svg, .mega__rang2:focus-visible svg { opacity: 1; transform: none; }
 .mega__rang2:hover { color: var(--bleu-700); text-decoration: underline; }
-.mega__rang3 { list-style: none; margin: 8px 0 0; padding: 0 0 0 14px; border-left: 2px solid var(--bleu-100); display: grid; gap: 4px; }
+.mega__rang3 { list-style: none; margin: 0; padding: 0 0 0 14px; border-left: 2px solid var(--bleu-100); display: grid; gap: 0; }
 .mega__rang3 a { color: var(--encre-douce); text-decoration: none; font-size: 13px; display: inline-block; padding: 3px 0; transition: color .2s, transform .2s var(--ease); }
 .mega__rang3 a:hover { color: var(--bleu-700); transform: translateX(3px); text-decoration: underline; }
 .voile { position: fixed; inset: 0; background: rgba(15, 47, 55, .28); opacity: 0; visibility: hidden; transition: opacity .3s, visibility 0s .3s; z-index: 40; }
@@ -110,7 +110,7 @@
 .mega__intro { align-self: start; }
 .mega__intro:not(:has(img))::before { content: ""; display: block; height: 96px; background: radial-gradient(120% 120% at 90% 0%, rgba(167, 193, 60, .55), transparent 60%), linear-gradient(135deg, var(--bleu-700), var(--bleu-900)); }
 .mega__colonnes { display: block; columns: 3 200px; column-gap: 40px; }
-.mega__colonnes > li { break-inside: avoid; display: inline-block; width: 100%; margin: 0 0 22px; }
+.mega__colonnes > li { break-inside: avoid; display: inline-block; width: 100%; margin: 0 0 10px; }
 @media (max-width: 1180px) {
   .mega__grille { grid-template-columns: 230px minmax(0, 1fr); gap: 32px; }
   .mega__colonnes { columns: 2 200px; }

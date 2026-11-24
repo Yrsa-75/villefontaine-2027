@@ -3,7 +3,7 @@
  * Plugin Name:       Actualités Villefontaine
  * Plugin URI:        https://villefontaine.fr
  * Description:       Actualités de la ville : mise « À la une », mosaïque des dernières actualités pour l'accueil et les rubriques.
- * Version:           1.0.3
+ * Version:           1.0.4
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Requires Plugins:  socle-villefontaine
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_ACTUS_VERSION', '1.0.3' );
+define( 'VF_ACTUS_VERSION', '1.0.4' );
 define( 'VF_ACTUS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VF_ACTUS_URL', plugin_dir_url( __FILE__ ) );
 
