@@ -27,11 +27,12 @@ SURFACE_ANNEXE = '≤ 5 m² : aucune formalité\n≤ 20 m² : DPC\n> 20 m² : PC
 
 # (titre, règles, position horizontale en %, position verticale en %, texte du lien, adresse du lien)
 # Les règles reprennent telles quelles celles du schéma fourni par le service urbanisme.
+# Positions : garder au moins 8 % de largeur d'image entre deux points, pour qu'ils restent faciles à toucher sur téléphone.
 POINTS = [
     ('Toiture', 'DPC', 11.5, 44.5, '', ''),
     ('Création d’une fenêtre de toit', 'Sans création de surface : DPC', 22.3, 46, '', ''),
-    ('Pose de panneaux photovoltaïques', '# Hauteur au-dessus du sol < 1,80 m\n< 3 kW : aucune formalité\n# Hauteur au-dessus du sol > 1,80 m\n< 3 kW : DPC\n# Pour une puissance de\n≥ 3 kW et ≤ 250 kW : DPC\n≥ 250 kW : PC', 20.6, 37.5, '', ''),
-    ('Ravalement de façade', 'DPC', 16.4, 57, '', ''),
+    ('Pose de panneaux photovoltaïques', '# Hauteur au-dessus du sol < 1,80 m\n< 3 kW : aucune formalité\n# Hauteur au-dessus du sol > 1,80 m\n< 3 kW : DPC\n# Pour une puissance de\n≥ 3 kW et ≤ 250 kW : DPC\n≥ 250 kW : PC', 18.8, 37, '', ''),
+    ('Ravalement de façade', 'DPC', 16.4, 56, '', ''),
     ('Porte, fenêtre ou porte-fenêtre', 'Création : DPC\nModification d’ouverture : DPC', 17.1, 66.5, '', ''),
     ('Extension, aménagement des combles', '≤ 40 m² : DPC\n> 40 m² : PC', 34.4, 56.5, '', ''),
     ('Création d’une véranda, terrasse couverte', '≤ 5 m² : aucune formalité\n≤ 40 m² : DPC\n> 40 m² : PC', 39.5, 42.5, '', ''),
@@ -44,7 +45,7 @@ POINTS = [
     ('Habitat léger', 'Plus de 3 mois : DPA', 60, 71, '', ''),
     ('Abattage d’arbre', 'DPA si espace boisé classé, ou arbre à préserver', 55.6, 27.5, '', ''),
     ('Démolition d’une construction', 'Inclus avec le PC ou le PA, sinon PD.', 81.3, 19, '', ''),
-    ('Division de parcelle', 'DPA', 71.9, 32.8, 'Diviser un terrain : la démarche', SP + 'F37932'),
+    ('Division de parcelle', 'DPA', 89.4, 35.5, 'Diviser un terrain : la démarche', SP + 'F37932'),
 ]
 
 

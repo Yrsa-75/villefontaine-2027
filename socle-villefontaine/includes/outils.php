@@ -227,7 +227,8 @@ add_filter(
  * Schéma interactif : remplace chaque sigle connu (DPC, PC…) par sa version expliquée.
  *
  * Le sigle devient un lien vers la démarche quand une adresse est renseignée ; au survol
- * ou au clavier, une bulle affiche sa signification. Les lecteurs d'écran lisent le libellé complet.
+ * ou au clavier, une bulle affiche sa signification. Les lecteurs d'écran lisent le sigle puis sa signification
+ * (le nom accessible commence par le texte visible, pour la commande vocale).
  *
  * @param string $texte  Texte brut saisi par l'agent.
  * @param array  $sigles Sigles nettoyés : sigle => [ libelle, lienTexte, url ].
@@ -267,10 +268,10 @@ function vf_socle_schema_sigles( $texte, $sigles ) {
 function vf_socle_schema_sigle( $code, $sigle ) {
 	$bulle = '<span class="sigle__bulle" aria-hidden="true"><strong>' . esc_html( $sigle['libelle'] ) . '</strong>';
 	if ( '' === $sigle['url'] ) {
-		return '<span class="sigle" tabindex="0"><span class="sigle__code" aria-hidden="true">' . esc_html( $code ) . '</span><span class="visuellement-masque">' . esc_html( $sigle['libelle'] ) . '</span>' . $bulle . '</span></span>';
+		return '<span class="sigle" tabindex="0"><span class="sigle__code">' . esc_html( $code ) . '</span><span class="visuellement-masque"> (' . esc_html( $sigle['libelle'] ) . ')</span>' . $bulle . '</span></span>';
 	}
 	$action = '' !== $sigle['lienTexte'] ? $sigle['lienTexte'] : 'Voir la démarche';
-	return '<a class="sigle" href="' . esc_url( $sigle['url'] ) . '"' . vf_socle_attributs_lien( $sigle['url'] ) . '><span class="sigle__code" aria-hidden="true">' . esc_html( $code ) . '</span><span class="visuellement-masque">' . esc_html( $sigle['libelle'] . ' : ' . $action ) . '</span>' . vf_socle_mention_lien( $sigle['url'] ) . $bulle . '<span>' . esc_html( $action ) . '</span></span></a>';
+	return '<a class="sigle" href="' . esc_url( $sigle['url'] ) . '"' . vf_socle_attributs_lien( $sigle['url'] ) . '><span class="sigle__code">' . esc_html( $code ) . '</span><span class="visuellement-masque"> (' . esc_html( $sigle['libelle'] ) . ') : ' . esc_html( $action ) . '</span>' . vf_socle_mention_lien( $sigle['url'] ) . $bulle . '<span>' . esc_html( $action ) . '</span></span></a>';
 }
 
 /**
