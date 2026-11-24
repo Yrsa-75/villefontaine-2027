@@ -102,12 +102,25 @@ if ( '' === $vf_logo_html ) {
 </ul></nav>
 <?php endif; ?>
 <div class="entete__actions">
+<?php // La loupe ouvre un champ de recherche sous la barre (voir vue.js), sans quitter la page. Sur téléphone, le champ est dans le menu. ?>
+<button type="button" class="bouton-rond entete__loupe" aria-expanded="false" aria-controls="recherche-entete" aria-label="Rechercher sur le site"><?php echo vf_socle_icone( 'loupe', 20, 2.2 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></button>
 <?php if ( $vf_demarches ) : ?>
 <button type="button" class="bouton bouton--lueur" aria-controls="panneau-demarches" aria-expanded="false" aria-haspopup="dialog">Vos démarches <?php echo vf_socle_icone( 'fleche', 18, 2.2 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></button>
 <?php endif; ?>
 <?php if ( $vf_menu ) : ?>
 <button type="button" class="bouton-rond burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-mobile"><?php echo vf_socle_icone( 'burger', 22, 2.2 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></button>
 <?php endif; ?>
+</div>
+</div>
+<?php // Les propositions de recherche (suggestions.js) ne sont chargées qu'à la première ouverture : aucune charge pour les pages où l'on ne cherche pas. ?>
+<div class="entete__recherche" id="recherche-entete" hidden data-script="<?php echo esc_url( VF_SOCLE_URL . 'assets/js/suggestions.js?ver=' . VF_SOCLE_VERSION ); ?>" data-index="<?php echo esc_url( rest_url( 'vf-socle/v1/index' ) ); ?>" data-css="<?php echo esc_url( VF_SOCLE_URL . 'assets/css/suggestions.css?ver=' . VF_SOCLE_VERSION ); ?>">
+<div class="conteneur">
+<form class="recherche" role="search" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+<label class="visuellement-masque" for="recherche-site">Rechercher sur le site</label>
+<input id="recherche-site" name="s" type="search" placeholder="Une démarche, un service, un lieu…" autocomplete="off" required>
+<button type="submit"><?php echo vf_socle_icone( 'loupe', 20, 2.2 ); // phpcs:ignore WordPress.Security.EscapeOutput ?> Rechercher</button>
+</form>
+<button type="button" class="bouton-rond" data-fermer-recherche aria-label="Fermer la recherche"><?php echo vf_socle_icone( 'croix', 20, 2.2 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></button>
 </div>
 </div>
 </header>
@@ -122,6 +135,11 @@ if ( '' === $vf_logo_html ) {
 	<?php endif; ?>
 	<button type="button" class="bouton-rond tiroir__fermer" aria-label="Fermer le menu"><?php echo vf_socle_icone( 'croix', 20, 2.2 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></button>
 </div>
+<form class="recherche tiroir__recherche" role="search" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+<label class="visuellement-masque" for="recherche-mobile">Rechercher sur le site</label>
+<input id="recherche-mobile" name="s" type="search" placeholder="Rechercher sur le site" required>
+<button type="submit" aria-label="Lancer la recherche"><?php echo vf_socle_icone( 'loupe', 20, 2.2 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></button>
+</form>
 <nav aria-label="Menu principal, version mobile">
 	<?php foreach ( $vf_menu as $vf_r1 ) : ?>
 		<?php if ( ! $vf_r1['enfants'] ) : ?>

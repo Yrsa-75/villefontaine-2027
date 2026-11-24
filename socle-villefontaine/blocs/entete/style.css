@@ -114,3 +114,21 @@
   .mega__grille { grid-template-columns: 230px minmax(0, 1fr); gap: 32px; }
   .mega__colonnes { columns: 2 200px; }
 }
+
+/* Recherche de l'en-tête : la loupe ouvre un champ sous la barre, sans quitter la page. */
+.entete__loupe[aria-expanded="true"] { background: var(--bleu-100); border-color: var(--bleu-500); }
+.entete__recherche { position: absolute; left: 0; right: 0; top: 100%; padding: 20px 0 24px; background: var(--blanc); border-top: 1px solid var(--trait); box-shadow: 0 30px 60px rgba(15, 47, 55, .14); animation: entete-recherche .25s var(--ease); }
+.entete__recherche[hidden] { display: none; }
+.entete__recherche .conteneur { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.entete__recherche .recherche { flex: 1 1 auto; max-width: 760px; border: 1px solid var(--bleu-500); box-shadow: none; }
+.entete__recherche .recherche:focus-within { box-shadow: 0 0 0 3px var(--vert-400); }
+@keyframes entete-recherche { from { opacity: 0; transform: translateY(-8px); } }
+/* Sur téléphone, la place manque dans la barre : la recherche est en haut du menu. */
+.tiroir__recherche { margin: 16px 20px 4px; border: 1px solid var(--trait); box-shadow: none; }
+.tiroir__recherche button { min-height: 46px; padding: 0 16px; }
+@media (max-width: 760px) {
+  .entete__loupe { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .entete__recherche { animation: none; }
+}

@@ -1,4 +1,4 @@
-/* Recherche prédictive (accueil et page de résultats).
+/* Recherche prédictive (accueil, page de résultats et champ de l'en-tête).
    Modèle « combobox » des recommandations d'accessibilité (ARIA APG) :
    - flèches bas / haut : se déplacer dans les propositions ; Entrée : ouvrir la proposition choisie ;
    - Échap : fermer la liste ; le nombre de propositions est annoncé aux lecteurs d'écran.
@@ -224,5 +224,5 @@
     form.addEventListener('submit', fermer);
   }
 
-  document.querySelectorAll('.immersif form input[name="s"], .search .wp-block-search input[name="s"], main .wp-block-search input[name="s"]').forEach(installer);
+  document.querySelectorAll('.immersif form input[name="s"], .search .wp-block-search input[name="s"], main .wp-block-search input[name="s"], .entete__recherche input[name="s"]').forEach(installer);
 })();
