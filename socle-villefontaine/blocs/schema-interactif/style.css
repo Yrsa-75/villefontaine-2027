@@ -1,0 +1,101 @@
+/* Bloc « Schéma interactif » : illustration à points numérotés, fiches et sigles expliqués. */
+.schema { --point: 34px; margin-block: 1.8em; }
+.schema__consigne { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; padding: 7px 16px; border-radius: 999px; background: var(--bleu-100); color: var(--bleu-800); font-size: 13px; font-weight: 700; }
+.schema__consigne::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--vert-600); }
+
+/* Image et points */
+.schema__image { position: relative; border: 1px solid var(--trait); border-radius: var(--rayon); background: var(--blanc); }
+.schema__scene { position: relative; }
+.schema__image img { display: block; width: 100%; height: auto; border-radius: inherit; }
+.schema__point { position: absolute; left: var(--x); top: var(--y); z-index: 1; width: var(--point); height: var(--point); margin: calc(var(--point) / -2) 0 0 calc(var(--point) / -2); padding: 0; display: grid; place-items: center; border: 2px solid var(--blanc); border-radius: 50%; background: var(--bleu-700); color: var(--blanc); font-size: 14px; font-weight: 800; line-height: 1; box-shadow: 0 2px 8px rgba(7, 30, 36, .4); transition: transform .2s var(--ease), background .2s, color .2s; }
+.schema__point::after { content: ""; position: absolute; inset: -7px; border-radius: 50%; border: 2px solid var(--bleu-700); opacity: 0; animation: schema-onde 2.8s ease-out infinite; pointer-events: none; }
+.schema__point:nth-of-type(3n)::after { animation-delay: .9s; }
+.schema__point:nth-of-type(3n+1)::after { animation-delay: 1.8s; }
+.schema__point:hover, .schema__point.est-survole { z-index: 3; transform: scale(1.18); background: var(--bleu-900); }
+.schema__point[aria-expanded="true"] { z-index: 3; transform: scale(1.18); background: var(--vert-400); color: var(--bleu-900); }
+.schema__point[aria-expanded="true"]::after, .schema__point:hover::after { animation: none; }
+.schema__point:focus-visible { outline: 3px solid var(--bleu-900); outline-offset: 3px; border-radius: 50%; }
+@keyframes schema-onde { 0% { opacity: .7; transform: scale(.7); } 70%, 100% { opacity: 0; transform: scale(1.25); } }
+
+/* Fiche ouverte par un point : posée sur l'image, du côté où il y a de la place */
+.schema__bulle { position: absolute; z-index: 5; left: calc(var(--x) + 28px); top: calc(var(--y) - 24px); width: min(350px, 50%); padding: 16px 18px; border: 1px solid var(--trait); border-radius: 16px; background: var(--blanc); box-shadow: var(--ombre-forte); font-size: 14px; line-height: 1.45; animation: schema-entree .25s var(--ease); }
+.schema__bulle.est-a-gauche { left: auto; right: calc(100% - var(--x) + 28px); }
+.schema__bulle.est-en-haut { top: auto; bottom: calc(100% - var(--y) - 24px); }
+.schema__bulle[hidden] { display: none; }
+.schema__bulle:focus { outline: none; }
+.schema__bulle:focus-visible { outline: 3px solid var(--bleu-700); outline-offset: 3px; }
+.schema__bulle-titre, .schema__fiche-titre { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; color: var(--bleu-900); font-size: 15px; font-weight: 800; line-height: 1.25; }
+.schema__bulle-titre { padding-right: 30px; }
+.schema__numero { flex: 0 0 auto; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--bleu-100); color: var(--bleu-800); font-size: 12.5px; font-weight: 800; }
+.schema__fermer { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; padding: 0; display: grid; place-items: center; border: 0; border-radius: 50%; background: var(--bleu-50); color: var(--bleu-800); transition: background .2s; }
+.schema__fermer:hover { background: var(--bleu-100); }
+@keyframes schema-entree { from { opacity: 0; transform: translateY(6px); } }
+
+/* Règles d'une fiche : condition à gauche, dossier à déposer à droite */
+.schema__regles { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.regle { position: relative; display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding-top: 7px; border-top: 1px dashed var(--trait); }
+.regle:first-child, .regle--titre, .regle--titre + .regle { padding-top: 0; border-top: 0; }
+/* Pas de majuscules forcées : les unités (m, kW) doivent garder leur casse. */
+.regle--titre { display: block; margin-top: 6px; color: var(--vert-700); font-size: 12.5px; font-weight: 800; }
+.regle--titre:first-child { margin-top: 0; }
+.regle__cond { flex: 1 1 auto; }
+.regle__res { flex: 0 0 auto; max-width: 60%; font-weight: 700; text-align: right; }
+.regle--seule .regle__res { flex: 1 1 auto; max-width: none; font-weight: 600; text-align: left; }
+.regle__res--libre { color: var(--vert-700); }
+.regle__res--libre::before { content: "✓"; margin-right: 6px; }
+.regle__nom { display: block; color: var(--encre-douce); font-size: 12px; font-weight: 400; }
+.regle--seule .regle__nom { display: inline; margin-left: 4px; }
+.schema__lien { margin: 10px 0 0; font-size: 13px; font-weight: 700; }
+
+/* Sigle expliqué : pastille, avec une bulle au survol ou au clavier.
+   La bulle est ancrée à la ligne qui contient le sigle (et non au sigle lui-même) : elle ne peut pas sortir de l'écran. */
+.sigle { display: inline-block; padding: 1px 9px; border-radius: 999px; background: var(--bleu-700); color: var(--blanc); font-size: 12.5px; font-weight: 800; letter-spacing: .03em; line-height: 1.5; text-decoration: none; white-space: nowrap; cursor: help; }
+a.sigle { cursor: pointer; transition: background .2s; }
+a.sigle:hover, a.sigle:focus-visible { background: var(--bleu-900); color: var(--blanc); }
+.sigle__bulle { position: absolute; z-index: 10; left: 0; bottom: 100%; width: max-content; max-width: min(240px, 100%); display: grid; gap: 2px; padding: 9px 12px; border-radius: 10px; background: var(--bleu-900); color: var(--blanc); font-size: 12.5px; font-weight: 400; letter-spacing: 0; line-height: 1.35; text-align: left; white-space: normal; box-shadow: 0 8px 20px rgba(7, 30, 36, .3); opacity: 0; visibility: hidden; transform: translateY(4px); transition: opacity .15s, transform .15s, visibility .15s; }
+/* Zone invisible sous la bulle : le pointeur peut passer du sigle à la bulle sans qu'elle se referme. */
+.sigle__bulle::before { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 12px; }
+.sigle__bulle strong { font-weight: 700; }
+.sigle__bulle span { color: #DDEBA8; font-weight: 700; }
+.sigle__bulle span::after { content: " ↗"; }
+.sigle:hover .sigle__bulle, .sigle:focus-visible .sigle__bulle { opacity: 1; visibility: visible; transform: none; }
+.sigle.est-ferme .sigle__bulle { opacity: 0; visibility: hidden; }
+.regle:not(.regle--seule) > .regle__res .sigle__bulle { left: auto; right: 0; }
+
+/* Rappel et légende des sigles */
+.schema__rappel { position: relative; margin: 16px 0 0; padding: 14px 18px 14px 54px; border-radius: 16px; background: #FFF6DB; color: #3A2A00; font-size: 14px; line-height: 1.5; }
+.schema__rappel::before { content: ""; position: absolute; left: 18px; top: 14px; width: 22px; height: 22px; background: #8A5A00; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9v4M12 17h.01'/%3E%3Cpath d='M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9v4M12 17h.01'/%3E%3Cpath d='M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z'/%3E%3C/svg%3E") center / contain no-repeat; }
+.schema__sigles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; margin: 16px 0 0; padding: 18px 20px; border: 1px solid var(--bleu-100); border-radius: var(--rayon); background: var(--bleu-50); font-size: 13.5px; line-height: 1.45; }
+.schema__sigles > div { display: flex; align-items: baseline; gap: 10px; }
+.schema__sigles dt { flex: 0 0 auto; min-width: 46px; padding: 1px 9px; border-radius: 999px; background: var(--bleu-700); color: var(--blanc); font-size: 12.5px; font-weight: 800; letter-spacing: .03em; line-height: 1.5; text-align: center; }
+.schema__sigles dd { margin: 0; }
+.schema__sigles a { font-weight: 700; white-space: nowrap; }
+
+/* Liste complète des fiches */
+.schema__titre-liste { margin: 1.8em 0 .7em; }
+/* Deux colonnes qui se remplissent l'une après l'autre : pas de trous entre des fiches de hauteurs différentes. */
+.schema__fiches { list-style: none; margin: 0; padding: 0; column-count: 2; column-gap: 14px; font-size: 14px; line-height: 1.45; }
+.schema__fiche { break-inside: avoid; margin: 0 0 14px; padding: 16px 18px; border: 1px solid var(--trait); border-radius: 16px; background: var(--blanc); transition: border-color .2s, box-shadow .2s; }
+.schema__fiche:hover, .schema__fiche:focus-within, .schema__fiche.est-actif { border-color: var(--bleu-500); box-shadow: var(--ombre); }
+.schema__fiche.est-actif .schema__numero { background: var(--vert-400); color: var(--bleu-900); }
+
+@media (max-width: 760px) {
+  .schema { --point: 26px; }
+  .schema__point { font-size: 12px; border-width: 1.5px; }
+  .schema__point::after { display: none; }
+  /* Sur téléphone, la fiche s'affiche sous l'image plutôt que par-dessus. */
+  .schema__bulle, .schema__bulle.est-a-gauche, .schema__bulle.est-en-haut { position: relative; left: auto; right: auto; top: auto; bottom: auto; width: auto; margin: 10px; box-shadow: none; border-color: var(--bleu-500); }
+  .schema__sigles { grid-template-columns: minmax(0, 1fr); }
+  .schema__fiches { column-count: 1; }
+  .schema__consigne { border-radius: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schema__point::after, .schema__bulle { animation: none; }
+  .schema__point, .sigle__bulle { transition: none; }
+}
+
+@media print {
+  .schema__bulle, .schema__fermer, .schema__consigne { display: none; }
+  .schema__point::after { display: none; }
+}

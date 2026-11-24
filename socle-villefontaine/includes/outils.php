@@ -222,3 +222,96 @@ add_filter(
 	},
 	10
 );
+
+/**
+ * Schéma interactif : remplace chaque sigle connu (DPC, PC…) par sa version expliquée.
+ *
+ * Le sigle devient un lien vers la démarche quand une adresse est renseignée ; au survol
+ * ou au clavier, une bulle affiche sa signification. Les lecteurs d'écran lisent le libellé complet.
+ *
+ * @param string $texte  Texte brut saisi par l'agent.
+ * @param array  $sigles Sigles nettoyés : sigle => [ libelle, lienTexte, url ].
+ * @return string HTML échappé.
+ */
+function vf_socle_schema_sigles( $texte, $sigles ) {
+	$html = esc_html( $texte );
+	if ( ! $sigles ) {
+		return $html;
+	}
+	$codes = array_keys( $sigles );
+	// Les sigles les plus longs d'abord : « DPC » ne doit pas être lu comme « PC ».
+	usort(
+		$codes,
+		static function ( $a, $b ) {
+			return strlen( $b ) - strlen( $a );
+		}
+	);
+	$motif = '/(?<![\p{L}\p{N}])(' . implode( '|', array_map( 'preg_quote', $codes ) ) . ')(?![\p{L}\p{N}])/u';
+	$html  = preg_replace_callback(
+		$motif,
+		static function ( $m ) use ( $sigles ) {
+			return vf_socle_schema_sigle( $m[1], $sigles[ $m[1] ] );
+		},
+		$html
+	);
+	return null === $html ? esc_html( $texte ) : $html;
+}
+
+/**
+ * Schéma interactif : HTML d'un sigle.
+ *
+ * @param string $code  Sigle.
+ * @param array  $sigle [ libelle, lienTexte, url ].
+ * @return string
+ */
+function vf_socle_schema_sigle( $code, $sigle ) {
+	$bulle = '<span class="sigle__bulle" aria-hidden="true"><strong>' . esc_html( $sigle['libelle'] ) . '</strong>';
+	if ( '' === $sigle['url'] ) {
+		return '<span class="sigle" tabindex="0"><span class="sigle__code" aria-hidden="true">' . esc_html( $code ) . '</span><span class="visuellement-masque">' . esc_html( $sigle['libelle'] ) . '</span>' . $bulle . '</span></span>';
+	}
+	$action = '' !== $sigle['lienTexte'] ? $sigle['lienTexte'] : 'Voir la démarche';
+	return '<a class="sigle" href="' . esc_url( $sigle['url'] ) . '"' . vf_socle_attributs_lien( $sigle['url'] ) . '><span class="sigle__code" aria-hidden="true">' . esc_html( $code ) . '</span><span class="visuellement-masque">' . esc_html( $sigle['libelle'] . ' : ' . $action ) . '</span>' . vf_socle_mention_lien( $sigle['url'] ) . $bulle . '<span>' . esc_html( $action ) . '</span></span></a>';
+}
+
+/**
+ * Schéma interactif : transforme les règles saisies (une par ligne) en liste.
+ *
+ * Format d'une ligne : « condition : dossier » (ex. « ≤ 20 m² : DPC »), ou un texte seul.
+ * Une ligne qui commence par « # » est un intertitre à l'intérieur de la fiche.
+ *
+ * @param string $regles Texte saisi.
+ * @param array  $sigles Sigles nettoyés.
+ * @return string HTML échappé.
+ */
+function vf_socle_schema_regles( $regles, $sigles ) {
+	$lignes = array_filter( array_map( 'trim', preg_split( '/\R/u', (string) $regles ) ), 'strlen' );
+	if ( ! $lignes ) {
+		return '';
+	}
+	$html = '<ul class="schema__regles">';
+	foreach ( $lignes as $ligne ) {
+		if ( '#' === $ligne[0] ) {
+			$html .= '<li class="regle regle--titre">' . vf_socle_schema_sigles( trim( substr( $ligne, 1 ) ), $sigles ) . '</li>';
+			continue;
+		}
+		$condition = '';
+		$resultat  = $ligne;
+		// La dernière espace + deux-points sépare la condition du dossier à déposer.
+		if ( preg_match( '/^(.+?)\s*:\s+([^:]+)$/u', $ligne, $m ) ) {
+			$condition = $m[1];
+			$resultat  = $m[2];
+		}
+		$libre = (bool) preg_match( '/^aucune\s+formalit/iu', $resultat );
+		$res   = vf_socle_schema_sigles( $libre ? ucfirst( $resultat ) : $resultat, $sigles );
+		// Quand le résultat est un sigle seul, sa signification est écrite en toutes lettres à côté.
+		if ( isset( $sigles[ $resultat ] ) ) {
+			$res .= ' <span class="regle__nom">' . esc_html( $sigles[ $resultat ]['libelle'] ) . '</span>';
+		}
+		$html .= '<li class="regle' . ( '' === $condition ? ' regle--seule' : '' ) . '">';
+		if ( '' !== $condition ) {
+			$html .= '<span class="regle__cond">' . vf_socle_schema_sigles( $condition, $sigles ) . '</span> ';
+		}
+		$html .= '<span class="regle__res' . ( $libre ? ' regle__res--libre' : '' ) . '">' . $res . '</span></li>';
+	}
+	return $html . '</ul>';
+}

@@ -32,7 +32,7 @@
 
   /**
    * Liste modifiable (ajouter, monter, descendre, supprimer) dans la colonne de réglages.
-   * champs : [{ cle, libelle, type: 'texte' | 'url' | 'icone', aide }]
+   * champs : [{ cle, libelle, type: 'texte' | 'url' | 'icone' | 'zone' (plusieurs lignes) | 'nombre', aide, lignes, min, max }]
    */
   function liste(props, cle, champs, options) {
     options = options || {};
@@ -55,10 +55,16 @@
     return el(Fragment, null,
       items.map(function (it, i) {
         return el('div', { key: i, className: 'vf-liste-item', style: { borderTop: '1px solid #ddd', paddingTop: '12px', marginTop: '12px' } },
-          el('p', { style: { fontWeight: 600, margin: '0 0 8px' } }, (options.nomElement || 'Élément') + ' ' + (i + 1)),
+          el('p', { style: { fontWeight: 600, margin: '0 0 8px' } }, (options.nomElement || 'Élément') + ' ' + (i + 1) + (options.cleTitre && it[options.cleTitre] ? ' : ' + it[options.cleTitre] : '')),
           champs.map(function (ch) {
             if (ch.type === 'icone') {
               return el(c.SelectControl, { key: ch.cle, label: ch.libelle, value: it[ch.cle] || '', options: optionsIcones, onChange: function (v) { modifie(i, ch.cle, v); }, __nextHasNoMarginBottom: true });
+            }
+            if (ch.type === 'zone') {
+              return el(c.TextareaControl, { key: ch.cle, label: ch.libelle, help: ch.aide, rows: ch.lignes || 4, value: it[ch.cle] || '', onChange: function (v) { modifie(i, ch.cle, v); }, __nextHasNoMarginBottom: true });
+            }
+            if (ch.type === 'nombre') {
+              return el(c.TextControl, { key: ch.cle, label: ch.libelle, help: ch.aide, type: 'number', min: ch.min, max: ch.max, step: 0.5, value: it[ch.cle] === undefined ? '' : it[ch.cle], onChange: function (v) { modifie(i, ch.cle, v === '' ? '' : parseFloat(v)); }, __nextHasNoMarginBottom: true });
             }
             return el(c.TextControl, { key: ch.cle, label: ch.libelle, help: ch.aide, type: ch.type === 'url' ? 'url' : 'text', value: it[ch.cle] || '', onChange: function (v) { modifie(i, ch.cle, v); }, __nextHasNoMarginBottom: true });
           }),

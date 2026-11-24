@@ -1,0 +1,26 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "vf/schema-interactif",
+	"version": "1.5.0",
+	"title": "Schéma interactif",
+	"category": "villefontaine",
+	"icon": "location-alt",
+	"description": "Une illustration avec des points numérotés : chaque point ouvre une fiche (règles, sigles expliqués, lien vers la démarche). La liste complète des fiches est reprise sous l’image.",
+	"textdomain": "socle-villefontaine",
+	"attributes": {
+		"imageId": { "type": "number", "default": 0 },
+		"imageAlt": { "type": "string", "default": "" },
+		"consigne": { "type": "string", "default": "Cliquez sur un numéro pour connaître la règle qui s’applique." },
+		"rappel": { "type": "string", "default": "" },
+		"titreListe": { "type": "string", "default": "Toutes les règles en un coup d’œil" },
+		"niveau": { "type": "number", "default": 3 },
+		"sigles": { "type": "array", "default": [] },
+		"points": { "type": "array", "default": [] }
+	},
+	"supports": { "html": false, "reusable": false },
+	"editorScript": "vf-socle-schema-interactif-editeur",
+	"style": "file:./style.css",
+	"viewScript": "vf-socle-schema-interactif-vue",
+	"render": "file:./rendu.php"
+}

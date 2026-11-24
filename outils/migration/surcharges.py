@@ -194,3 +194,7 @@ def accessibilite(ATTACH):
     ]
 
 SURCHARGES['x-accessibilite-du-site'] = accessibilite
+
+# Démarches d'urbanisme : contenu du service urbanisme (novembre 2026) avec le schéma interactif des autorisations de travaux.
+from urbanisme import demarches_urbanisme
+SURCHARGES['demarches-urbanisme'] = demarches_urbanisme
