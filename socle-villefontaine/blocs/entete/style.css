@@ -77,7 +77,6 @@
   .entete__logo img { width: 150px; }
   .entete__actions .bouton { padding: 11px 14px; font-size: 13px; }
   .entete__actions { gap: 6px; }
-  .entete__actions .bouton-rond:first-child { display: none; }
   .entete__actions .bouton-rond { width: 44px; height: 44px; }
 }
 

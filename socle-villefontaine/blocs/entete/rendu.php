@@ -102,7 +102,6 @@ if ( '' === $vf_logo_html ) {
 </ul></nav>
 <?php endif; ?>
 <div class="entete__actions">
-<a class="bouton-rond" href="<?php echo esc_url( home_url( '/?s=' ) ); ?>" aria-label="Rechercher sur le site"><?php echo vf_socle_icone( 'loupe', 20, 2.2 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 <?php if ( $vf_demarches ) : ?>
 <button type="button" class="bouton bouton--lueur" aria-controls="panneau-demarches" aria-expanded="false" aria-haspopup="dialog">Vos démarches <?php echo vf_socle_icone( 'fleche', 18, 2.2 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></button>
 <?php endif; ?>
