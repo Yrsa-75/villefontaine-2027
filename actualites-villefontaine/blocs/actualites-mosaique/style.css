@@ -8,7 +8,7 @@
    pour laisser la photo visible tout en gardant un contraste suffisant sous les textes, quelle que soit leur longueur. */
 .tuile-actu:hover img { transform: scale(1.07); }
 /* Le bloc de texte n'est pas positionné : la zone cliquable du titre (h3 a::after) couvre ainsi toute la tuile, photo comprise. */
-.tuile-actu__corps { --fondu: 28px; padding: calc(var(--fondu) + 8px) 24px 18px; background: linear-gradient(0deg, rgba(7, 30, 36, .94) 0%, rgba(7, 30, 36, .86) calc(100% - var(--fondu) - 8px), rgba(7, 30, 36, 0) 100%); }
+.tuile-actu__corps { --fondu: 28px; padding: calc(var(--fondu) + 8px) 24px 18px; background: linear-gradient(0deg, rgba(7, 30, 36, .94) 20%, rgba(7, 30, 36, .44) calc(100% - var(--fondu) - 8px), rgba(7, 30, 36, 0) 100%); }
 .tuile-actu__theme { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lueur-vert); margin: 0 0 8px; }
 .tuile-actu h3 { font-size: 17.5px; font-weight: 750; line-height: 1.25; }
 .tuile-actu h3 a { color: var(--blanc); text-decoration: none; }
