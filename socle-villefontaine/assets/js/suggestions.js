@@ -222,6 +222,8 @@
     });
     champ.addEventListener('blur', function () { setTimeout(fermer, 150); });
     form.addEventListener('submit', fermer);
+    // Script chargé à la demande (champ de l'en-tête) : si le visiteur a déjà commencé à écrire, les propositions s'affichent tout de suite.
+    if (document.activeElement === champ && champ.value.trim().length >= 2) charger().then(afficher);
   }
 
   document.querySelectorAll('.immersif form input[name="s"], .search .wp-block-search input[name="s"], main .wp-block-search input[name="s"], .entete__recherche input[name="s"]').forEach(installer);
