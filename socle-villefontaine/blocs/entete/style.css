@@ -124,8 +124,10 @@
 .entete__recherche .recherche:focus-within { box-shadow: 0 0 0 3px var(--vert-400); }
 @keyframes entete-recherche { from { opacity: 0; transform: translateY(-8px); } }
 /* Sur téléphone, la place manque dans la barre : la recherche est en haut du menu. */
-.tiroir__recherche { margin: 16px 20px 4px; border: 1px solid var(--trait); box-shadow: none; }
-.tiroir__recherche button { min-height: 46px; padding: 0 16px; }
+/* Le champ et son bouton restent sur une ligne (ailleurs, sur téléphone, les champs de recherche s'empilent). */
+.tiroir .tiroir__recherche { flex-direction: row; margin: 16px 20px 4px; border: 1px solid var(--trait); box-shadow: none; }
+.tiroir .tiroir__recherche input { min-height: 46px; }
+.tiroir .tiroir__recherche button { min-height: 46px; padding: 0 16px; }
 @media (max-width: 760px) {
   .entete__loupe { display: none; }
 }
