@@ -4,9 +4,10 @@
 .mosaique { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: 120px; gap: 18px; }
 .tuile-actu { position: relative; border-radius: 26px; overflow: hidden; color: var(--blanc); text-decoration: none; isolation: isolate; background: var(--nuit-2); }
 .tuile-actu img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .9s var(--ease), filter .6s; }
-.tuile-actu::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(7, 30, 36, .94) 0%, rgba(7, 30, 36, .5) 45%, rgba(7, 30, 36, 0) 75%); transition: opacity .5s; }
+/* Le voile sombre n'est plus posé sur toute la tuile : il est attaché au bloc de texte (voir .tuile-actu__corps),
+   pour laisser la photo visible tout en gardant un contraste suffisant sous les textes, quelle que soit leur longueur. */
 .tuile-actu:hover img { transform: scale(1.07); }
-.tuile-actu__corps { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 24px; }
+.tuile-actu__corps { --fondu: 40px; position: absolute; left: 0; right: 0; bottom: 0; padding: calc(var(--fondu) + 8px) 24px 22px; background: linear-gradient(0deg, rgba(7, 30, 36, .94) 0%, rgba(7, 30, 36, .86) calc(100% - var(--fondu) - 8px), rgba(7, 30, 36, 0) 100%); }
 .tuile-actu__theme { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lueur-vert); margin: 0 0 8px; }
 .tuile-actu h3 { font-size: 17.5px; font-weight: 750; line-height: 1.25; }
 .tuile-actu h3 a { color: var(--blanc); text-decoration: none; }
@@ -15,7 +16,7 @@
 .tuile-actu p.resume { margin: 10px 0 0; color: #D9E6E9; font-size: 14px; max-width: 560px; }
 .tuile-actu--une { grid-column: span 7; grid-row: span 4; }
 .tuile-actu--une h3 { font-family: var(--titre); font-weight: 650; font-size: clamp(21px, 2.11vw, 30px); }
-.tuile-actu--une .tuile-actu__corps { padding: 32px; }
+.tuile-actu--une .tuile-actu__corps { --fondu: 64px; padding: calc(var(--fondu) + 8px) 32px 32px; }
 .tuile-actu--a { grid-column: span 5; grid-row: span 2; }
 .tuile-actu--b { grid-column: span 5; grid-row: span 2; }
 .tuile-actu--c { grid-column: span 6; grid-row: span 2; }
@@ -44,7 +45,8 @@
 
 /* Compléments WordPress */
 .tuile-actu__fond { position: absolute; inset: 0; z-index: -2; background: radial-gradient(120% 90% at 85% 0%, rgba(167, 193, 60, .55), transparent 55%), linear-gradient(140deg, var(--bleu-700), var(--bleu-900)); }
-.tuile-actu--sans-image::before { opacity: .55; }
+/* Sans photo, le fond est déjà sombre : un voile léger suffit. */
+.tuile-actu--sans-image .tuile-actu__corps { background: linear-gradient(0deg, rgba(7, 30, 36, .5), rgba(7, 30, 36, 0)); }
 .mosaique--3 .tuile-actu--a, .mosaique--3 .tuile-actu--b { grid-column: span 5; grid-row: span 2; }
 .pastille-une svg { flex: 0 0 auto; }
 @media (max-width: 760px) {
