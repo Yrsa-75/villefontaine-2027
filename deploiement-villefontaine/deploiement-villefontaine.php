@@ -3,7 +3,7 @@
  * Plugin Name:       Déploiement Villefontaine
  * Plugin URI:        https://github.com/Yrsa-75/villefontaine-2027
  * Description:       Installe et met à jour le thème et les plugins Villefontaine depuis le dépôt GitHub du projet, et récupère les images du site actuel. Réservé aux administrateurs.
- * Version:           1.2.2
+ * Version:           1.3.0
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            YRSA
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_DEPLOI_VERSION', '1.2.2' );
+define( 'VF_DEPLOI_VERSION', '1.3.0' );
 
 /**
  * Dépôt GitHub (public) qui contient les fichiers .zip prêts à installer dans dist/.
@@ -258,6 +258,7 @@ function vf_deploi_importer_image( $url, $alt = '' ) {
 	if ( is_wp_error( $tmp ) ) {
 		return $tmp;
 	}
+	$recadree = $calameo && vf_deploi_recadrer_couverture( $tmp );
 	$nom = $calameo ? 'couverture-' . basename( $chemin ) . '.jpg' : wp_basename( $chemin );
 	// WordPress vérifie ensuite le vrai type du fichier : un fichier qui n'est pas une image est refusé.
 	$id = media_handle_sideload( array( 'name' => sanitize_file_name( $nom ), 'tmp_name' => $tmp ), 0 );
@@ -268,10 +269,157 @@ function vf_deploi_importer_image( $url, $alt = '' ) {
 		return $id;
 	}
 	update_post_meta( $id, 'vf_source', $url );
+	if ( $recadree ) {
+		update_post_meta( $id, 'vf_recadree', 1 );
+	}
 	if ( $alt ) {
 		update_post_meta( $id, '_wp_attachment_image_alt', sanitize_text_field( $alt ) );
 	}
 	return array( 'id' => (int) $id, 'existant' => false );
+}
+
+/**
+ * Couvertures Calaméo : l'image que fournit Calaméo est une vignette de partage (1200 × 628 px)
+ * où la couverture est posée au centre d'un fond gris foncé, avec le logo Calaméo.
+ * On ne garde que la couverture, sinon elle apparaît entourée d'un cadre sombre dans le kiosque.
+ *
+ * Principe : la couleur du fond est lue dans un coin ; on cherche, depuis la gauche puis depuis le haut,
+ * le premier point qui s'en écarte nettement. La couverture étant centrée, les bords droit et bas
+ * sont symétriques (on évite ainsi l'ombre portée, plus marquée de ce côté).
+ *
+ * @param string $fichier Chemin du fichier image, modifié sur place.
+ * @return bool Vrai si l'image a été recadrée.
+ */
+function vf_deploi_recadrer_couverture( $fichier ) {
+	if ( ! function_exists( 'imagecreatefromstring' ) || ! is_readable( $fichier ) || ! wp_is_writable( $fichier ) ) {
+		return false;
+	}
+	$donnees = file_get_contents( $fichier ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- fichier local.
+	$infos   = $donnees ? getimagesizefromstring( $donnees ) : false;
+	$image   = $infos ? @imagecreatefromstring( $donnees ) : false; // phpcs:ignore WordPress.PHP.NoSilencedErrors -- un fichier illisible renvoie simplement false.
+	if ( ! $image ) {
+		return false;
+	}
+	if ( ! imageistruecolor( $image ) ) {
+		imagepalettetotruecolor( $image );
+	}
+	$largeur = imagesx( $image );
+	$hauteur = imagesy( $image );
+	// Une image déjà en portrait est une vraie couverture : on n'y touche pas.
+	if ( $largeur < 400 || $hauteur < 200 || $largeur <= $hauteur ) {
+		return false;
+	}
+	$fond  = imagecolorat( $image, 3, 3 );
+	$ecart = static function ( $x, $y ) use ( $image, $fond ) {
+		$c = imagecolorat( $image, $x, $y );
+		return abs( ( ( $c >> 16 ) & 255 ) - ( ( $fond >> 16 ) & 255 ) ) + abs( ( ( $c >> 8 ) & 255 ) - ( ( $fond >> 8 ) & 255 ) ) + abs( ( $c & 255 ) - ( $fond & 255 ) );
+	};
+	$seuil = 60; // L'ombre portée autour de la couverture s'écarte du fond de 25 au plus de ce côté.
+
+	// Bord gauche : le point le plus à gauche trouvé sur une trentaine de lignes.
+	$gauche = null;
+	for ( $y = (int) ( $hauteur * 0.15 ); $y < $hauteur * 0.85; $y += max( 1, (int) ( $hauteur / 40 ) ) ) {
+		for ( $x = 0; $x < $largeur / 2; $x++ ) {
+			if ( $ecart( $x, $y ) > $seuil ) {
+				$gauche = null === $gauche ? $x : min( $gauche, $x );
+				break;
+			}
+		}
+	}
+	if ( null === $gauche || $gauche < 8 ) {
+		return false; // Pas de fond uni autour : ce n'est pas une vignette de partage.
+	}
+	$droite = $largeur - $gauche;
+
+	// Bord haut : même recherche, sur les colonnes de la couverture.
+	$haut = null;
+	$pas  = max( 1, (int) ( ( $droite - $gauche ) / 30 ) );
+	for ( $x = $gauche + $pas; $x < $droite - $pas; $x += $pas ) {
+		for ( $y = 0; $y < $hauteur / 2; $y++ ) {
+			if ( $ecart( $x, $y ) > $seuil ) {
+				$haut = null === $haut ? $y : min( $haut, $y );
+				break;
+			}
+		}
+	}
+	if ( null === $haut ) {
+		return false;
+	}
+	$bas = $hauteur - $haut;
+
+	// Un point de marge de chaque côté : le bord de la couverture est légèrement fondu avec le fond.
+	$zone = array(
+		'x'      => $gauche + 1,
+		'y'      => $haut + 1,
+		'width'  => $droite - $gauche - 2,
+		'height' => $bas - $haut - 2,
+	);
+	if ( $zone['width'] < $largeur * 0.15 || $zone['height'] < $hauteur * 0.5 ) {
+		return false;
+	}
+	$couverture = imagecrop( $image, $zone );
+	if ( ! $couverture ) {
+		return false;
+	}
+	switch ( $infos[2] ) {
+		case IMAGETYPE_WEBP:
+			$ok = function_exists( 'imagewebp' ) && imagewebp( $couverture, $fichier, 88 );
+			break;
+		case IMAGETYPE_PNG:
+			$ok = imagepng( $couverture, $fichier );
+			break;
+		case IMAGETYPE_JPEG:
+			$ok = imagejpeg( $couverture, $fichier, 90 );
+			break;
+		default:
+			$ok = false;
+	}
+	return (bool) $ok;
+}
+
+/**
+ * Recadre les couvertures Calaméo déjà importées (une seule fois par image) et refait leurs miniatures.
+ *
+ * @return array Bilan : nombre d'images recadrées, ignorées, et détail.
+ */
+function vf_deploi_recadrer_couvertures_existantes() {
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	global $wpdb;
+	$ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- action ponctuelle d'administration.
+		$wpdb->prepare(
+			"SELECT p.ID FROM {$wpdb->posts} p INNER JOIN {$wpdb->postmeta} m ON m.post_id = p.ID WHERE p.post_type = 'attachment' AND m.meta_key = 'vf_source' AND m.meta_value LIKE %s ORDER BY p.ID",
+			$wpdb->esc_like( 'https://www.calameo.com/books/social/cover/' ) . '%'
+		)
+	);
+	$bilan = array( 'recadrees' => 0, 'ignorees' => 0, 'detail' => array() );
+	foreach ( $ids as $id ) {
+		$id      = (int) $id;
+		$fichier = get_attached_file( $id );
+		if ( get_post_meta( $id, 'vf_recadree', true ) || ! $fichier || ! file_exists( $fichier ) ) {
+			++$bilan['ignorees'];
+			continue;
+		}
+		$anciennes = wp_get_attachment_metadata( $id );
+		if ( ! vf_deploi_recadrer_couverture( $fichier ) ) {
+			++$bilan['ignorees'];
+			$bilan['detail'][] = array( 'id' => $id, 'recadree' => false );
+			continue;
+		}
+		// Les anciennes miniatures (au format paysage) ne servent plus.
+		if ( ! empty( $anciennes['sizes'] ) ) {
+			foreach ( $anciennes['sizes'] as $taille ) {
+				if ( ! empty( $taille['file'] ) ) {
+					wp_delete_file( trailingslashit( dirname( $fichier ) ) . wp_basename( $taille['file'] ) );
+				}
+			}
+		}
+		$nouvelles = wp_generate_attachment_metadata( $id, $fichier );
+		wp_update_attachment_metadata( $id, $nouvelles );
+		update_post_meta( $id, 'vf_recadree', 1 );
+		++$bilan['recadrees'];
+		$bilan['detail'][] = array( 'id' => $id, 'recadree' => true, 'largeur' => (int) ( $nouvelles['width'] ?? 0 ), 'hauteur' => (int) ( $nouvelles['height'] ?? 0 ) );
+	}
+	return $bilan;
 }
 
 require_once __DIR__ . '/migration.php';
@@ -332,6 +480,17 @@ add_action(
 						default:
 							return rest_ensure_response( vf_deploi_finaliser_migration() );
 					}
+				},
+			)
+		);
+		register_rest_route(
+			'vf-deploiement/v1',
+			'/couvertures',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => $droits,
+				'callback'            => function () {
+					return rest_ensure_response( vf_deploi_recadrer_couvertures_existantes() );
 				},
 			)
 		);

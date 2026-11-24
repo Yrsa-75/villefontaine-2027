@@ -14,9 +14,9 @@
             vf.texte(props, 'titre', 'Titre'),
             vf.texte(props, 'titreAccent', 'Fin du titre (en dégradé de couleur)')
           ),
-          el(c.PanelBody, { title: 'Info flash', initialOpen: false },
-            el('p', null, 'Laissez le texte vide pour masquer l’info flash.'),
-            vf.texte(props, 'flashTexte', 'Texte de l’info flash'),
+          el(c.PanelBody, { title: 'Info du jour', initialOpen: false },
+            el('p', null, 'Laissez le texte vide pour masquer l’info du jour.'),
+            vf.texte(props, 'flashTexte', 'Texte de l’info du jour'),
             vf.texte(props, 'flashUrl', 'Lien (facultatif)')
           ),
           el(c.PanelBody, { title: 'Recherches fréquentes', initialOpen: false },

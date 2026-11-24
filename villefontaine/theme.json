@@ -96,11 +96,11 @@
 				}
 			],
 			"fontSizes": [
-				{ "slug": "petit", "size": "15px", "name": "Petit", "fluid": false },
-				{ "slug": "normal", "size": "17px", "name": "Normal", "fluid": false },
-				{ "slug": "moyen", "size": "20px", "name": "Moyen", "fluid": false },
-				{ "slug": "grand", "size": "26px", "name": "Grand", "fluid": { "min": "22px", "max": "26px" } },
-				{ "slug": "tres-grand", "size": "38px", "name": "Très grand", "fluid": { "min": "28px", "max": "38px" } }
+				{ "slug": "petit", "size": "13px", "name": "Petit", "fluid": false },
+				{ "slug": "normal", "size": "15px", "name": "Normal", "fluid": false },
+				{ "slug": "moyen", "size": "17.5px", "name": "Moyen", "fluid": false },
+				{ "slug": "grand", "size": "23px", "name": "Grand", "fluid": { "min": "19.5px", "max": "23px" } },
+				{ "slug": "tres-grand", "size": "33.5px", "name": "Très grand", "fluid": { "min": "24.5px", "max": "33.5px" } }
 			]
 		},
 		"blocks": {
@@ -135,17 +135,17 @@
 				"typography": { "fontWeight": "800", "lineHeight": "1.2" }
 			},
 			"h1": {
-				"typography": { "fontFamily": "var(--wp--preset--font-family--unbounded)", "fontWeight": "700", "fontSize": "clamp(32px, 4.4vw, 54px)", "letterSpacing": "-0.02em" }
+				"typography": { "fontFamily": "var(--wp--preset--font-family--unbounded)", "fontWeight": "700", "fontSize": "clamp(25.5px, 3.52vw, 43px)", "letterSpacing": "-0.02em" }
 			},
 			"h2": {
-				"typography": { "fontFamily": "var(--wp--preset--font-family--unbounded)", "fontWeight": "700", "fontSize": "clamp(24px, 2.6vw, 32px)", "letterSpacing": "-0.02em" }
+				"typography": { "fontFamily": "var(--wp--preset--font-family--unbounded)", "fontWeight": "700", "fontSize": "clamp(21px, 2.29vw, 28px)", "letterSpacing": "-0.02em" }
 			},
-			"h3": { "typography": { "fontSize": "22px" } },
-			"h4": { "typography": { "fontSize": "19px" } },
+			"h3": { "typography": { "fontSize": "19.5px" } },
+			"h4": { "typography": { "fontSize": "16.5px" } },
 			"button": {
 				"color": { "background": "var(--wp--preset--color--bleu-700)", "text": "var(--wp--preset--color--blanc)" },
 				"border": { "radius": "999px" },
-				"typography": { "fontWeight": "700", "fontSize": "16px" },
+				"typography": { "fontWeight": "700", "fontSize": "14px" },
 				"spacing": { "padding": { "top": "13px", "bottom": "13px", "left": "24px", "right": "24px" } },
 				":hover": { "color": { "background": "var(--wp--preset--color--bleu-800)" } }
 			}

@@ -7,16 +7,16 @@
 .vf-trombi__photo { width: 100%; max-width: 170px; aspect-ratio: 1; margin: 0 auto 14px; border-radius: 50%; overflow: hidden; background: var(--bleu-100); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 5px var(--blanc), 0 0 0 6px var(--trait); transition: box-shadow .3s var(--ease), transform .4s var(--ease); }
 .vf-trombi__personne:hover .vf-trombi__photo { box-shadow: 0 0 0 5px var(--blanc), 0 0 0 7px var(--vert-600); transform: translateY(-3px); }
 .vf-trombi__photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
-.vf-trombi__initiales { font-family: var(--wp--preset--font-family--unbounded); font-size: 34px; font-weight: 700; color: var(--bleu-700); }
-.vf-trombi__nom { margin: 0 0 4px; font-weight: 800; font-size: 17px; line-height: 1.3; color: var(--bleu-900); }
-.vf-trombi__fonction { margin: 0; font-size: 14.5px; line-height: 1.45; color: var(--encre-douce); }
-.vf-trombi__mention { display: inline-block; margin: 8px 0 0; padding: 3px 10px; border-radius: 99px; background: var(--vert-100); color: var(--vert-700); font-size: 12.5px; font-weight: 700; }
+.vf-trombi__initiales { font-family: var(--wp--preset--font-family--unbounded); font-size: 30px; font-weight: 700; color: var(--bleu-700); }
+.vf-trombi__nom { margin: 0 0 4px; font-weight: 800; font-size: 15px; line-height: 1.3; color: var(--bleu-900); }
+.vf-trombi__fonction { margin: 0; font-size: 13px; line-height: 1.45; color: var(--encre-douce); }
+.vf-trombi__mention { display: inline-block; margin: 8px 0 0; padding: 3px 10px; border-radius: 99px; background: var(--vert-100); color: var(--vert-700); font-size: 12px; font-weight: 700; }
 /* Mise en avant : grande carte horizontale */
 .vf-trombi--vedette .vf-trombi__liste { display: block; }
 .vf-trombi--vedette .vf-trombi__personne { display: flex; align-items: center; gap: 32px; text-align: left; padding: 28px; border-radius: var(--rayon); background: linear-gradient(135deg, var(--bleu-100), var(--blanc)); border: 1px solid var(--trait); }
 .vf-trombi--vedette .vf-trombi__photo { flex: 0 0 200px; max-width: 200px; margin: 0; }
-.vf-trombi--vedette .vf-trombi__nom { font-family: var(--wp--preset--font-family--unbounded); font-size: 26px; font-weight: 700; }
-.vf-trombi--vedette .vf-trombi__fonction { font-size: 17px; }
+.vf-trombi--vedette .vf-trombi__nom { font-family: var(--wp--preset--font-family--unbounded); font-size: 23px; font-weight: 700; }
+.vf-trombi--vedette .vf-trombi__fonction { font-size: 15px; }
 @media (max-width: 600px) {
 	.vf-trombi__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; }
 	.vf-trombi--vedette .vf-trombi__personne { flex-direction: column; text-align: center; padding: 22px; }

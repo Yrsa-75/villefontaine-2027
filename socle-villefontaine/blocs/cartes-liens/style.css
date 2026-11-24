@@ -9,11 +9,11 @@
 .vf-carte-lien__icone { margin: 22px 22px 0; width: 54px; height: 54px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: var(--vert-100); color: var(--vert-700); transition: background .3s, color .3s, transform .4s var(--ease); }
 .vf-carte-lien:hover .vf-carte-lien__icone { background: var(--bleu-700); color: var(--blanc); transform: rotate(-6deg); }
 .vf-carte-lien__corps { padding: 18px 22px 24px; padding-right: 56px; }
-.vf-carte-lien h3 { font-family: var(--wp--preset--font-family--figtree); font-size: 19px; font-weight: 800; letter-spacing: 0; margin: 0 0 6px; line-height: 1.3; }
+.vf-carte-lien h3 { font-family: var(--wp--preset--font-family--figtree); font-size: 16.5px; font-weight: 800; letter-spacing: 0; margin: 0 0 6px; line-height: 1.3; }
 .vf-carte-lien h3 a { color: var(--bleu-900); text-decoration: none; }
 .vf-carte-lien h3 a::after { content: ""; position: absolute; inset: 0; }
 .vf-carte-lien:hover h3 a { text-decoration: underline; text-underline-offset: 3px; }
-.vf-carte-lien p { margin: 0; font-size: 15.5px; color: var(--encre-douce); }
+.vf-carte-lien p { margin: 0; font-size: 13.5px; color: var(--encre-douce); }
 .vf-carte-lien__fleche { position: absolute; right: 18px; bottom: 22px; color: var(--bleu-700); transition: transform .25s var(--ease); }
 .vf-carte-lien:hover .vf-carte-lien__fleche { transform: translateX(4px); }
 @media (max-width: 960px) { .vf-cartes--3, .vf-cartes--4 { --col: 2; } }

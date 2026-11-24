@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "vf/bandeau-page",
-	"version": "1.2.2",
+	"version": "1.4.6",
 	"title": "Bandeau de page",
 	"category": "villefontaine",
 	"icon": "cover-image",

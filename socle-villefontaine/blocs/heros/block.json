@@ -2,11 +2,11 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "vf/heros",
-	"version": "1.4.3",
+	"version": "1.4.6",
 	"title": "Grand visuel d’accueil",
 	"category": "villefontaine",
 	"icon": "cover-image",
-	"description": "Grande photo d’accueil avec le titre, l’info flash et la recherche. À placer une seule fois, en haut de la page d’accueil.",
+	"description": "Grande photo d’accueil avec le titre, l’info du jour et la recherche. À placer une seule fois, en haut de la page d’accueil.",
 	"textdomain": "socle-villefontaine",
 	"attributes": {
 		"imageId": {

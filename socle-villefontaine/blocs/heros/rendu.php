@@ -49,9 +49,9 @@ $vf_url   = trim( (string) $attributes['flashUrl'] );
 <div class="immersif__bloc heros__contenu">
 <?php if ( '' !== $vf_flash ) : ?>
 	<?php if ( '' !== $vf_url ) : ?>
-	<a class="capsule" href="<?php echo esc_url( $vf_url ); ?>"<?php echo vf_socle_attributs_lien( $vf_url ); // phpcs:ignore WordPress.Security.EscapeOutput ?>><b>Info flash</b> <?php echo esc_html( $vf_flash ); ?><?php echo vf_socle_mention_lien( $vf_url ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
+	<a class="capsule" href="<?php echo esc_url( $vf_url ); ?>"<?php echo vf_socle_attributs_lien( $vf_url ); // phpcs:ignore WordPress.Security.EscapeOutput ?>><b>Info du jour</b> <?php echo esc_html( $vf_flash ); ?><?php echo vf_socle_mention_lien( $vf_url ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
 	<?php else : ?>
-	<p class="capsule"><b>Info flash</b> <?php echo esc_html( $vf_flash ); ?></p>
+	<p class="capsule"><b>Info du jour</b> <?php echo esc_html( $vf_flash ); ?></p>
 	<?php endif; ?>
 <?php endif; ?>
 <?php if ( '' !== trim( $attributes['surtitre'] ) ) : ?>

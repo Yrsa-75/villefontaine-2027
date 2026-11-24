@@ -1,12 +1,12 @@
 /* Bloc « Dans la même rubrique » */
 .vf-rubrique { padding: 22px 24px; border-radius: var(--rayon); background: var(--blanc); border: 1px solid var(--trait); }
-.vf-rubrique__surtitre { margin: 0 0 4px; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--vert-700); }
-.vf-rubrique__titre { margin: 0 0 12px; font-size: 19px; line-height: 1.3; }
+.vf-rubrique__surtitre { margin: 0 0 4px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--vert-700); }
+.vf-rubrique__titre { margin: 0 0 12px; font-size: 16.5px; line-height: 1.3; }
 .vf-rubrique__titre a { color: var(--bleu-900); text-decoration: none; }
 .vf-rubrique__titre a:hover { text-decoration: underline; }
 .vf-rubrique ul { list-style: none; margin: 0; padding: 0; }
 .vf-rubrique li { margin: 0; border-top: 1px solid var(--trait); }
-.vf-rubrique li a { display: block; padding: 10px 0 10px 16px; position: relative; color: var(--encre); text-decoration: none; font-size: 15.5px; line-height: 1.4; }
+.vf-rubrique li a { display: block; padding: 10px 0 10px 16px; position: relative; color: var(--encre); text-decoration: none; font-size: 13.5px; line-height: 1.4; }
 .vf-rubrique li a::before { content: ""; position: absolute; left: 2px; top: 1.05em; width: 6px; height: 6px; border-top: 2px solid var(--vert-600); border-right: 2px solid var(--vert-600); transform: rotate(45deg); }
 .vf-rubrique li a:hover { color: var(--bleu-800); text-decoration: underline; }
 .vf-rubrique li a[aria-current="page"] { font-weight: 800; color: var(--bleu-900); }

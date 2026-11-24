@@ -1,20 +1,20 @@
 /* Styles repris de la maquette V3 validée (actus) */
 .actus { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: auto auto; gap: 22px; }
-.pastille-une { position: absolute; top: 18px; left: 18px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; background: var(--vert-400); color: var(--bleu-900); font-weight: 800; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; padding: 7px 12px; border-radius: 999px; }
+.pastille-une { position: absolute; top: 18px; left: 18px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; background: var(--vert-400); color: var(--bleu-900); font-weight: 800; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; padding: 7px 12px; border-radius: 999px; }
 .mosaique { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: 120px; gap: 18px; }
 .tuile-actu { position: relative; border-radius: 26px; overflow: hidden; color: var(--blanc); text-decoration: none; isolation: isolate; background: var(--nuit-2); }
 .tuile-actu img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .9s var(--ease), filter .6s; }
 .tuile-actu::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(7, 30, 36, .94) 0%, rgba(7, 30, 36, .5) 45%, rgba(7, 30, 36, 0) 75%); transition: opacity .5s; }
 .tuile-actu:hover img { transform: scale(1.07); }
 .tuile-actu__corps { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 24px; }
-.tuile-actu__theme { display: inline-block; font-size: 12.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lueur-vert); margin: 0 0 8px; }
-.tuile-actu h3 { font-size: 20px; font-weight: 750; line-height: 1.25; }
+.tuile-actu__theme { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lueur-vert); margin: 0 0 8px; }
+.tuile-actu h3 { font-size: 17.5px; font-weight: 750; line-height: 1.25; }
 .tuile-actu h3 a { color: var(--blanc); text-decoration: none; }
 .tuile-actu h3 a::after { content: ""; position: absolute; inset: 0; }
 .tuile-actu:hover h3 a { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
-.tuile-actu p.resume { margin: 10px 0 0; color: #D9E6E9; font-size: 16px; max-width: 560px; }
+.tuile-actu p.resume { margin: 10px 0 0; color: #D9E6E9; font-size: 14px; max-width: 560px; }
 .tuile-actu--une { grid-column: span 7; grid-row: span 4; }
-.tuile-actu--une h3 { font-family: var(--titre); font-weight: 650; font-size: clamp(24px, 2.4vw, 34px); }
+.tuile-actu--une h3 { font-family: var(--titre); font-weight: 650; font-size: clamp(21px, 2.11vw, 30px); }
 .tuile-actu--une .tuile-actu__corps { padding: 32px; }
 .tuile-actu--a { grid-column: span 5; grid-row: span 2; }
 .tuile-actu--b { grid-column: span 5; grid-row: span 2; }

@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "vf/contact-carte",
-	"version": "1.1.0",
+	"version": "1.4.6",
 	"title": "Carte contact",
 	"category": "villefontaine",
 	"icon": "id",

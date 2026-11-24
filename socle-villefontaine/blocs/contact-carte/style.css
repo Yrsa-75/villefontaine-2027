@@ -1,6 +1,6 @@
 /* Bloc « Carte contact » */
 .vf-contact-carte { margin: 1.4em 0; padding: 22px 24px; border-radius: var(--rayon); background: var(--bleu-50); border-left: 4px solid var(--bleu-700); }
-.vf-contact-carte__titre { font-weight: 800; font-size: 19px; color: var(--bleu-900); margin: 0 0 6px; }
+.vf-contact-carte__titre { font-weight: 800; font-size: 16.5px; color: var(--bleu-900); margin: 0 0 6px; }
 .vf-contact-carte > p { margin: 0 0 10px; }
 .vf-contact-carte ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .vf-contact-carte li { display: flex; gap: 10px; align-items: flex-start; }
