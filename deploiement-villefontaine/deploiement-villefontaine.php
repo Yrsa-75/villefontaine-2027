@@ -3,7 +3,7 @@
  * Plugin Name:       Déploiement Villefontaine
  * Plugin URI:        https://github.com/Yrsa-75/villefontaine-2027
  * Description:       Installe et met à jour le thème et les plugins Villefontaine depuis le dépôt GitHub du projet, et récupère les images du site actuel. Réservé aux administrateurs.
- * Version:           1.3.0
+ * Version:           1.3.1
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            YRSA
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_DEPLOI_VERSION', '1.3.0' );
+define( 'VF_DEPLOI_VERSION', '1.3.1' );
 
 /**
  * Dépôt GitHub (public) qui contient les fichiers .zip prêts à installer dans dist/.
@@ -469,11 +469,13 @@ add_action(
 				'args'                => array(
 					'etape' => array( 'required' => true, 'type' => 'string', 'enum' => array( 'pages', 'finaliser', 'actualites', 'evenements' ) ),
 					'debut' => array( 'type' => 'integer', 'default' => 0, 'minimum' => 0 ),
+					// Étape « pages » uniquement : clé d'une seule page du lot à créer ou mettre à jour (les autres restent intactes).
+					'cle'   => array( 'type' => 'string', 'default' => '' ),
 				),
 				'callback'            => function ( WP_REST_Request $r ) {
 					switch ( $r['etape'] ) {
 						case 'pages':
-							return rest_ensure_response( vf_deploi_migrer_pages( (int) $r['debut'] ) );
+							return rest_ensure_response( vf_deploi_migrer_pages( (int) $r['debut'], sanitize_key( (string) $r['cle'] ) ) );
 						case 'actualites':
 						case 'evenements':
 							return rest_ensure_response( vf_deploi_migrer_contenus( $r['etape'], (int) $r['debut'] ) );

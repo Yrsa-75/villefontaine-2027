@@ -96,9 +96,10 @@ function vf_deploi_medias_contenu( $contenu, array &$erreurs ) {
  * Crée ou met à jour les pages du lot, à partir de la position $debut, pendant 40 secondes au plus.
  *
  * @param int $debut Position de départ.
+ * @param string $seule Clé d'une seule page à traiter (vide = tout le lot).
  * @return array
  */
-function vf_deploi_migrer_pages( $debut ) {
+function vf_deploi_migrer_pages( $debut, $seule = '' ) {
 	$lot = vf_deploi_lot_migration();
 	if ( is_wp_error( $lot ) ) {
 		return array( 'erreur' => $lot->get_error_message() );
@@ -116,6 +117,10 @@ function vf_deploi_migrer_pages( $debut ) {
 		}
 		$p        = $pages[ $i ];
 		$cle      = sanitize_key( $p['cle'] );
+		// Une seule page demandée (création ou mise à jour ciblée) : les autres ne sont pas touchées.
+		if ( '' !== $seule && $cle !== $seule ) {
+			continue;
+		}
 		$id       = vf_deploi_page_par_cle( $cle );
 		$parent   = ! empty( $p['parent'] ) ? vf_deploi_page_par_cle( sanitize_key( $p['parent'] ) ) : 0;
 		$contenu  = vf_deploi_medias_contenu( (string) $p['contenu'], $erreurs );

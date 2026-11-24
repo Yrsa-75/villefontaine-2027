@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "vf/formulaire-contact",
-	"version": "1.4.6",
+	"version": "1.5.3",
 	"title": "Formulaire de contact",
 	"category": "villefontaine",
 	"icon": "email",
@@ -11,7 +11,8 @@
 	"attributes": {
 		"titre": { "type": "string", "default": "Écrire à la mairie" },
 		"intro": { "type": "string", "default": "" },
-		"destinataires": { "type": "array", "default": [] }
+		"destinataires": { "type": "array", "default": [] },
+		"modele": { "type": "string", "enum": [ "contact", "signalement" ], "default": "contact" }
 	},
 	"supports": { "html": false, "reusable": false, "multiple": false },
 	"editorScript": "vf-socle-formulaire-contact-editeur",

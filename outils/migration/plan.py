@@ -120,6 +120,7 @@ DEMARCHES = ('demarches', 'Vos démarches', 'Toutes les démarches administrativ
 # Pages hors menu (pied de page, utilitaires).
 HORS_MENU = [
     ('contact', 'Contact', 'contact', ['contact'], {'pleine': True}),
+    ('signalement', 'Signalement', 'signalement', ['x-signalement'], {'pleine': True, 'extrait': 'Un problème sur l’espace public ? Signalez-le à la mairie en quelques clics.', 'icone': 'signal'}),
     ('mentions-legales', 'Mentions légales', 'mentions-legales', ['mentions-legales'], {'pleine': True}),
     ('accessibilite-du-site', 'Accessibilité du site', 'accessibilite-du-site', ['x-accessibilite-du-site'], {'extrait': 'Adapter l’affichage à vos besoins et déclaration d’accessibilité du site villefontaine.fr.'}),
     ('plan-du-site', 'Plan du site', 'plan-du-site', ['plan-site'], {'pleine': True, 'extrait': 'Toutes les pages du site, rubrique par rubrique.'}),

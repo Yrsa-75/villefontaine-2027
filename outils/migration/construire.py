@@ -16,7 +16,7 @@ IMAGES_RUBRIQUES = {
 items = json.load(open('items.json'))
 PAGES = {p['slug']: p for p in items if p['type'] == 'page' and p['statut'] == 'publish'}
 # Pages nouvelles, sans équivalent sur l'ancien site : contenu entièrement écrit dans surcharges.py.
-for _cle in ('x-accessibilite-du-site',):
+for _cle in ('x-accessibilite-du-site', 'x-signalement'):
     PAGES[_cle] = {'slug': _cle, 'titre': '', 'meta': {}, 'contenu': '', 'extrait': '', 'lien': '/' + _cle + '/', 'id': 0, 'parent': 0, 'type': 'page', 'statut': 'publish'}
 ATTACH = {p['id']: p for p in items if p['type'] == 'attachment'}
 PAR_ID = {p['id']: p for p in items if p['type'] == 'page'}

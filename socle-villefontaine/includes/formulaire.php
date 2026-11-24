@@ -132,21 +132,7 @@ function vf_socle_recevoir_contact( WP_REST_Request $r ) {
 		return new WP_Error( 'limite', 'Vous avez envoyé plusieurs messages en peu de temps. Merci de patienter un quart d’heure.', array( 'status' => 429 ) );
 	}
 
-	// 4. Données.
-	$nom      = sanitize_text_field( (string) $r->get_param( 'nom' ) );
-	$courriel = sanitize_email( (string) $r->get_param( 'courriel' ) );
-	$tel      = sanitize_text_field( (string) $r->get_param( 'telephone' ) );
-	$objet    = sanitize_text_field( (string) $r->get_param( 'objet' ) );
-	$message  = sanitize_textarea_field( (string) $r->get_param( 'message' ) );
-	$accord   = (bool) $r->get_param( 'accord' );
-	if ( ! $nom || ! is_email( $courriel ) || ! $objet || ! $message || ! $accord ) {
-		return new WP_Error( 'champs', 'Certains champs obligatoires sont vides ou incorrects.', array( 'status' => 400 ) );
-	}
-	if ( mb_strlen( $message ) > 5000 || mb_strlen( $nom . $objet ) > 400 ) {
-		return new WP_Error( 'champs', 'Votre message est trop long (5 000 caractères au plus).', array( 'status' => 400 ) );
-	}
-
-	// 5. Destinataire lu dans la page elle-même : impossible d'envoyer à une adresse choisie par le visiteur.
+	// 4. Destinataire et modèle lus dans la page elle-même : impossible d'envoyer à une adresse choisie par le visiteur.
 	$page = get_post( (int) $r->get_param( 'page' ) );
 	if ( ! $page || 'publish' !== $page->post_status ) {
 		return $refus;
@@ -166,7 +152,26 @@ function vf_socle_recevoir_contact( WP_REST_Request $r ) {
 	if ( ! isset( $services[ $index ] ) ) {
 		return $refus;
 	}
-	$service = $services[ $index ];
+	$service     = $services[ $index ];
+	$signalement = 'signalement' === ( $bloc['attrs']['modele'] ?? 'contact' );
+
+	// 5. Données.
+	$nom      = sanitize_text_field( (string) $r->get_param( 'nom' ) );
+	$courriel = sanitize_email( (string) $r->get_param( 'courriel' ) );
+	$tel      = sanitize_text_field( (string) $r->get_param( 'telephone' ) );
+	$lieu     = $signalement ? sanitize_text_field( (string) $r->get_param( 'lieu' ) ) : '';
+	$message  = sanitize_textarea_field( (string) $r->get_param( 'message' ) );
+	$accord   = (bool) $r->get_param( 'accord' );
+	// Signalement : pas de champ « objet », il est rédigé à partir de la nature et du lieu.
+	$objet = $signalement
+		? ( $lieu ? 'Signalement : ' . $service['libelle'] . ' (' . mb_substr( $lieu, 0, 120 ) . ')' : '' )
+		: sanitize_text_field( (string) $r->get_param( 'objet' ) );
+	if ( ! $nom || ! is_email( $courriel ) || ! $objet || ! $message || ! $accord ) {
+		return new WP_Error( 'champs', 'Certains champs obligatoires sont vides ou incorrects.', array( 'status' => 400 ) );
+	}
+	if ( mb_strlen( $message ) > 5000 || mb_strlen( $nom . $objet . $lieu ) > 600 ) {
+		return new WP_Error( 'champs', 'Votre message est trop long (5 000 caractères au plus).', array( 'status' => 400 ) );
+	}
 
 	// 6. Conservation dans l'admin.
 	$id = wp_insert_post(
@@ -184,11 +189,18 @@ function vf_socle_recevoir_contact( WP_REST_Request $r ) {
 		update_post_meta( $id, 'vf_tel', $tel );
 		update_post_meta( $id, 'vf_service', $service['libelle'] );
 		update_post_meta( $id, 'vf_page', $page->ID );
+		if ( $signalement ) {
+			update_post_meta( $id, 'vf_lieu', $lieu );
+		}
 	}
 
 	// 7. Envoi au service, avec « Répondre » directement au visiteur.
 	$corps  = "Nouveau message reçu depuis le site (page « " . get_the_title( $page ) . " »).\n\n";
-	$corps .= "Service : {$service['libelle']}\nNom : {$nom}\nCourriel : {$courriel}\n" . ( $tel ? "Téléphone : {$tel}\n" : '' ) . "Objet : {$objet}\n\n{$message}\n\n";
+	if ( $signalement ) {
+		$corps .= "Nature du signalement : {$service['libelle']}\nLieu concerné : {$lieu}\nNom : {$nom}\nCourriel : {$courriel}\n" . ( $tel ? "Téléphone : {$tel}\n" : '' ) . "\n{$message}\n\n";
+	} else {
+		$corps .= "Service : {$service['libelle']}\nNom : {$nom}\nCourriel : {$courriel}\n" . ( $tel ? "Téléphone : {$tel}\n" : '' ) . "Objet : {$objet}\n\n{$message}\n\n";
+	}
 	$corps .= "Pour répondre, utilisez simplement « Répondre » dans votre messagerie.\n";
 	if ( ! is_wp_error( $id ) ) {
 		$corps .= 'Message conservé dans l’admin : ' . admin_url( 'post.php?post=' . $id . '&action=edit' ) . "\n";
@@ -255,7 +267,12 @@ add_action(
 			return (string) get_post_meta( $post->ID, $k, true );
 		};
 		echo '<div class="postbox" style="margin-top:16px;padding:16px 20px">';
-		echo '<p><strong>Service :</strong> ' . esc_html( $m( 'vf_service' ) ) . '</p>';
+		if ( '' !== $m( 'vf_lieu' ) ) {
+			echo '<p><strong>Nature du signalement :</strong> ' . esc_html( $m( 'vf_service' ) ) . '</p>';
+			echo '<p><strong>Lieu concerné :</strong> ' . esc_html( $m( 'vf_lieu' ) ) . '</p>';
+		} else {
+			echo '<p><strong>Service :</strong> ' . esc_html( $m( 'vf_service' ) ) . '</p>';
+		}
 		echo '<p><strong>Expéditeur :</strong> ' . esc_html( $m( 'vf_nom' ) ) . ' (<a href="mailto:' . esc_attr( $m( 'vf_courriel' ) ) . '?subject=' . rawurlencode( 'Re : ' . $post->post_title ) . '">' . esc_html( $m( 'vf_courriel' ) ) . '</a>)' . ( $m( 'vf_tel' ) ? ', ' . esc_html( $m( 'vf_tel' ) ) : '' ) . '</p>';
 		if ( $m( 'vf_page' ) ) {
 			echo '<p><strong>Envoyé depuis :</strong> <a href="' . esc_url( get_permalink( (int) $m( 'vf_page' ) ) ) . '">' . esc_html( get_the_title( (int) $m( 'vf_page' ) ) ) . '</a></p>';

@@ -10,10 +10,18 @@
     service: 'Choisissez le service à contacter.',
     accord: 'Cochez la case pour accepter l’utilisation de vos informations.'
   };
+  // Variantes du modèle « signalement ».
+  var SIGNALEMENT = {
+    service: 'Choisissez la nature du signalement.',
+    lieu: 'Indiquez le lieu concerné : une adresse ou un repère proche.',
+    message: 'Décrivez le problème constaté.'
+  };
+
 
   function erreurDe(champ) {
     var v = champ.type === 'checkbox' ? champ.checked : champ.value.trim();
-    if (champ.required && !v) return MESSAGES[champ.name];
+    var sig = champ.form && champ.form.dataset.modele === 'signalement';
+    if (champ.required && !v) return (sig && SIGNALEMENT[champ.name]) || MESSAGES[champ.name];
     if (champ.name === 'courriel' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return MESSAGES.courriel;
     if (champ.name === 'telephone' && v && !/^[+0-9 ().-]{6,20}$/.test(v)) return MESSAGES.telephone;
     return '';
@@ -94,8 +102,9 @@
           merci.className = 'vf-form__merci';
           merci.setAttribute('tabindex', '-1');
           merci.innerHTML = '<p class="vf-form__merci-titre"></p><p></p>';
-          merci.children[0].textContent = 'Votre message a bien été envoyé.';
-          merci.children[1].textContent = 'Le service concerné vous répondra dans les meilleurs délais.';
+          var sig = form.dataset.modele === 'signalement';
+          merci.children[0].textContent = sig ? 'Votre signalement a bien été envoyé.' : 'Votre message a bien été envoyé.';
+          merci.children[1].textContent = sig ? 'Il a été transmis au service concerné. Merci de votre vigilance.' : 'Le service concerné vous répondra dans les meilleurs délais.';
           form.replaceWith(merci);
           merci.focus();
         })
