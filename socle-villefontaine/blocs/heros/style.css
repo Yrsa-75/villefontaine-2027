@@ -45,14 +45,15 @@
 
 /* Grand écran : la photo se voit sur toute la largeur. Le voile se limite à un halo derrière le bloc de texte et à une bande
    sous le menu ; les éléments de texte qui flottent sur la photo (info du jour, puces) ont leur propre fond sombre.
-   La grille est tracée en deux tons (clair + sombre) pour rester visible sur une photo lumineuse.
+   La grille garde son tracé blanc et son fondu d'origine ; seule son opacité monte (.18 → .6), car sur une photo lumineuse
+   elle devenait invisible.
    Contrastes des textes vérifiés de 1200 à 2560 px avec la photo en place : à revérifier si la photo change. */
 @media (min-width: 1200px) {
   .immersif__photo { opacity: .96; }
   .immersif::before { background: radial-gradient(ellipse 46% 70% at 30% 47%, rgba(7, 30, 36, .7) 0%, rgba(7, 30, 36, .52) 55%, rgba(7, 30, 36, 0) 100%), linear-gradient(100deg, rgba(7, 30, 36, .55) 0%, rgba(7, 30, 36, .44) 30%, rgba(7, 30, 36, .24) 50%, rgba(7, 30, 36, .05) 64%, rgba(7, 30, 36, 0) 78%), linear-gradient(180deg, rgba(7, 30, 36, .8) 0%, rgba(7, 30, 36, .62) 9%, rgba(7, 30, 36, 0) 27%), linear-gradient(0deg, rgba(7, 30, 36, .55) 0%, rgba(7, 30, 36, 0) 28%); }
   .immersif .aurore { opacity: .3; }
   .immersif .aurore span:nth-child(3) { display: none; }
-  .immersif .grille-lumineuse { opacity: .55; background-image: linear-gradient(rgba(255, 255, 255, .85) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .85) 1px, transparent 1px), linear-gradient(transparent 1px, rgba(7, 30, 36, .45) 1px, rgba(7, 30, 36, .45) 2px, transparent 2px), linear-gradient(90deg, transparent 1px, rgba(7, 30, 36, .45) 1px, rgba(7, 30, 36, .45) 2px, transparent 2px); }
+  .immersif .grille-lumineuse { opacity: .6; }
   .immersif .capsule { background: rgba(7, 30, 36, .55); }
   .immersif .capsule:hover { background: rgba(7, 30, 36, .75); }
   .immersif .heros__suggestions a { background: rgba(7, 30, 36, .55); border-color: rgba(255, 255, 255, .34); }
