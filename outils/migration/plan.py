@@ -6,6 +6,12 @@ Chaque page : (clé, titre, slug, sources, options)
 - sources : slugs des pages actuelles dont le contenu est repris (dans l'ordre) ;
 - options : extrait (chapô), icone, agenda (slug de thématique ou True), contenu_avant/apres, sections (titres de section
   pour des sources fusionnées), statut, image, description (méga-menu), demarches (page d'accordéons).
+
+Menu (document « ARCHITECTURE SITE NEW » transmis par Ju le 25/11/2026, qui fait foi) :
+- hors_menu : la page reste en ligne (listée dans sa rubrique, trouvée par la recherche) mais n'est pas dans le méga-menu ;
+- menu_titre : intitulé du méga-menu quand il diffère du titre de la page ;
+- liens_menu : liens supplémentaires vers une page rangée ailleurs ({titre, cle, position}) ;
+- statut 'draft' + attente : page prévue par le plan, en brouillon tant que la mairie n'a pas fourni le contenu (hors menu).
 """
 
 RUBRIQUES = [
@@ -15,8 +21,9 @@ RUBRIQUES = [
             ('elus', 'Les élus', 'les-elus', ['elus'], {'extrait': 'Le maire, les adjoints et les conseillers municipaux.'}),
             ('engagements', 'Nos engagements', 'nos-engagements', ['nos-engagements'], {}),
             ('expression-groupes', 'Expression des groupes', 'expression-des-groupes', ['expressions-politiques'], {'extrait': 'Les tribunes des groupes politiques du conseil municipal.'}),
-            ('instances-citoyennes', 'Instances citoyennes', 'instances-citoyennes', ['les-instances-citoyennes', 'conseil-citoyen'], {'sections': ['Les instances citoyennes', 'Le conseil citoyen']}),
+            ('instances-citoyennes', 'Instances citoyennes', 'instances-citoyennes', ['les-instances-citoyennes', 'conseil-citoyen'], {'hors_menu': True, 'sections': ['Les instances citoyennes', 'Le conseil citoyen']}),
             ('cme', 'Conseil municipal des enfants', 'conseil-municipal-des-enfants', ['conseil-municipal-des-enfants'], {'extrait': 'Les jeunes élus de la ville et leurs projets.'}),
+            ('joindre-elus', 'Joindre les élus', 'joindre-les-elus', [], {'statut': 'draft', 'attente': True, 'extrait': 'Prendre rendez-vous ou écrire à un élu.'}),
         ]}),
         ('budget', 'Budget de la commune', 'budget', ['budget'], {'extrait': 'Pour bien comprendre le budget et les investissements de la ville.'}),
         ('budget-participatif', 'Budget participatif', 'budget-participatif', ['budget-participatif-2-0'], {'extrait': 'Proposez et soutenez des projets pour votre quartier.'}),
@@ -38,7 +45,8 @@ RUBRIQUES = [
         ('seniors', 'Seniors', 'seniors', ['animations-et-associations-retraites'], {'extrait': 'Activités, accompagnement et services à domicile pour les Villards de plus de 60 ans.', 'agenda': 'seniors', 'enfants': [
             ('le-phare', 'Le Phare', 'le-phare', ['phare-senior-ccas'], {}),
             ('le-voltaire', 'Le Voltaire', 'le-voltaire', ['voltaire'], {}),
-            ('portage-repas', 'Portage de repas et téléalarme', 'portage-de-repas', ['portage-de-repas-a-domicile', 'inscription-tele-alarme'], {'sections': ['Portage de repas à domicile', 'Téléalarme']}),
+            ('portage-repas', 'Portage de repas et téléalarme', 'portage-de-repas', ['portage-de-repas-a-domicile', 'inscription-tele-alarme'], {'menu_titre': 'Portage de repas à domicile', 'sections': ['Portage de repas à domicile', 'Téléalarme']}),
+            ('plan-canicule', 'Plan canicule', 'plan-canicule', [], {'statut': 'draft', 'attente': True, 'extrait': 'Le registre des personnes vulnérables et les bons réflexes en cas de fortes chaleurs.'}),
         ]}),
         ('mobilite', 'Mobilité et stationnement', 'mobilite', [], {'extrait': 'Vélo, covoiturage, transports en commun et stationnement.', 'enfants': [
             ('mobilites-douces', 'Mobilités douces et plan vélo', 'mobilites-douces', ['mode-doux', 'plan-velo'], {'sections': ['Les mobilités douces', 'Le plan vélo']}),
@@ -48,19 +56,21 @@ RUBRIQUES = [
         ]}),
         ('sante-solidarite', 'Santé et solidarité', 'sante-solidarite', [], {'extrait': 'CCAS, action sociale, pouvoir d’achat, complémentaire santé.', 'enfants': [
             ('ccas', 'CCAS et action sociale', 'ccas-action-sociale', ['missions-ccas'], {}),
-            ('maison-pouvoir-achat', 'Maison du pouvoir d’achat', 'maison-du-pouvoir-d-achat', ['maison-pouvoir-achat'], {}),
+            ('maison-pouvoir-achat', 'Maison du pouvoir d’achat', 'maison-du-pouvoir-d-achat', ['maison-pouvoir-achat'], {'hors_menu': True, }),
             ('complementaire-sante', 'Complémentaire santé', 'complementaire-sante', ['la-complementaire-sante-des-villards'], {'extrait': 'Ma commune ma santé : une complémentaire santé mutualisée pour faire des économies.'}),
             ('indicateurs', 'Qualité de l’eau et de l’air', 'qualite-eau-air', ['indicateurs'], {}),
+            ('handicap', 'Handicap', 'handicap', [], {'statut': 'draft', 'attente': True, 'extrait': 'Les aides, les démarches et les interlocuteurs pour les personnes en situation de handicap.'}),
         ]}),
-        ('emploi', 'Économie, emploi et insertion', 'emploi-insertion', [], {'extrait': 'Mission locale, relais emploi du CCAS, chantier d’insertion.', 'enfants': [
+        ('emploi', 'Économie, emploi et insertion', 'emploi-insertion', [], {'liens_menu': [{'titre': 'Villefontaine recrute', 'cle': 'recrutement', 'position': 0}], 'extrait': 'Mission locale, relais emploi du CCAS, chantier d’insertion.', 'enfants': [
             ('structures-emploi', 'Mission locale et structures emploi', 'mission-locale', ['structures-emploi'], {}),
-            ('chantier-insertion', 'Chantier d’insertion', 'chantier-insertion', ['chantier-environnement-insertion'], {}),
+            ('chantier-insertion', 'Chantier d’insertion', 'chantier-insertion', ['chantier-environnement-insertion'], {'hors_menu': True, }),
+            ('relais-emploi', 'Relais emploi du CCAS', 'relais-emploi-ccas', [], {'statut': 'draft', 'attente': True, 'extrait': 'Un accompagnement de proximité pour votre recherche d’emploi.'}),
         ], 'cartes': [{'titre': 'Villefontaine recrute', 'texte': 'Les offres d’emploi de la ville.', 'cle': 'recrutement', 'icone': 'citoyen'}]}),
         ('commerces', 'Commerces et marchés', 'commerces', [], {'extrait': 'S’implanter, zones d’activité, commerce de proximité, marchés, The Village.', 'enfants': [
             ('s-implanter', 'S’implanter à Villefontaine', 's-implanter', ['implanter-villefontaine', 'le-patio-coworking'], {'sections': ['S’implanter à Villefontaine', 'Le Patio, espace de coworking']}),
-            ('zones-activite', 'Zones d’activité', 'zones-activite', ['les-zones-dactivite-economique'], {}),
-            ('commerce-proximite', 'Commerce de proximité et marchés', 'commerce-de-proximite', ['commercants-villards', 'les-marches'], {'sections': ['Les commerçants villards', 'Les marchés']}),
-            ('the-village', 'The Village', 'the-village', ['the-village'], {}),
+            ('zones-activite', 'Zones d’activité', 'zones-activite', ['les-zones-dactivite-economique'], {'menu_titre': 'Zones d’activités économiques', }),
+            ('commerce-proximite', 'Commerce de proximité et marchés', 'commerce-de-proximite', ['commercants-villards', 'les-marches'], {'menu_titre': 'Commerce de proximité', 'sections': ['Les commerçants villards', 'Les marchés']}),
+            ('the-village', 'The Village', 'the-village', ['the-village'], {'menu_titre': 'The Village outlet', }),
         ]}),
         ('services-publics', 'Services publics', 'services-publics', ['accompagnement'], {'extrait': 'France Travail, La Poste, impôts, PIMMS : les services publics près de chez vous.'}),
     ]),
@@ -69,12 +79,13 @@ RUBRIQUES = [
             ('police-gendarmerie', 'Police municipale et gendarmerie', 'police-gendarmerie', ['police-municipale', 'gendarmerie'], {'sections': ['La police municipale', 'La gendarmerie']}),
             ('ville-vigilante', 'Ville vigilante', 'ville-vigilante', ['ville-vigilante', 'inscription-voisins-vigilants'], {}),
             ('maison-justice', 'Maison de la justice et du droit', 'maison-justice-droit', ['maison-justice-droit'], {}),
-            ('risques-majeurs', 'Risques majeurs', 'risques-majeurs', ['risques-majeurs'], {}),
+            ('risques-majeurs', 'Risques majeurs', 'risques-majeurs', ['risques-majeurs'], {'hors_menu': True, }),
         ]}),
         ('logement', 'Logement et habitat', 'logement', [], {'extrait': 'S’installer, logement social, énergie.', 'enfants': [
             ('s-installer', 'S’installer à Villefontaine', 's-installer', ['nouveaux-arrivants'], {'extrait': 'Cérémonie d’accueil, kit de bienvenue et démarches d’emménagement.'}),
-            ('logement-social', 'Logement social', 'logement-social', ['demande-de-logement-social'], {}),
-            ('energie', 'Énergie : infos et conseils', 'energie', ['point-info-energie'], {}),
+            ('logement-social', 'Logement social', 'logement-social', ['demande-de-logement-social'], {'hors_menu': True, }),
+            ('energie', 'Énergie : infos et conseils', 'energie', ['point-info-energie'], {'hors_menu': True, }),
+            ('enedis-semidao', 'Infos Enedis et Semidao', 'infos-enedis-semidao', [], {'statut': 'draft', 'attente': True, 'extrait': 'Coupures, travaux et informations sur les réseaux d’électricité et d’eau.'}),
         ]}),
         ('urbanisme', 'Urbanisme', 'urbanisme', [], {'extrait': 'Plan local d’urbanisme, démarches et occupation du domaine public.', 'enfants': [
             ('plu', 'Plan local d’urbanisme (PLU)', 'plu', ['plu'], {}),
@@ -83,15 +94,16 @@ RUBRIQUES = [
         ]}),
         ('proprete', 'Propreté et déchets', 'proprete-dechets', [], {'extrait': 'Déchèteries et propreté de la ville.', 'enfants': [
             ('decheteries', 'Déchèteries', 'decheteries', ['decheteries'], {}),
+            ('la-collecte', 'La collecte', 'la-collecte', [], {'statut': 'draft', 'attente': True, 'extrait': 'Jours de collecte, tri et encombrants.'}),
         ]}),
         ('accessibilite-ville', 'Accessibilité', 'accessibilite', ['commission-accessibilite'], {}),
         ('grands-projets', 'Les grands projets', 'grands-projets', [], {'extrait': 'Les projets qui transforment Villefontaine.', 'enfants': [
-            ('coeur-de-ville', 'Cœur de ville', 'coeur-de-ville', ['grand-projet-coeur-de-ville'], {}),
-            ('renovation-urbaine', 'La rénovation urbaine', 'renovation-urbaine', ['la-renovation-urbaine'], {}),
-            ('campus', 'Campus de la construction durable', 'campus-construction-durable', ['campus-construction-durable'], {}),
+            ('coeur-de-ville', 'Cœur de ville', 'coeur-de-ville', ['grand-projet-coeur-de-ville'], {'hors_menu': True, }),
+            ('renovation-urbaine', 'La rénovation urbaine', 'renovation-urbaine', ['la-renovation-urbaine'], {'hors_menu': True, }),
+            ('campus', 'Campus de la construction durable', 'campus-construction-durable', ['campus-construction-durable'], {'hors_menu': True, }),
         ]}),
         ('patrimoine', 'Patrimoine historique et naturel', 'patrimoine', ['histoire-ville', 'reserve-naturelle-etangs-forets', 'sites-remarquables', 'visiter-la-ville-autrement'], {'sections': ['L’histoire de la ville', 'La réserve naturelle', 'Les sites remarquables', 'Visiter la ville autrement'], 'enfants': [
-            ('nuisibles', 'Nuisibles et espèces invasives', 'nuisibles-invasifs', ['lutte-contre-les-nuisibles-invasifs'], {}),
+            ('nuisibles', 'Nuisibles et espèces invasives', 'nuisibles-invasifs', ['lutte-contre-les-nuisibles-invasifs'], {'hors_menu': True, }),
         ]}),
     ]),
     ('sortir-bouger', 'Sortir et bouger', 'Culture, sport, nature et associations : profitez de votre ville.', [
@@ -102,7 +114,7 @@ RUBRIQUES = [
         ]}),
         ('sports', 'Sports et loisirs', 'sports-loisirs', ['equipements-sportifs', 'sport-nature', 'parcours-fitness-plein-air'], {'sections': ['Les équipements sportifs', 'Le sport nature', 'Le parcours fitness'], 'carte': 'Équipements sportifs'}),
         ('jardins', 'Jardins et espaces verts', 'jardins-espaces-verts', ['jardin-solidaire-vaugelas'], {}),
-        ('grands-rdv', 'Les grands rendez-vous', 'grands-rendez-vous', ['saison-culturelle'], {'agenda': True}),
+        ('grands-rdv', 'Les grands rendez-vous', 'grands-rendez-vous', ['saison-culturelle'], {'menu_titre': 'Les grands rendez-vous sportifs et culturels', 'agenda': True}),
         ('associations', 'Associations', 'associations', ['les-associations', 'demande-de-subvention', 'organiser-une-manifestation'], {'sections': ['Les associations villardes', 'Demander une subvention', 'Promouvoir votre événement']}),
     ]),
 ]

@@ -335,18 +335,15 @@ for n in noeuds:
     pages_out.append({
         'cle': n['cle'], 'titre': n['titre'], 'slug': n['slug'], 'parent': n['parent'], 'ordre': n['ordre'],
         'extrait': extrait[:300], 'contenu': contenu, 'image': image, 'gabarit': 'page-pleine-largeur' if pleine else '',
-        'contact': contact, 'statut': 'publish', 'icone': ICONES.get(n['cle'], o.get('icone', '')),
+        'contact': contact, 'statut': o.get('statut', 'publish'), 'icone': ICONES.get(n['cle'], o.get('icone', '')),
     })
     rapport.append(f"{n['chemin']:52} {n['genre']:17} {len(contenu):6} car. contacts:{len(contacts)} image:{'oui' if image else 'non'} {'; '.join(sorted(set(notes)))}")
 
 # ---------------------------------------------------------------------------
 # 5. Menu principal et redirections
 # ---------------------------------------------------------------------------
-menu = []
-for rcle, rtitre, rdesc, enfants in plan.RUBRIQUES:
-    menu.append({'titre': rtitre, 'cle': rcle, 'description': rdesc, 'enfants': [
-        {'titre': t, 'cle': c, 'enfants': [{'titre': t3, 'cle': c3} for (c3, t3, s3, src3, o3) in o.get('enfants', [])]}
-        for (c, t, s, src, o) in enfants]})
+import menu as menu_du_plan
+menu = menu_du_plan.construire_menu()  # Tient compte de hors_menu, menu_titre, liens_menu et des brouillons.
 
 redirections = {}
 for ancien, (cle, ancre) in ancien_vers.items():
