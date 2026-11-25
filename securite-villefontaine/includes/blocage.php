@@ -10,8 +10,9 @@
  * Toutes les portes d'entrée sont couvertes : formulaire de connexion, mots de passe d'application
  * (API REST). XML-RPC, autre cible classique des robots, est désactivé.
  *
- * Données conservées : adresse IP et identifiant essayé, le temps du blocage, et un journal
- * des 200 derniers événements sur 30 jours au plus.
+ * En cas de récidive (deuxième blocage de la même adresse en 24 heures), le blocage dure 24 heures.
+ *
+ * Données conservées : adresse IP et identifiant essayé, le temps du blocage ; le journal est décrit dans journal.php.
  *
  * @package SecuriteVillefontaine
  */
@@ -38,28 +39,6 @@ function vf_securite_blocages() {
 		update_option( 'vf_securite_blocages', $actifs, false );
 	}
 	return $actifs;
-}
-
-/**
- * Ajoute une ligne au journal.
- *
- * @param string $type        echec | blocage | deblocage | refus.
- * @param string $ip          Adresse IP.
- * @param string $identifiant Identifiant essayé, ou précision.
- */
-function vf_securite_journal( $type, $ip, $identifiant = '' ) {
-	$journal   = (array) get_option( 'vf_securite_journal', array() );
-	$journal[] = array( time(), $type, $ip, mb_substr( sanitize_text_field( (string) $identifiant ), 0, 60 ) );
-	$limite    = time() - 30 * DAY_IN_SECONDS;
-	$journal   = array_values(
-		array_filter(
-			$journal,
-			static function ( $l ) use ( $limite ) {
-				return is_array( $l ) && (int) $l[0] >= $limite;
-			}
-		)
-	);
-	update_option( 'vf_securite_journal', array_slice( $journal, -200 ), false );
 }
 
 /**
@@ -114,10 +93,26 @@ function vf_securite_minutes_restantes( $blocage ) {
  */
 function vf_securite_message_blocage( $blocage ) {
 	$min = vf_securite_minutes_restantes( $blocage );
+	// Au-delà d'une heure et demie, on parle en heures : « environ 24 heures » se lit mieux que « 1440 minutes ».
+	$reste = $min > 90 ? 'environ ' . vf_securite_duree_en_clair( 60 * (int) ceil( $min / 60 ) ) : vf_securite_duree_en_clair( $min );
 	return sprintf(
 		'<strong>Trop de tentatives de connexion.</strong> Par sécurité, la connexion est bloquée depuis votre adresse pendant encore %s. Un administrateur du site peut lever ce blocage.',
-		1 === $min ? '1 minute' : $min . ' minutes'
+		$reste
 	);
+}
+
+/**
+ * Durée du prochain blocage d'une adresse, en minutes : 24 heures en cas de récidive.
+ *
+ * @param string $ip Adresse IP.
+ * @return int
+ */
+function vf_securite_duree_du_blocage( $ip ) {
+	$r = vf_securite_reglages();
+	if ( $r['recidive'] && (int) get_transient( 'vf_secr_' . md5( $ip ) ) >= 1 ) {
+		return max( $r['duree'], 1440 );
+	}
+	return $r['duree'];
 }
 
 /**
@@ -128,6 +123,7 @@ function vf_securite_message_blocage( $blocage ) {
  */
 function vf_securite_bloquer( $ip, $identifiant ) {
 	$r        = vf_securite_reglages();
+	$duree    = vf_securite_duree_du_blocage( $ip );
 	$blocages = vf_securite_blocages();
 	// Garde-fou : en cas d'attaque depuis des milliers d'adresses, la liste ne grossit pas sans fin.
 	if ( count( $blocages ) >= 2000 ) {
@@ -135,12 +131,14 @@ function vf_securite_bloquer( $ip, $identifiant ) {
 	}
 	$blocages[ $ip ] = array(
 		'debut'       => time(),
-		'fin'         => time() + $r['duree'] * MINUTE_IN_SECONDS,
+		'fin'         => time() + $duree * MINUTE_IN_SECONDS,
 		'identifiant' => mb_substr( sanitize_text_field( (string) $identifiant ), 0, 60 ),
 	);
 	update_option( 'vf_securite_blocages', $blocages, false );
 	delete_transient( 'vf_sec_' . md5( $ip ) );
-	vf_securite_journal( 'blocage', $ip, $identifiant );
+	// Mémoire des blocages récents de cette adresse, pour reconnaître une récidive dans les 24 heures qui suivent.
+	set_transient( 'vf_secr_' . md5( $ip ), (int) get_transient( 'vf_secr_' . md5( $ip ) ) + 1, DAY_IN_SECONDS + $duree * MINUTE_IN_SECONDS );
+	vf_securite_journal( 'blocage', $ip, ( $identifiant ? $identifiant . ' ; ' : '' ) . 'blocage de ' . vf_securite_duree_en_clair( $duree ), ' ' );
 	vf_securite_prevenir( $ip, $blocages[ $ip ] );
 }
 
@@ -159,6 +157,7 @@ function vf_securite_debloquer( $ip, $par ) {
 	unset( $blocages[ $ip ] );
 	update_option( 'vf_securite_blocages', $blocages, false );
 	delete_transient( 'vf_sec_' . md5( $ip ) );
+	delete_transient( 'vf_secr_' . md5( $ip ) ); // Débloquée par une personne : ce n'était pas une attaque, pas de récidive à retenir.
 	vf_securite_journal( 'deblocage', $ip, $par );
 	return true;
 }
@@ -175,7 +174,7 @@ function vf_securite_compter_echec( $ip, $identifiant ) {
 	}
 	$r = vf_securite_reglages();
 	$n = vf_securite_echecs( $ip ) + 1;
-	vf_securite_journal( 'echec', $ip, $identifiant );
+	vf_securite_journal( 'echec', $ip, $identifiant, ' ' );
 	if ( vf_securite_de_confiance( $ip ) ) {
 		return;
 	}
@@ -238,7 +237,7 @@ function vf_securite_message_d_echec( $user, $username ) {
 	$message = '<strong>Identifiant ou mot de passe incorrect.</strong>';
 	if ( '' !== $ip && ! vf_securite_de_confiance( $ip ) ) {
 		if ( $restant <= 0 ) {
-			$message .= sprintf( ' Trop de tentatives : la connexion est maintenant bloquée depuis votre adresse pendant %s.', 60 === $r['duree'] ? '1 heure' : $r['duree'] . ' minutes' );
+			$message .= sprintf( ' Trop de tentatives : la connexion est maintenant bloquée depuis votre adresse pendant %s.', vf_securite_duree_en_clair( vf_securite_duree_du_blocage( $ip ) ) );
 		} else {
 			$message .= sprintf( ' Il vous reste %s avant le blocage de votre adresse.', 1 === $restant ? '1 essai' : $restant . ' essais' );
 		}
@@ -256,7 +255,7 @@ add_filter( 'authenticate', 'vf_securite_message_d_echec', PHP_INT_MAX, 2 );
 function vf_securite_sur_echec( $username, $erreur = null ) {
 	$ip = vf_securite_ip();
 	if ( is_wp_error( $erreur ) && 'vf_securite_bloquee' === $erreur->get_error_code() ) {
-		vf_securite_journal( 'refus', $ip, $username ); // Tentative pendant un blocage : refusée, non comptée.
+		vf_securite_journal( 'refus', $ip, $username, ' ' ); // Tentative pendant un blocage : refusée, non comptée.
 		return;
 	}
 	vf_securite_compter_echec( $ip, $username );

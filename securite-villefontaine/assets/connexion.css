@@ -1,0 +1,686 @@
+/*
+ * Page de connexion aux couleurs de la Ville de Villefontaine.
+ * Chargée après la feuille de style de WordPress, dont elle remplace l'apparence sans toucher au balisage.
+ * Toutes les règles dépendent de la classe .vf-porte-active posée sur la balise body.
+ */
+
+@font-face {
+	font-family: "Figtree";
+	src: url("fonts/figtree-latin-wght-normal.woff2") format("woff2");
+	font-weight: 300 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Unbounded";
+	src: url("fonts/unbounded-latin-wght-normal.woff2") format("woff2");
+	font-weight: 200 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+.vf-porte-active {
+	--vf-bleu-900: #0f2f37;
+	--vf-bleu-800: #163f48;
+	--vf-bleu-700: #246170;
+	--vf-bleu-100: #e8f2f4;
+	--vf-vert-600: #5a7d1f;
+	--vf-vert-400: #a7c13c;
+	--vf-vert-100: #f2f7e4;
+	--vf-encre: #1b2b30;
+	--vf-encre-douce: #4a5a5f;
+	--vf-bord: #6f8890;
+	--vf-fond: #f5f8f9;
+	--vf-rouge: #b3261e;
+	--vf-rouge-100: #fdf1f0;
+	--vf-rayon: 10px;
+}
+
+/* ---------- Mise en page : volet photo à gauche, formulaire à droite ---------- */
+
+html:has(body.vf-porte-active) {
+	background: #f5f8f9;
+}
+
+body.login.vf-porte-active {
+	display: grid;
+	grid-template-columns: minmax(0, 1.25fr) minmax(460px, 1fr);
+	min-height: 100vh;
+	min-height: 100dvh;
+	margin: 0;
+	background: var(--vf-fond);
+	color: var(--vf-encre);
+	font-family: Figtree, system-ui, -apple-system, "Segoe UI", sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+/* Zone principale : titre et formulaire, centrés dans la colonne de droite (un peu au-dessus du milieu). */
+.vf-porte__principal {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-width: 0;
+	min-height: 100vh;
+	min-height: 100dvh;
+	padding: 40px 24px 72px;
+}
+
+.vf-porte__principal > .clear,
+.vf-porte__principal > .language-switcher {
+	display: none;
+}
+
+/* ---------- Volet de gauche ---------- */
+
+.vf-porte {
+	position: relative;
+	isolation: isolate;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 32px;
+	min-height: 100vh;
+	min-height: 100dvh;
+	padding: clamp(28px, 4vw, 60px);
+	overflow: hidden;
+	background: var(--vf-bleu-900);
+	color: #fff;
+}
+
+.vf-porte__photo {
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 42% 55%;
+}
+
+/* Voile bleu nuit : léger au centre pour laisser voir le lac, dense en haut et en bas pour la lisibilité des textes. */
+.vf-porte::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background:
+		linear-gradient(180deg, rgba(15, 47, 55, 0.78) 0%, rgba(15, 47, 55, 0.3) 30%, rgba(15, 47, 55, 0.42) 52%, rgba(15, 47, 55, 0.95) 88%),
+		linear-gradient(90deg, rgba(15, 47, 55, 0.35), rgba(15, 47, 55, 0));
+}
+
+.vf-porte__marque {
+	display: inline-block;
+	align-self: flex-start;
+	border-radius: 6px;
+	line-height: 0;
+}
+
+.vf-porte__marque img {
+	display: block;
+	width: clamp(170px, 15vw, 230px);
+	height: auto;
+}
+
+.vf-porte__marque:focus-visible {
+	outline: 3px solid #fff;
+	outline-offset: 6px;
+}
+
+.vf-porte__accueil {
+	max-width: 600px;
+}
+
+/* Deux feuilles, en écho aux deux « l » du logo. */
+.vf-porte__feuilles {
+	display: flex;
+	gap: 7px;
+	margin: 0 0 22px 4px;
+}
+
+.vf-porte__feuilles span {
+	display: block;
+	width: 15px;
+	height: 44px;
+	border-radius: 70% 30% 70% 30% / 60% 40% 60% 40%;
+	background: var(--vf-vert-400);
+	transform: rotate(14deg);
+	transform-origin: bottom center;
+}
+
+.vf-porte__feuilles span + span {
+	height: 34px;
+	margin-top: 10px;
+	background: #fff;
+	opacity: 0.92;
+}
+
+.vf-porte__titre {
+	margin: 0 0 16px;
+	font-family: Unbounded, Figtree, system-ui, sans-serif;
+	font-size: clamp(30px, 3.5vw, 54px);
+	font-weight: 600;
+	line-height: 1.08;
+	letter-spacing: -0.012em;
+	text-wrap: balance;
+	color: #fff;
+}
+
+.vf-porte__texte {
+	max-width: 36ch;
+	margin: 0;
+	font-size: clamp(16px, 1.25vw, 19px);
+	line-height: 1.5;
+	color: #fff;
+}
+
+.vf-porte__note {
+	margin: 28px 0 0;
+	padding-top: 16px;
+	border-top: 1px solid rgba(255, 255, 255, 0.28);
+	font-size: 13px;
+	line-height: 1.5;
+	color: rgba(255, 255, 255, 0.86);
+}
+
+/* ---------- Colonne de droite : titre et formulaire ---------- */
+
+/* Le titre de la page, réservé par WordPress aux lecteurs d'écran, redevient visible. */
+.vf-porte-active .vf-porte__principal > h1.screen-reader-text {
+	position: static !important;
+	box-sizing: border-box;
+	width: min(400px, 100%);
+	height: auto;
+	margin: 0 auto;
+	padding: 0;
+	overflow: visible;
+	clip: auto;
+	clip-path: none;
+	border: 0;
+	white-space: normal;
+	text-align: left;
+	font-family: Unbounded, Figtree, system-ui, sans-serif;
+	font-size: 28px;
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: -0.01em;
+	color: var(--vf-bleu-900);
+}
+
+.vf-porte-active #login {
+	box-sizing: border-box;
+	width: min(400px, 100%);
+	margin: 0 auto;
+	padding: 0;
+	font-size: 16px;
+}
+
+/* Le logo de WordPress laisse la place à celui du volet. */
+.vf-porte-active #login .wp-login-logo {
+	display: none;
+}
+
+.vf-porte-active.login form {
+	margin: 22px 0 0;
+	padding: 0;
+	overflow: visible;
+	border: 0;
+	background: none;
+	box-shadow: none;
+	font-weight: 400;
+}
+
+.vf-porte-active.login form p {
+	margin-bottom: 0;
+}
+
+.vf-porte-active.login label {
+	display: inline-block;
+	margin-bottom: 6px;
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 1.4;
+	color: var(--vf-encre);
+}
+
+.vf-porte-active.login form .input,
+.vf-porte-active.login input[type="text"],
+.vf-porte-active.login input[type="password"],
+.vf-porte-active.login input[type="email"] {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 52px;
+	margin: 0 0 18px;
+	padding: 10px 14px;
+	border: 1.5px solid var(--vf-bord);
+	border-radius: var(--vf-rayon);
+	background: #fff;
+	box-shadow: none;
+	color: var(--vf-encre);
+	font-family: inherit;
+	font-size: 17px;
+	line-height: 1.4;
+}
+
+.vf-porte-active.login .wp-pwd .input,
+.vf-porte-active.login .wp-pwd input[type="password"],
+.vf-porte-active.login .wp-pwd input[type="text"] {
+	padding-right: 56px;
+}
+
+.vf-porte-active.login form .input:hover,
+.vf-porte-active.login input[type="text"]:hover,
+.vf-porte-active.login input[type="password"]:hover {
+	border-color: var(--vf-bleu-700);
+}
+
+.vf-porte-active.login form .input:focus,
+.vf-porte-active.login input[type="text"]:focus,
+.vf-porte-active.login input[type="password"]:focus,
+.vf-porte-active.login input[type="email"]:focus {
+	border-color: var(--vf-bleu-700);
+	box-shadow: none;
+	outline: 3px solid var(--vf-bleu-700);
+	outline-offset: 2px;
+}
+
+/* Bouton « afficher le mot de passe ». */
+.vf-porte-active.login .wp-pwd {
+	position: relative;
+}
+
+.vf-porte-active.login .button.wp-hide-pw {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 52px;
+	min-width: 52px;
+	height: 52px;
+	min-height: 52px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: var(--vf-rayon);
+	background: none;
+	box-shadow: none;
+	color: var(--vf-bleu-700);
+}
+
+.vf-porte-active.login .button.wp-hide-pw:hover {
+	color: var(--vf-bleu-900);
+	background: var(--vf-bleu-100);
+}
+
+.vf-porte-active.login .button.wp-hide-pw:focus,
+.vf-porte-active.login .button.wp-hide-pw:focus-visible {
+	border: 0;
+	box-shadow: none;
+	outline: 3px solid var(--vf-bleu-700);
+	outline-offset: -3px;
+	color: var(--vf-bleu-900);
+}
+
+.vf-porte-active.login .button.wp-hide-pw .dashicons {
+	position: static;
+	width: 22px;
+	height: 22px;
+	font-size: 22px;
+}
+
+/* « Se souvenir de moi ». */
+.vf-porte-active.login .forgetmenot {
+	display: flex;
+	float: none;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 22px;
+}
+
+.vf-porte-active.login .forgetmenot label {
+	margin: 0;
+	font-size: 15px;
+	font-weight: 500;
+}
+
+.vf-porte-active.login input[type="checkbox"] {
+	width: 22px;
+	min-width: 22px;
+	height: 22px;
+	margin: 0;
+	border: 1.5px solid var(--vf-bord);
+	border-radius: 6px;
+	background: #fff;
+	box-shadow: none;
+}
+
+.vf-porte-active.login input[type="checkbox"]:checked {
+	border-color: var(--vf-bleu-700);
+	background: var(--vf-bleu-700);
+}
+
+.vf-porte-active.login input[type="checkbox"]:checked::before {
+	width: 22px;
+	height: 22px;
+	margin: -1.5px 0 0 -1.5px;
+	content: "";
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M5.5 11.5l3.6 3.6 7.4-8' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 22px 22px no-repeat;
+}
+
+.vf-porte-active.login input[type="checkbox"]:focus {
+	border-color: var(--vf-bleu-700);
+	box-shadow: none;
+	outline: 3px solid var(--vf-bleu-700);
+	outline-offset: 2px;
+}
+
+.vf-porte-active.login .wp-tooltip__toggle {
+	color: var(--vf-bleu-700);
+}
+
+.vf-porte-active.login .wp-tooltip__toggle:focus-visible {
+	outline: 3px solid var(--vf-bleu-700);
+	outline-offset: 2px;
+}
+
+/* Boutons. */
+.vf-porte-active.login .submit {
+	float: none;
+	margin: 0;
+	padding: 0;
+}
+
+.vf-porte-active.login .button,
+.vf-porte-active.login .button-secondary {
+	min-height: 48px;
+	padding: 0 20px;
+	border: 1.5px solid var(--vf-bleu-700);
+	border-radius: var(--vf-rayon);
+	background: #fff;
+	box-shadow: none;
+	color: var(--vf-bleu-700);
+	font-family: inherit;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-shadow: none;
+}
+
+.vf-porte-active.login .button:hover,
+.vf-porte-active.login .button-secondary:hover {
+	border-color: var(--vf-bleu-900);
+	background: var(--vf-bleu-100);
+	color: var(--vf-bleu-900);
+}
+
+.vf-porte-active.login .button-primary,
+.vf-porte-active.login .button.button-primary {
+	float: none;
+	width: 100%;
+	min-height: 54px;
+	border: 0;
+	background: var(--vf-bleu-700);
+	color: #fff;
+	font-size: 17px;
+	font-weight: 700;
+	transition: background-color 0.15s ease;
+}
+
+.vf-porte-active.login .button-primary:hover,
+.vf-porte-active.login .button.button-primary:hover,
+.vf-porte-active.login .button-primary:active {
+	background: var(--vf-bleu-900);
+	color: #fff;
+}
+
+.vf-porte-active.login .button:focus,
+.vf-porte-active.login .button:focus-visible,
+.vf-porte-active.login .button-primary:focus,
+.vf-porte-active.login .button-primary:focus-visible {
+	box-shadow: none;
+	outline: 3px solid var(--vf-bleu-700);
+	outline-offset: 3px;
+}
+
+.vf-porte-active.login .button-primary:focus {
+	background: var(--vf-bleu-900);
+	color: #fff;
+}
+
+/* Liens sous le formulaire. */
+.vf-porte-active.login #nav,
+.vf-porte-active.login #backtoblog {
+	margin: 20px 0 0;
+	padding: 0;
+	font-size: 15px;
+	line-height: 1.5;
+	color: var(--vf-encre-douce);
+}
+
+.vf-porte-active.login #backtoblog {
+	margin-top: 10px;
+}
+
+.vf-porte-active.login #nav a,
+.vf-porte-active.login #backtoblog a,
+.vf-porte-active.login .privacy-policy-page-link a,
+.vf-porte-active.login .message a,
+.vf-porte-active.login .notice a,
+.vf-porte-active.login #login_error a,
+.vf-porte-active.login form a {
+	color: var(--vf-bleu-700);
+	font-weight: 600;
+	text-decoration: underline;
+	text-decoration-thickness: 1.5px;
+	text-underline-offset: 3px;
+}
+
+.vf-porte-active.login #backtoblog a {
+	color: var(--vf-encre-douce);
+	font-weight: 500;
+}
+
+.vf-porte-active.login #nav a:hover,
+.vf-porte-active.login #backtoblog a:hover,
+.vf-porte-active.login .privacy-policy-page-link a:hover,
+.vf-porte-active.login .message a:hover,
+.vf-porte-active.login #login_error a:hover,
+.vf-porte-active.login form a:hover {
+	color: var(--vf-bleu-900);
+	text-decoration-thickness: 2.5px;
+}
+
+.vf-porte-active.login a:focus,
+.vf-porte-active.login a:focus-visible {
+	border-radius: 4px;
+	box-shadow: none;
+	outline: 3px solid var(--vf-bleu-700);
+	outline-offset: 3px;
+}
+
+.vf-porte-active.login .privacy-policy-page-link {
+	width: auto;
+	margin: 14px 0 0;
+	text-align: left;
+	font-size: 14px;
+}
+
+/* ---------- Messages ---------- */
+
+.vf-porte-active.login .message,
+.vf-porte-active.login .notice,
+.vf-porte-active.login .success,
+.vf-porte-active.login #login_error {
+	margin: 20px 0 0;
+	padding: 14px 16px;
+	border: 0;
+	border-left: 5px solid var(--vf-bleu-700);
+	border-radius: 0 var(--vf-rayon) var(--vf-rayon) 0;
+	background: var(--vf-bleu-100);
+	box-shadow: none;
+	color: var(--vf-encre);
+	font-size: 15px;
+	line-height: 1.5;
+	word-wrap: break-word;
+}
+
+.vf-porte-active.login .notice p,
+.vf-porte-active.login #login_error p {
+	margin: 0;
+}
+
+.vf-porte-active.login #login_error,
+.vf-porte-active.login .notice-error {
+	border-left-color: var(--vf-rouge);
+	background: var(--vf-rouge-100);
+}
+
+.vf-porte-active.login .success,
+.vf-porte-active.login .notice-success {
+	border-left-color: var(--vf-vert-600);
+	background: var(--vf-vert-100);
+}
+
+/* ---------- Choix d'un nouveau mot de passe ---------- */
+
+.vf-porte-active.login #pass-strength-result {
+	box-sizing: border-box;
+	width: 100%;
+	margin: -8px 0 16px;
+	padding: 8px 12px;
+	border-radius: var(--vf-rayon);
+	color: var(--vf-encre);
+	font-size: 14px;
+	font-weight: 600;
+	opacity: 1;
+}
+
+.vf-porte-active.login .pw-weak {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 16px;
+}
+
+.vf-porte-active.login .pw-weak label {
+	margin: 0;
+	font-weight: 500;
+}
+
+.vf-porte-active.login .description,
+.vf-porte-active.login .indicator-hint {
+	margin: 0 0 20px;
+	color: var(--vf-encre-douce);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.vf-porte-active.login .reset-pass-submit {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.vf-porte-active.login .reset-pass-submit .button {
+	flex: 1 1 100%;
+	margin: 0;
+}
+
+/* ---------- Téléphone et petite fenêtre : la photo devient un bandeau ---------- */
+
+@media (max-width: 900px) {
+	body.login.vf-porte-active {
+		display: block;
+	}
+
+	.vf-porte__principal {
+		display: block;
+		min-height: 0;
+		padding: 30px 24px 48px;
+	}
+
+	.vf-porte {
+		min-height: 0;
+		gap: 26px;
+		padding: 22px 24px 26px;
+	}
+
+	.vf-porte::after {
+		background: linear-gradient(180deg, rgba(15, 47, 55, 0.7) 0%, rgba(15, 47, 55, 0.9) 100%);
+	}
+
+	.vf-porte__marque img {
+		width: 150px;
+	}
+
+	.vf-porte__feuilles,
+	.vf-porte__texte,
+	.vf-porte__note {
+		display: none;
+	}
+
+	.vf-porte__titre {
+		margin: 0;
+		font-size: 24px;
+	}
+
+	.vf-porte-active .vf-porte__principal > h1.screen-reader-text {
+		font-size: 24px;
+	}
+
+	.vf-porte-active.login form {
+		margin-top: 18px;
+	}
+}
+
+/* Écran large mais peu haut (ordinateur portable, zoom 200 %) : le volet reste lisible sans dépasser. */
+@media (min-width: 901px) and (max-height: 620px) {
+	.vf-porte__feuilles,
+	.vf-porte__note {
+		display: none;
+	}
+
+	.vf-porte__titre {
+		font-size: 30px;
+	}
+}
+
+/* ---------- Fenêtre de reconnexion ouverte par l'éditeur ---------- */
+
+body.login.vf-porte-active.interim-login {
+	display: block;
+	min-height: 0;
+}
+
+.vf-porte-active.interim-login .vf-porte__principal {
+	display: block;
+	min-height: 0;
+	padding: 24px;
+}
+
+.vf-porte-active.interim-login .vf-porte__principal > h1.screen-reader-text {
+	font-size: 22px;
+}
+
+/* ---------- Préférences de l'utilisateur ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+	.vf-porte-active.login form.shake,
+	.vf-porte-active.login .button-primary {
+		animation: none;
+		transition: none;
+	}
+}
+
+@media (forced-colors: active) {
+	.vf-porte::after {
+		display: none;
+	}
+
+	.vf-porte-active.login .button,
+	.vf-porte-active.login form .input {
+		border: 1px solid ButtonText;
+	}
+}
