@@ -12,6 +12,8 @@ Menu (document « ARCHITECTURE SITE NEW » transmis par Ju le 25/11/2026, qui fa
 - menu_titre : intitulé du méga-menu quand il diffère du titre de la page ;
 - liens_menu : liens supplémentaires vers une page rangée ailleurs ({titre, cle, position}) ;
 - statut 'draft' + attente : page prévue par le plan, en brouillon tant que la mairie n'a pas fourni le contenu (hors menu).
+
+Pages recomposées à la main (contenus en bleu du même document) : leur contenu est décrit dans recompositions.py.
 """
 
 RUBRIQUES = [
@@ -25,7 +27,15 @@ RUBRIQUES = [
             ('cme', 'Conseil municipal des enfants', 'conseil-municipal-des-enfants', ['conseil-municipal-des-enfants'], {'extrait': 'Les jeunes élus de la ville et leurs projets.'}),
             ('joindre-elus', 'Joindre les élus', 'joindre-les-elus', [], {'statut': 'draft', 'attente': True, 'extrait': 'Prendre rendez-vous ou écrire à un élu.'}),
         ]}),
-        ('budget', 'Budget de la commune', 'budget', ['budget'], {'extrait': 'Pour bien comprendre le budget et les investissements de la ville.'}),
+        # Budget : 6 rectangles dans la page (document du 25/11/2026), contenu décrit dans recompositions.py.
+        ('budget', 'Budget de la commune', 'budget', ['budget'], {'extrait': 'Pour bien comprendre le budget et les investissements de la ville.', 'enfants': [
+            ('budget-2026', 'Budget 2026', 'budget-2026', [], {'hors_menu': True, 'icone': 'calendrier'}),
+            ('budget-2025', 'Budget 2025', 'budget-2025', [], {'hors_menu': True, 'icone': 'calendrier'}),
+            ('budget-2024', 'Budget 2024', 'budget-2024', [], {'hors_menu': True, 'icone': 'calendrier'}),
+            ('budget-2023', 'Budget 2023', 'budget-2023', [], {'hors_menu': True, 'icone': 'calendrier'}),
+            ('budget-2022', 'Budget 2022', 'budget-2022', [], {'hors_menu': True, 'icone': 'calendrier'}),
+            ('budget-chiffres-cles', 'Les chiffres clés', 'chiffres-cles', [], {'hors_menu': True, 'icone': 'info'}),
+        ]}),
         ('budget-participatif', 'Budget participatif', 'budget-participatif', ['budget-participatif-2-0'], {'extrait': 'Proposez et soutenez des projets pour votre quartier.'}),
         ('jumelage', 'Jumelage', 'jumelage', ['jumelages-internationaux'], {'extrait': 'Kahl am Main, Gremda, Wolfen-Bitterfeld et Salzano : nos quatre villes jumelles.'}),
         ('marches-publics', 'Marchés publics', 'marches-publics', ['marches-publics'], {'extrait': 'Les consultations en cours de la ville et l’inscription aux alertes pour les entreprises.'}),

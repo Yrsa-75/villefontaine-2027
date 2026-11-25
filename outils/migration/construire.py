@@ -352,6 +352,8 @@ for ancien, (cle, ancre) in ancien_vers.items():
     redirections[ancien] = (NOUVEAU[cle]['chemin'] + '#' + ancre) if ancre and cle in NOUVEAU else cle
 
 redirections = {k: v for k, v in redirections.items() if not k.startswith('/x-')}
+import recompositions
+recompositions.appliquer(pages_out)  # Pages recomposées à la main (document du 25/11/2026).
 json.dump({'version': 1, 'pages': pages_out, 'menu': menu, 'redirections': redirections}, open('pages.json', 'w'), ensure_ascii=False)
 print('\n'.join(rapport))
 print(len(pages_out), 'pages,', len(redirections), 'redirections')
