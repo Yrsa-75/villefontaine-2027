@@ -3,7 +3,7 @@
  * Plugin Name:       Socle Villefontaine
  * Plugin URI:        https://villefontaine.fr
  * Description:       Blocs de mise en page du site de la Ville de Villefontaine : en-tête et méga-menu, panneau « Vos démarches », grand visuel d'accueil, accès en 1 clic, sections, bandeau de page, sommaire, encart contact, sous-pages.
- * Version:           1.5.7
+ * Version:           1.5.8
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            YRSA
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_SOCLE_VERSION', '1.5.7' );
+define( 'VF_SOCLE_VERSION', '1.5.8' );
 define( 'VF_SOCLE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VF_SOCLE_URL', plugin_dir_url( __FILE__ ) );
 
@@ -28,6 +28,7 @@ require_once VF_SOCLE_DIR . 'includes/redirections.php';
 require_once VF_SOCLE_DIR . 'includes/formulaire.php';
 require_once VF_SOCLE_DIR . 'includes/suggestions.php';
 require_once VF_SOCLE_DIR . 'includes/accessibilite.php';
+require_once VF_SOCLE_DIR . 'includes/images.php';
 
 if ( is_admin() ) {
 	require_once VF_SOCLE_DIR . 'includes/admin.php';

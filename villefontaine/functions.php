@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_THEME_VERSION', '1.0.14' );
+define( 'VF_THEME_VERSION', '1.0.15' );
 
 /**
  * Réglages de base du thème.
@@ -28,26 +28,12 @@ function vf_theme_reglages() {
 	// Feuille de style chargée dans l'éditeur pour qu'il ressemble au site.
 	add_editor_style( array( 'assets/css/global.css', 'assets/css/editeur.css' ) );
 
-	// Tailles d'images utilisées par les gabarits (la conversion WebP est faite par WordPress).
+	// Tailles d'images utilisées par les gabarits. La conversion en WebP et la largeur maximale (1 500 px)
+	// sont réglées par l'extension Socle (includes/images.php) : c'est une règle du site, pas de son apparence.
 	add_image_size( 'vf-carte', 720, 480, true );
 	add_image_size( 'vf-bandeau', 1200, 800, true );
 }
 add_action( 'after_setup_theme', 'vf_theme_reglages' );
-
-/**
- * WordPress génère les images en WebP quand le serveur le permet (plus léger que le JPEG).
- *
- * @param array $formats Correspondance type source => type de sortie.
- * @return array
- */
-function vf_theme_formats_images( $formats ) {
-	if ( wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
-		$formats['image/jpeg'] = 'image/webp';
-		$formats['image/png']  = 'image/webp';
-	}
-	return $formats;
-}
-add_filter( 'image_editor_output_format', 'vf_theme_formats_images' );
 
 /**
  * Feuilles de style et scripts du site public.
