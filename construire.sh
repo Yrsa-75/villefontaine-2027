@@ -8,7 +8,7 @@ rm -rf dist.tmp && mkdir dist.tmp
 trap 'rm -rf dist.tmp' EXIT
 echo "{" > dist.tmp/versions.json
 premier=1
-for c in socle-villefontaine villefontaine actualites-villefontaine agenda-villefontaine annuaire-villefontaine kiosque-villefontaine deploiement-villefontaine; do
+for c in socle-villefontaine villefontaine actualites-villefontaine agenda-villefontaine annuaire-villefontaine kiosque-villefontaine securite-villefontaine deploiement-villefontaine; do
   if [ "$c" = "villefontaine" ]; then f="$c/style.css"; else f="$c/$c.php"; fi
   v=$(grep -m1 -E '^\s*\*?\s*Version:' "$f" | sed -E 's/.*Version:\s*//' | tr -d '\r ')
   (zip -qrX "dist.tmp/$c.zip" "$c" -x '*.DS_Store')

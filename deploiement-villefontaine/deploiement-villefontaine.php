@@ -3,7 +3,7 @@
  * Plugin Name:       Déploiement Villefontaine
  * Plugin URI:        https://github.com/Yrsa-75/villefontaine-2027
  * Description:       Installe et met à jour le thème et les plugins Villefontaine depuis le dépôt GitHub du projet, et récupère les images du site actuel. Réservé aux administrateurs.
- * Version:           1.3.1
+ * Version:           1.3.2
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            YRSA
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_DEPLOI_VERSION', '1.3.1' );
+define( 'VF_DEPLOI_VERSION', '1.3.2' );
 
 /**
  * Dépôt GitHub (public) qui contient les fichiers .zip prêts à installer dans dist/.
@@ -37,6 +37,7 @@ function vf_deploi_elements() {
 		'agenda-villefontaine'      => array( 'plugin', 'Agenda', 'agenda-villefontaine/agenda-villefontaine.php' ),
 		'annuaire-villefontaine'    => array( 'plugin', 'Annuaire et carte', 'annuaire-villefontaine/annuaire-villefontaine.php' ),
 		'kiosque-villefontaine'     => array( 'plugin', 'Kiosque', 'kiosque-villefontaine/kiosque-villefontaine.php' ),
+		'securite-villefontaine'    => array( 'plugin', 'Sécurité (connexion)', 'securite-villefontaine/securite-villefontaine.php' ),
 		'deploiement-villefontaine' => array( 'plugin', 'Déploiement (ce plugin)', 'deploiement-villefontaine/deploiement-villefontaine.php' ),
 	);
 }
