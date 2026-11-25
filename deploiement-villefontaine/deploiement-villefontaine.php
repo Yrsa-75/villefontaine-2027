@@ -3,7 +3,7 @@
  * Plugin Name:       Déploiement Villefontaine
  * Plugin URI:        https://github.com/Yrsa-75/villefontaine-2027
  * Description:       Installe et met à jour le thème et les plugins Villefontaine depuis le dépôt GitHub du projet, et récupère les images du site actuel. Réservé aux administrateurs.
- * Version:           1.3.3
+ * Version:           1.3.4
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            YRSA
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_DEPLOI_VERSION', '1.3.3' );
+define( 'VF_DEPLOI_VERSION', '1.3.4' );
 
 /**
  * Dépôt GitHub (public) qui contient les fichiers .zip prêts à installer dans dist/.
@@ -508,9 +508,11 @@ add_action(
 				'args'                => array(
 					'simulation' => array( 'type' => 'boolean', 'default' => true ),
 					'lot'        => array( 'type' => 'integer', 'default' => 12, 'minimum' => 1, 'maximum' => 40 ),
+					// Identifiant d'une seule image à traiter (0 = toute la médiathèque).
+					'id'         => array( 'type' => 'integer', 'default' => 0, 'minimum' => 0 ),
 				),
 				'callback'            => function ( WP_REST_Request $r ) {
-					return rest_ensure_response( vf_deploi_repasser_images( (bool) $r['simulation'], (int) $r['lot'] ) );
+					return rest_ensure_response( vf_deploi_repasser_images( (bool) $r['simulation'], (int) $r['lot'], (int) $r['id'] ) );
 				},
 			)
 		);

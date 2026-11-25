@@ -43,6 +43,16 @@
 @keyframes clignote { 50% { opacity: .25; } }
 @keyframes reflet { to { background-position: 100% 0; } }
 
+/* Grand écran : le voile reste dense sous les textes (à gauche) et sous le menu (en haut), puis s'efface complètement
+   sur la droite pour laisser voir les vraies couleurs de la photo. Contrastes des textes vérifiés de 1200 à 2560 px. */
+@media (min-width: 1200px) {
+  .immersif__photo { opacity: .96; }
+  .immersif::before { background: linear-gradient(100deg, rgba(7, 30, 36, .95) 0%, rgba(7, 30, 36, .86) 36%, rgba(7, 30, 36, .58) 54%, rgba(7, 30, 36, .14) 68%, rgba(7, 30, 36, 0) 82%), linear-gradient(180deg, rgba(7, 30, 36, .8) 0%, rgba(7, 30, 36, .62) 9%, rgba(7, 30, 36, 0) 27%), linear-gradient(0deg, rgba(7, 30, 36, .6) 0%, rgba(7, 30, 36, 0) 30%); }
+  .immersif .aurore { opacity: .3; }
+  .immersif .aurore span:nth-child(3) { display: none; }
+  .immersif .grille-lumineuse { opacity: .1; }
+}
+
 @media (max-width: 760px) {
   .heros__cadre { min-height: 520px; border-radius: 22px; }
   .heros__contenu { padding: 28px 22px; }
