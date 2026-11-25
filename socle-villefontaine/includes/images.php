@@ -3,7 +3,7 @@
  * Images envoyées dans la médiathèque : une seule règle pour tout le site.
  *
  * - Toute photo JPEG ou PNG est convertie en WebP (plus léger à qualité égale), y compris ses miniatures.
- * - Aucune image ne dépasse 1 500 pixels de large : au-delà, elle est réduite à l'envoi.
+ * - Aucune image ne dépasse 2 400 pixels de large : au-delà, elle est réduite à l'envoi.
  * - Le fichier d'origine reste sur le serveur (il n'est jamais montré aux visiteurs) pour pouvoir
  *   le récupérer en haute définition, sauf s'il pèse plus de 2 Mo : il est alors supprimé.
  *
@@ -15,7 +15,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Largeur maximale d'une image du site, en pixels. */
-const VF_SOCLE_IMAGE_LARGEUR_MAX = 1500;
+const VF_SOCLE_IMAGE_LARGEUR_MAX = 2400;
 
 /** Poids au-delà duquel le fichier d'origine n'est pas conservé, en octets (2 Mo). */
 const VF_SOCLE_ORIGINAL_POIDS_MAX = 2097152;
@@ -36,10 +36,10 @@ function vf_socle_images_webp( $formats ) {
 add_filter( 'image_editor_output_format', 'vf_socle_images_webp' );
 
 /**
- * Réduction à l'envoi : 1 500 pixels de large au plus.
+ * Réduction à l'envoi : 2 400 pixels de large au plus.
  *
  * WordPress raisonne sur le plus grand côté de l'image. Pour une photo en hauteur (une affiche, par exemple),
- * on lui indique donc la hauteur qui correspond à 1 500 pixels de large : l'affiche garde sa finesse.
+ * on lui indique donc la hauteur qui correspond à 2 400 pixels de large : l'affiche garde sa finesse.
  *
  * @param int   $seuil   Seuil de WordPress (2 560 pixels).
  * @param array $taille  Largeur et hauteur de l'image envoyée.
@@ -57,19 +57,6 @@ function vf_socle_images_seuil( $seuil, $taille = array() ) {
 	return (int) max( VF_SOCLE_IMAGE_LARGEUR_MAX, floor( VF_SOCLE_IMAGE_LARGEUR_MAX * $hauteur / $largeur ) );
 }
 add_filter( 'big_image_size_threshold', 'vf_socle_images_seuil', 10, 2 );
-
-/**
- * Les deux grandes tailles intermédiaires de WordPress (1 536 et 2 048 pixels) n'ont plus d'utilité
- * puisque rien ne dépasse 1 500 pixels : on évite de créer ces fichiers.
- *
- * @param array $tailles Tailles à générer.
- * @return array
- */
-function vf_socle_images_tailles( $tailles ) {
-	unset( $tailles['1536x1536'], $tailles['2048x2048'] );
-	return $tailles;
-}
-add_filter( 'intermediate_image_sizes_advanced', 'vf_socle_images_tailles' );
 
 /**
  * Après l'envoi : le fichier d'origine est supprimé s'il pèse plus de 2 Mo.

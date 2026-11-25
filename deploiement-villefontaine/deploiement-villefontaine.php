@@ -3,7 +3,7 @@
  * Plugin Name:       Déploiement Villefontaine
  * Plugin URI:        https://github.com/Yrsa-75/villefontaine-2027
  * Description:       Installe et met à jour le thème et les plugins Villefontaine depuis le dépôt GitHub du projet, et récupère les images du site actuel. Réservé aux administrateurs.
- * Version:           1.3.2
+ * Version:           1.3.3
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            YRSA
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_DEPLOI_VERSION', '1.3.2' );
+define( 'VF_DEPLOI_VERSION', '1.3.3' );
 
 /**
  * Dépôt GitHub (public) qui contient les fichiers .zip prêts à installer dans dist/.
@@ -424,6 +424,7 @@ function vf_deploi_recadrer_couvertures_existantes() {
 }
 
 require_once __DIR__ . '/migration.php';
+require_once __DIR__ . '/images.php';
 
 /**
  * Points d'accès (API REST de WordPress, session administrateur + jeton anti-falsification).
@@ -494,6 +495,22 @@ add_action(
 				'permission_callback' => $droits,
 				'callback'            => function () {
 					return rest_ensure_response( vf_deploi_recadrer_couvertures_existantes() );
+				},
+			)
+		);
+		// Remise à la règle des images déjà en médiathèque (largeur maximale, originaux trop lourds). Simulation par défaut.
+		register_rest_route(
+			'vf-deploiement/v1',
+			'/images',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => $droits,
+				'args'                => array(
+					'simulation' => array( 'type' => 'boolean', 'default' => true ),
+					'lot'        => array( 'type' => 'integer', 'default' => 12, 'minimum' => 1, 'maximum' => 40 ),
+				),
+				'callback'            => function ( WP_REST_Request $r ) {
+					return rest_ensure_response( vf_deploi_repasser_images( (bool) $r['simulation'], (int) $r['lot'] ) );
 				},
 			)
 		);

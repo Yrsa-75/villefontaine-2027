@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VF_THEME_VERSION', '1.0.15' );
+define( 'VF_THEME_VERSION', '1.0.16' );
 
 /**
  * Réglages de base du thème.
@@ -28,7 +28,7 @@ function vf_theme_reglages() {
 	// Feuille de style chargée dans l'éditeur pour qu'il ressemble au site.
 	add_editor_style( array( 'assets/css/global.css', 'assets/css/editeur.css' ) );
 
-	// Tailles d'images utilisées par les gabarits. La conversion en WebP et la largeur maximale (1 500 px)
+	// Tailles d'images utilisées par les gabarits. La conversion en WebP et la largeur maximale (2 400 px)
 	// sont réglées par l'extension Socle (includes/images.php) : c'est une règle du site, pas de son apparence.
 	add_image_size( 'vf-carte', 720, 480, true );
 	add_image_size( 'vf-bandeau', 1200, 800, true );
