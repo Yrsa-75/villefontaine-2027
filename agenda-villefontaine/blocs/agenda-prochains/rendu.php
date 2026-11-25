@@ -14,19 +14,35 @@
 defined( 'ABSPATH' ) || exit;
 
 $vf_nombre = max( 1, min( 12, (int) $attributes['nombre'] ) );
-$vf_theme  = sanitize_title( (string) $attributes['thematique'] );
-$vf_occs   = vf_agenda_prochaines( $vf_theme ? $vf_nombre : $vf_nombre * 4, 365, $vf_theme, true );
+$vf_format = 'liste' === ( $attributes['format'] ?? 'cartes' ) ? 'liste' : 'cartes';
+$vf_titre  = trim( (string) ( $attributes['titre'] ?? '' ) );
+// Thématiques retenues : la liste « thematiques », ou l'ancien réglage « thematique » (une seule).
+$vf_themes = array_values( array_unique( array_filter( array_map( 'sanitize_title', (array) ( $attributes['thematiques'] ?? array() ) ) ) ) );
+if ( ! $vf_themes && '' !== (string) $attributes['thematique'] ) {
+	$vf_themes = array( sanitize_title( (string) $attributes['thematique'] ) );
+}
+$vf_theme   = 1 === count( $vf_themes ) ? $vf_themes[0] : '';
+$vf_archive = get_post_type_archive_link( 'vf_evenement' );
+// Avec des filtres (aucune ou plusieurs thématiques), on prépare plus d'événements que nécessaire.
+$vf_occs = vf_agenda_prochaines( $vf_theme ? $vf_nombre : $vf_nombre * 4, 365, $vf_themes, true );
 if ( ! $vf_occs ) {
+	// Bloc limité à certaines thématiques, en cartes : on dit qu'il n'y a rien plutôt que de laisser un vide.
+	if ( $vf_themes && 'cartes' === $vf_format ) {
+		echo '<div class="vf-agenda">';
+		if ( $vf_titre ) {
+			echo '<h2 class="vf-agenda__titre">' . esc_html( $vf_titre ) . '</h2>';
+		}
+		echo '<p class="agenda__vide">Aucun rendez-vous n’est annoncé pour le moment dans cette sélection. <a href="' . esc_url( $vf_archive ) . '">Voir tout l’agenda</a></p></div>';
+	}
 	return;
 }
-$vf_archive = get_post_type_archive_link( 'vf_evenement' );
 
 // Format « liste » : lignes compactes, pour les pages thématiques (ex. « Prochains rendez-vous » de la page Seniors).
-if ( 'liste' === ( $attributes['format'] ?? 'cartes' ) ) {
+if ( 'liste' === $vf_format ) {
 	$vf_occs = array_slice( $vf_occs, 0, $vf_nombre );
 	echo '<section class="vf-agenda-liste-compacte">';
-	if ( ! empty( $attributes['titre'] ) ) {
-		echo '<h2>' . esc_html( $attributes['titre'] ) . '</h2>';
+	if ( $vf_titre ) {
+		echo '<h2>' . esc_html( $vf_titre ) . '</h2>';
 	}
 	echo '<ul class="liste-evenements">';
 	foreach ( $vf_occs as $vf_occ ) {
@@ -47,16 +63,25 @@ if ( 'liste' === ( $attributes['format'] ?? 'cartes' ) ) {
 }
 ?>
 <div class="vf-agenda" data-max="<?php echo (int) $vf_nombre; ?>">
-<?php echo $vf_theme ? '' : vf_agenda_filtres( $vf_occs ); // phpcs:ignore WordPress.Security.EscapeOutput -- échappé dans la fonction. ?>
+<?php
+if ( $vf_titre ) {
+	echo '<h2 class="vf-agenda__titre">' . esc_html( $vf_titre ) . '</h2>';
+}
+// Une seule thématique : pas de filtre. Aucune ou plusieurs : un bouton par thématique présente.
+echo $vf_theme ? '' : vf_agenda_filtres( $vf_occs, $vf_themes ); // phpcs:ignore WordPress.Security.EscapeOutput -- échappé dans la fonction.
+?>
 <p class="visuellement-masque" aria-live="polite" data-annonce></p>
 <ul class="agenda">
 <?php
 foreach ( $vf_occs as $vf_i => $vf_occ ) {
-	$vf_carte = vf_agenda_carte( $vf_occ, $vf_i );
+	$vf_carte = vf_agenda_carte( $vf_occ, $vf_i, 3, $vf_themes );
 	// Au-delà du nombre demandé, les cartes sont masquées (elles servent seulement aux filtres).
 	echo $vf_i < $vf_nombre ? $vf_carte : preg_replace( '/^<li /', '<li hidden ', $vf_carte ); // phpcs:ignore WordPress.Security.EscapeOutput -- échappé dans la fonction.
 }
 ?>
 </ul>
 <p class="agenda__vide" hidden>Aucun événement pour cette thématique. <a href="<?php echo esc_url( $vf_archive ); ?>">Voir tout l’agenda</a></p>
+<?php if ( $vf_titre || $vf_themes ) : // Dans une page : lien vers l'agenda complet (sur l'accueil, la section a déjà le sien). ?>
+<p class="vf-agenda__lien"><a class="lien-fleche" href="<?php echo esc_url( $vf_archive ); ?>"><span>Tout l’agenda</span> <?php echo vf_socle_icone( 'fleche', 16, 2.2 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></a></p>
+<?php endif; ?>
 </div>

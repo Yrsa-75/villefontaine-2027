@@ -95,7 +95,7 @@ function vf_agenda_occurrences( $post_id, $de, $a ) {
  *
  * @param int    $limite    Nombre maximum d'occurrences.
  * @param int    $jours     Horizon en jours.
- * @param string $thematique Slug de thématique (vide = toutes).
+ * @param string|string[] $thematique Slug d'une thématique, ou liste de slugs (vide = toutes).
  * @param bool   $une_fois  Vrai : un événement répété n'apparaît qu'une fois (sa prochaine date).
  * @return array Liste de [ 'post' => WP_Post, 'debut' => Y-m-d, 'fin' => Y-m-d ].
  */
@@ -117,7 +117,7 @@ function vf_agenda_prochaines( $limite = 6, $jours = 365, $thematique = '', $une
 		),
 	);
 	if ( $thematique ) {
-		$args['tax_query'] = array( array( 'taxonomy' => 'vf_theme_evenement', 'field' => 'slug', 'terms' => $thematique ) ); // phpcs:ignore WordPress.DB.SlowDBQuery
+		$args['tax_query'] = array( array( 'taxonomy' => 'vf_theme_evenement', 'field' => 'slug', 'terms' => (array) $thematique ) ); // phpcs:ignore WordPress.DB.SlowDBQuery
 	}
 	$resultat = array();
 	foreach ( get_posts( $args ) as $post ) {
@@ -237,24 +237,49 @@ function vf_agenda_quand( $post_id, $occ ) {
 }
 
 /**
- * Carte d'un événement (accueil et page Agenda).
+ * Thématiques d'un événement, limitées à une sélection si elle est donnée.
  *
- * @param array $occ   Occurrence (post, debut, fin).
- * @param int   $index Position (pour le léger décalage d'apparition).
- * @param int   $titre Niveau du titre (3 par défaut).
+ * @param WP_Post|int $post  Événement.
+ * @param string[]    $parmi Slugs retenus (vide = toutes les thématiques de l'événement).
+ * @return WP_Term[]
+ */
+function vf_agenda_themes( $post, $parmi = array() ) {
+	$termes = get_the_terms( $post, 'vf_theme_evenement' );
+	if ( ! $termes || is_wp_error( $termes ) ) {
+		return array();
+	}
+	if ( $parmi ) {
+		$termes = array_filter(
+			$termes,
+			static function ( $t ) use ( $parmi ) {
+				return in_array( $t->slug, $parmi, true );
+			}
+		);
+	}
+	return array_values( $termes );
+}
+
+/**
+ * Carte d'un événement (accueil, page Agenda, pages de rubrique).
+ *
+ * @param array    $occ   Occurrence (post, debut, fin).
+ * @param int      $index Position (pour le léger décalage d'apparition).
+ * @param int      $titre Niveau du titre (3 par défaut).
+ * @param string[] $parmi Thématiques retenues par le bloc (vide = toutes) : elles décident de l'étiquette affichée.
  * @return string HTML échappé.
  */
-function vf_agenda_carte( $occ, $index = 0, $titre = 3 ) {
+function vf_agenda_carte( $occ, $index = 0, $titre = 3, $parmi = array() ) {
 	$post   = $occ['post'];
-	$termes = get_the_terms( $post, 'vf_theme_evenement' );
-	$terme  = ( $termes && ! is_wp_error( $termes ) ) ? $termes[0] : null;
+	$termes = vf_agenda_themes( $post, $parmi );
+	// Un événement classé dans plusieurs thématiques répond au filtre de chacune.
+	$slugs  = $termes ? implode( ' ', wp_list_pluck( $termes, 'slug' ) ) : 'autre';
 	$jour   = max( $occ['debut'], vf_agenda_aujourdhui() );
 	$t      = strtotime( $jour . ' 12:00' );
 	$image  = get_the_post_thumbnail( $post, 'medium_large', array( 'alt' => '', 'loading' => 'lazy', 'decoding' => 'async', 'sizes' => '(max-width: 760px) 100vw, 33vw' ) );
 	$lieu   = (string) get_post_meta( $post->ID, 'vf_lieu', true );
 	$h      = 'h' . (int) $titre;
 
-	$html  = '<li data-theme="' . esc_attr( $terme ? $terme->slug : 'autre' ) . '" class="apparition" style="--delai: ' . esc_attr( number_format( ( $index % 3 ) * 0.07, 2, '.', '' ) ) . 's"><article class="evenement">';
+	$html  = '<li data-theme="' . esc_attr( $slugs ) . '" class="apparition" style="--delai: ' . esc_attr( number_format( ( $index % 3 ) * 0.07, 2, '.', '' ) ) . 's"><article class="evenement">';
 	$html .= '<div class="evenement__media">' . ( $image ? $image : '<span class="evenement__fond" aria-hidden="true">' . vf_socle_icone( 'calendrier', 40, 1.6 ) . '</span>' );
 	$html .= '<p class="evenement__date" style="margin: 0"><strong>' . esc_html( gmdate( 'j', $t ) ) . '</strong><span>' . esc_html( vf_agenda_noms( 'mois' )[ (int) gmdate( 'n', $t ) ] ) . '</span></p></div>';
 	$html .= '<div class="evenement__corps"><' . $h . '><a href="' . esc_url( get_permalink( $post ) ) . '">' . esc_html( get_the_title( $post ) ) . '</a></' . $h . '>';
@@ -263,24 +288,25 @@ function vf_agenda_carte( $occ, $index = 0, $titre = 3 ) {
 		$html .= '<span>' . vf_socle_icone( 'lieu', 16, 2 ) . esc_html( $lieu ) . '</span>';
 	}
 	$html .= '</p>';
-	if ( $terme ) {
-		$html .= '<p class="evenement__theme" style="margin-bottom: 0">' . esc_html( $terme->name ) . '</p>';
+	if ( $termes ) {
+		// Toutes les thématiques de l'événement, pour que l'étiquette reste juste quel que soit le filtre choisi.
+		$html .= '<p class="evenement__theme" style="margin-bottom: 0">' . esc_html( implode( ' · ', wp_list_pluck( $termes, 'name' ) ) ) . '</p>';
 	}
 	return $html . '</div></article></li>';
 }
 
 /**
- * Boutons de filtre par thématique (uniquement les thématiques présentes).
+ * Boutons de filtre par thématique (uniquement les thématiques présentes parmi les événements affichés).
  *
- * @param array $occs Occurrences affichées.
+ * @param array    $occs  Occurrences affichées.
+ * @param string[] $parmi Thématiques retenues par le bloc (vide = toutes).
  * @return string
  */
-function vf_agenda_filtres( $occs ) {
+function vf_agenda_filtres( $occs, $parmi = array() ) {
 	$themes = array();
 	foreach ( $occs as $occ ) {
-		$termes = get_the_terms( $occ['post'], 'vf_theme_evenement' );
-		if ( $termes && ! is_wp_error( $termes ) ) {
-			$themes[ $termes[0]->slug ] = $termes[0]->name;
+		foreach ( vf_agenda_themes( $occ['post'], $parmi ) as $terme ) {
+			$themes[ $terme->slug ] = $terme->name;
 		}
 	}
 	if ( count( $themes ) < 2 ) {

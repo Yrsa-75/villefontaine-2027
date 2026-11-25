@@ -2,11 +2,11 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "vf/agenda-prochains",
-	"version": "1.1.3",
+	"version": "1.1.4",
 	"title": "Prochains événements",
 	"category": "villefontaine",
 	"icon": "calendar-alt",
-	"description": "Les prochains rendez-vous de l’agenda, avec des filtres par thématique. Mise à jour automatique chaque jour.",
+	"description": "Les prochains rendez-vous de l’agenda, avec des filtres par thématique. Peut se limiter à quelques thématiques (ex. sport et culture). Mise à jour automatique chaque jour.",
 	"textdomain": "agenda-villefontaine",
 	"attributes": {
 		"nombre": {
@@ -16,6 +16,13 @@
 		"thematique": {
 			"type": "string",
 			"default": ""
+		},
+		"thematiques": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "string"
+			}
 		},
 		"format": {
 			"type": "string",

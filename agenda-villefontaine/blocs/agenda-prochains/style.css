@@ -84,4 +84,6 @@
 .vf-agenda-liste-compacte > h2 { margin-bottom: 18px; }
 .ligne-evt:not(:has(img)) { grid-template-columns: 1fr auto; }
 .vf-agenda-liste-compacte__lien { margin-top: 16px; }
+.vf-agenda__titre { margin-bottom: 18px; }
+.vf-agenda__lien { margin-top: 22px; }
 @media (max-width: 600px) { .ligne-evt { grid-template-columns: 1fr auto; } .ligne-evt img { display: none; } }

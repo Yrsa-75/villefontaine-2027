@@ -17,7 +17,8 @@
     function appliquer(choix, animer) {
       var n = 0;
       cartes.forEach(function (li) {
-        var montre = (choix === 'tout' || li.getAttribute('data-theme') === choix) && n < max;
+        /* Un événement peut porter plusieurs thématiques (slugs séparés par une espace). */
+        var montre = (choix === 'tout' || (' ' + li.getAttribute('data-theme') + ' ').indexOf(' ' + choix + ' ') !== -1) && n < max;
         li.hidden = !montre;
         if (montre) {
           n++;

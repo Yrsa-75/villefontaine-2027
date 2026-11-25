@@ -137,12 +137,41 @@ def pages_budget():
     return pages
 
 
+# ---------------------------------------------------------------------------
+# 2. Les grands rendez-vous sportifs et culturels : agenda de la page, par catégorie
+# ---------------------------------------------------------------------------
+# Thématiques de l'agenda affichées sur la page (slugs) : un bouton par thématique permet de choisir.
+THEMES_GRANDS_RDV = ['culture', 'sport']
+
+
+def b_agenda_selection(titre, themes, nombre=9):
+    return f'<!-- wp:vf/agenda-prochains {j({"format": "cartes", "nombre": nombre, "titre": titre, "thematiques": themes})} /-->'
+
+
+def recompose_grands_rdv(p):
+    """Place l'agenda (sport et culture) juste après l'introduction et donne un titre aux temps forts de l'année.
+    Le texte, les accordéons et les photos viennent de la conversion de l'ancien site : ils ne sont pas réécrits."""
+    import re
+    contenu = re.sub(r'\s*<!-- wp:vf/agenda-prochains [^>]*?/-->', '', p['contenu'])
+    contenu = contenu.replace('<!-- wp:heading -->\n<h2 class="wp-block-heading">Les temps forts de l’année</h2>\n<!-- /wp:heading -->\n\n', '')
+    debut = contenu.find('<!-- wp:details')
+    if debut < 0:
+        return p
+    intro, suite = contenu[:debut].rstrip(), contenu[debut:]
+    p['contenu'] = '\n\n'.join([intro, b_agenda_selection('Les prochains rendez-vous', THEMES_GRANDS_RDV), b_titre('Les temps forts de l’année', 2), suite])
+    return p
+
+
 def toutes():
     return pages_budget()
 
 
 def appliquer(pages):
     """Remplace dans la liste les pages recomposées (même clé) et ajoute les nouvelles, juste après leur page mère."""
+    # Pages dont seule la structure change : le contenu converti est gardé, les blocs sont réordonnés.
+    for q in pages:
+        if q['cle'] == 'grands-rdv':
+            recompose_grands_rdv(q)
     for p in toutes():
         positions = [i for i, q in enumerate(pages) if q['cle'] == p['cle']]
         if positions:
@@ -159,4 +188,4 @@ if __name__ == '__main__':
     appliquer(lot['pages'])
     json.dump(lot, open('pages.json', 'w', encoding='utf-8'), ensure_ascii=False)
     faites = [p['cle'] for p in toutes()]
-    print(len(lot['pages']), 'pages ; recomposées :', [c for c in faites if c in avant], '; ajoutées :', [c for c in faites if c not in avant])
+    print(len(lot['pages']), 'pages ; recomposées :', [c for c in faites if c in avant] + ['grands-rdv'], '; ajoutées :', [c for c in faites if c not in avant])
