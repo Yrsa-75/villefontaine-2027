@@ -1,6 +1,6 @@
 # Villefontaine 2027 : déploiement et état du chantier
 
-Mis à jour le 25/11/2026 au soir (menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.12, thème 1.0.16, Sécurité 1.1.0, Déploiement 1.3.4).
+Mis à jour le 26/11/2026 (pages Budget et Grands rendez-vous recomposées, Agenda 1.1.4 ; menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.12, thème 1.0.16, Agenda 1.1.4, Sécurité 1.1.0, Déploiement 1.3.4).
 
 Ce document existe en deux exemplaires identiques : dans le projet Claude (`claude/deploiement-et-etat-du-chantier.md`) et dans le dépôt (`docs/etat-du-chantier.md`).
 
@@ -14,7 +14,7 @@ Ce document existe en deux exemplaires identiques : dans le projet Claude (`clau
 ## Où est le code
 - Dépôt GitHub public : https://github.com/Yrsa-75/villefontaine-2027
 - Un dossier par élément : `villefontaine` (thème), `socle-villefontaine`, `actualites-villefontaine`, `agenda-villefontaine`, `annuaire-villefontaine`, `kiosque-villefontaine`, `securite-villefontaine`, `deploiement-villefontaine`.
-- `outils/migration/` : scripts de conversion de l'ancien site (plan.py = arborescence et menu, menu.py = construction du méga-menu depuis le plan, construire.py, convertir.py, surcharges.py = pages recomposées ou écrites à la main, urbanisme.py = page Démarches d'urbanisme et données du schéma, signalement.py = page Signalement, alts.py = textes alternatifs des images) et lots produits (pages.json, contenus.json).
+- `outils/migration/` : scripts de conversion de l'ancien site (plan.py = arborescence et menu, menu.py = construction du méga-menu depuis le plan, construire.py, convertir.py, surcharges.py = pages recomposées ou écrites à la main, recompositions.py = pages refaites d'après le document d'architecture, thematiques.py = classement des événements, urbanisme.py = page Démarches d'urbanisme et données du schéma, signalement.py = page Signalement, alts.py = textes alternatifs des images) et lots produits (pages.json, contenus.json).
 - `dist/` : les .zip prêts à installer, `versions.json` et `dist/migration/` (régénérés par `./construire.sh`).
 - `docs/etat-du-chantier.md` : ce document.
 
@@ -39,8 +39,7 @@ Ce document existe en deux exemplaires identiques : dans le projet Claude (`clau
 - Attention : relancer `pages` sans clé remplace le contenu de toutes les pages migrées. Avant chaque relance, vérifier qu'aucune page n'a été modifiée à la main ; à ne plus faire une fois que les agents ont commencé à modifier les pages.
 
 ## Versions
-- Installées sur la préprod (25/11 au soir) : Socle 1.5.12, thème 1.0.16, Actualités 1.0.5, Agenda 1.1.3, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
-- Publiée dans le dépôt mais pas encore installée : Agenda 1.1.4 (bloc « Prochains événements » limité à plusieurs thématiques).
+- Installées sur la préprod (26/11) : Socle 1.5.12, thème 1.0.16, Actualités 1.0.5, Agenda 1.1.4, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
 - Migration relancée le 19/11 au soir (pages, finaliser, actualites, evenements) : 91 pages migrées, 167 événements sans doublon, 178 redirections.
 - Nom du site passé à « Ville de Villefontaine » sur la préprod (19/11).
 
@@ -57,11 +56,13 @@ Ce document fait foi pour le méga-menu. Le menu de la préprod suivait le plan 
 ## Contenu des pages (passages en bleu du document d'architecture)
 Vérification du 25/11 : 9 des 17 contenus en bleu étaient déjà conformes (8 raccourcis de l'accueil, Commerces, Tranquillité, Accessibilité, Grands projets, Vie culturelle, Sports et loisirs, Jardins, Patrimoine). Corrections validées par Ju, dans cet ordre, une page à la fois :
 1. **Budget : fait le 25/11.** La page Budget de la commune affiche 6 rectangles (bloc « Pages de la rubrique », donc automatique : une page ajoutée sous Budget crée son rectangle) vers 6 sous-pages hors menu : Budget 2026, 2025, 2024, 2023, 2022 et Les chiffres clés, plus un court « Comprendre les documents budgétaires ». Chaque page annuelle liste les documents de l'année (rapport d'orientation budgétaire, budget primitif, compte de l'année précédente). Les documents 2022 étaient dans la médiathèque du site actuel sans être affichés : ils sont repris (rapport d'orientation 2022, budget primitif 2022, compte administratif 2021). Pour ajouter une année : créer une page « Budget 2027 » avec Budget de la commune comme page parente, ordre 0 pour qu'elle passe en tête.
-2. **Les grands rendez-vous : prêt dans le dépôt le 25/11, pas encore installé sur la préprod** (l'ordinateur de Ju n'était plus joignable). Reste à faire : installer Agenda 1.1.4 par Outils > Déploiement, puis mettre à jour la page (route `migration`, `etape: pages`, `cle: grands-rdv`), puis classer les événements (voir ci-dessous).
-   - Agenda 1.1.4 : le bloc « Prochains événements » peut se limiter à quelques thématiques cochées dans la colonne de droite (panneau « Thématiques affichées »). Aucune case cochée : tous les événements, un bouton par thématique (comportement de l'accueil, inchangé). Plusieurs cases : seuls ces événements, un bouton par thématique cochée. Une seule case : pas de bouton. Titre facultatif au-dessus des cartes, lien « Tout l'agenda », message « Aucun rendez-vous n'est annoncé pour le moment dans cette sélection » quand il n'y a rien. Un événement classé dans plusieurs thématiques répond au bouton de chacune.
-   - Page : l'agenda sport et culture (attribut `thematiques: ["culture", "sport"]`, 9 événements) est placé juste après l'introduction, sous le titre « Les prochains rendez-vous » ; les accordéons mois par mois passent sous un titre « Les temps forts de l'année » ; la galerie ne bouge pas.
-   - Blocage de fond : sur la préprod, aucune thématique « Sport » ni « Culture » n'existe. Les 18 événements à venir repris du site actuel sont en « Vie citoyenne » (7) ou sans thématique (11). Tant que les événements ne sont pas classés, la page affichera le message « aucun rendez-vous ». Décision de Ju attendue sur le classement ; proposition : créer « Culture » et « Sport » et classer en Culture les 4 événements à venir qui en relèvent clairement (Heure de la musique : Le Rêve, Exposition Trépid, Après-midi cirque, Le petit chaperon rouge qui voit tout noir).
-   - Tests en local (WordPress 7.1.5, faux événements) : 8 cas de réglage, boutons à la souris et au clavier, ordinateur et téléphone, axe-core 0 erreur, réglages dans l'éditeur.
+2. **Les grands rendez-vous : fait le 26/11** (Agenda 1.1.4 installé, page n° 520 mise à jour).
+   - Agenda 1.1.4 : le bloc « Prochains événements » peut se limiter à quelques thématiques cochées dans la colonne de droite (panneau « Thématiques affichées »). Aucune case cochée : tous les événements, un bouton par thématique présente (comportement de l'accueil, inchangé). Plusieurs cases : seuls ces événements, un bouton par thématique cochée qui a au moins un événement. Une seule case : pas de bouton. Titre facultatif au-dessus des cartes, lien « Tout l'agenda », message « Aucun rendez-vous n'est annoncé pour le moment dans cette sélection » quand il n'y a rien. Un événement classé dans plusieurs thématiques répond au bouton de chacune.
+   - Page : l'agenda (attribut `thematiques: ["culture-et-patrimoine", "sport"]`, 9 événements) est placé juste après l'introduction, sous le titre « Les prochains rendez-vous » ; les accordéons mois par mois passent sous un titre « Les temps forts de l'année » ; la galerie ne bouge pas.
+   - Thématiques (décision de Ju du 26/11) : « Culture et patrimoine » (déjà présente, n° 5) et « Sport » (créée, n° 16). Thématiques de la préprod : Animations et ateliers, Animations et fêtes, Culture et patrimoine, Sport, Vie citoyenne.
+   - Classement : l'ancien site ne classait presque aucun événement. 4 événements ont été classés à la main en « Culture et patrimoine » (Exposition Trépid, Heure de la musique : Le Rêve, Le petit chaperon rouge qui voit tout noir, Après-midi cirque) ; ce classement est gardé dans `outils/migration/thematiques.py` pour la migration finale. Aucun événement sportif n'est annoncé : le bouton « Sport » et les boutons de choix n'apparaîtront qu'au premier événement classé en Sport. Après le 2/12, la page retombera sur le message « aucun rendez-vous » si aucun nouvel événement n'est classé : c'est aux agents de choisir la thématique à chaque événement saisi.
+   - Effet de bord voulu : l'accueil et la page Agenda affichent maintenant des boutons « Tout / Culture et patrimoine / Vie citoyenne », puisque deux thématiques ont des événements à venir.
+   - Tests : en local (WordPress 7.1.5, faux événements) 8 cas de réglage, boutons à la souris et au clavier, ordinateur et téléphone, axe-core 0 erreur, réglages dans l'éditeur ; sur la préprod, affichage ordinateur et téléphone contrôlé.
 3. Jumelage : 4 rectangles, un par ville jumelle. À faire.
 4. Services municipaux : trois parties (annuaire, contacts, organigramme) et titres corrigés. À faire.
 5. Services publics : retirer l'avis périmé, 4 blocs (France Travail, La Poste, impôts, Pimms). À faire.
@@ -200,8 +201,8 @@ Demandes de Ju : (1) fermer wp-admin et wp-login, connexion par /backoffice, blo
 
 ## Points ouverts
 - Contenus attendus de la mairie pour les 6 pages en brouillon : Joindre les élus, Plan canicule, Handicap, Relais emploi du CCAS, Infos Enedis et Semidao, La collecte.
-- Pages à recomposer d'après le document d'architecture : Budget fait le 25/11 ; Les grands rendez-vous prêt, à installer et à faire valider ; restent Jumelage, Services municipaux, Services publics, puis l'annuaire des associations et les catégories de la carte.
-- Agenda : classement des événements par thématique à décider (aucun événement en Sport ou Culture aujourd'hui) ; la liste des 12 thématiques est toujours attendue du service communication.
+- Pages à recomposer d'après le document d'architecture : Budget fait le 25/11, Les grands rendez-vous fait le 26/11 ; restent Jumelage, Services municipaux, Services publics, puis l'annuaire des associations et les catégories de la carte.
+- Agenda : la liste des 12 thématiques est toujours attendue du service communication ; d'ici là, 5 thématiques existent et seuls quelques événements sont classés. À dire aux agents : choisir la thématique de chaque événement, sinon il n'apparaît pas sur la page des grands rendez-vous.
 - Budget, à faire confirmer par la mairie : (1) l'année du graphique de répartition des dépenses repris dans « Les chiffres clés » : il n'est pas daté et ses montants (7,7, 6,5, 4,8, 4,1 et 3,4 millions d'euros) ne se retrouvent pas dans le rapport de présentation du budget 2024, il vaudrait mieux un visuel du dernier budget ; (2) le compte administratif 2022 n'est pas sur le site actuel (la page 2023 n'a que deux documents) ; (3) deux PDF sont très lourds et gagneraient à être allégés par la mairie : « Budget 2025 de la commune » (119 Mo) et « Compte administratif 2024 » (64 Mo).
 - Photo du grand visuel de l'accueil : demander un fichier de 2 400 px de large (l'actuel fait 1 800 px).
 - 3 affiches en hauteur à refaire à 2 400 px de large (décision de Ju attendue).
