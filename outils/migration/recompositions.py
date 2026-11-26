@@ -203,6 +203,54 @@ def recompose_jumelage(p):
     return p
 
 
+# ---------------------------------------------------------------------------
+# 4. Les services municipaux : contacts, annuaire, organigramme
+# ---------------------------------------------------------------------------
+COURRIEL_MAIRIE = 'contact.habitants@mairie-villefontaine.fr'
+HOTEL_DE_VILLE = {
+    'titre': 'Hôtel de ville',
+    'texte': '',
+    'adresse': 'Place Pierre Mendès France\nBP 88 - 38093 Villefontaine Cedex',
+    'tel': '04 74 96 00 00',
+    'courriel': COURRIEL_MAIRIE,
+    'lien': '',
+    'horaires': 'Lundi, mardi, mercredi et vendredi : 8 h 30 à 12 h et 13 h 30 à 17 h\nJeudi : 10 h 30 à 12 h et 13 h 30 à 17 h\n1er samedi du mois : 8 h 30 à 12 h',
+}
+# Texte d'attente : l'organigramme n'existe pas sur le site actuel, il doit être fourni par la mairie.
+ORGANIGRAMME_ATTENTE = 'L’organigramme des services municipaux sera publié ici prochainement.'
+
+
+def recompose_services_municipaux(p):
+    """Trois parties (document du 25/11/2026) : contacter la mairie, l'annuaire des services, l'organigramme.
+    Les accordéons des services, l'image de l'hôtel de ville et la carte viennent de la conversion de l'ancien site :
+    ils sont gardés tels quels. L'adresse et le téléphone n'étaient pas des titres : ils passent dans une carte contact.
+    Les deux paragraphes sur l'histoire de la ville sont retirés (ils sont sur la page « Découvrir la ville »)."""
+    import re
+    c = p['contenu']
+    if 'wp:details' not in c:
+        return p
+    image = re.search(r'<!-- wp:image .*?<!-- /wp:image -->', c, re.S)
+    accordeons = re.findall(r'<!-- wp:details -->.*?<!-- /wp:details -->', c, re.S)
+    carte = re.search(r'<!-- wp:vf/carte-services [^>]*?/-->', c)
+    blocs = [
+        b_titre('Contacter la mairie', 2),
+        f'<!-- wp:vf/contact-carte {j(HOTEL_DE_VILLE)} /-->',
+        b_paragraphe('<strong>Les services accueillent le public uniquement sur rendez-vous.</strong>'),
+        b_paragraphe(f'Pour toute question, information ou signalement, une seule adresse : <a href="mailto:{COURRIEL_MAIRIE}">{COURRIEL_MAIRIE}</a>'),
+        image.group(0) if image else '',
+        b_titre('L’annuaire des services', 2),
+        b_paragraphe('Les coordonnées et les horaires de chaque service. Cliquez sur un service pour afficher ses informations.'),
+        '\n\n'.join(accordeons),
+        carte.group(0) if carte else '',
+        b_titre('L’organigramme', 2),
+        b_paragraphe(ORGANIGRAMME_ATTENTE),
+    ]
+    p['contenu'] = '\n\n'.join(b for b in blocs if b)
+    # Colonne latérale : seulement l'adresse de courriel (les coordonnées complètes sont dans la page).
+    p['contact'] = {'titre': 'Une question, un signalement ?', 'adresse': '', 'tel': '', 'courriel': COURRIEL_MAIRIE, 'lien': '', 'horaires': ''}
+    return p
+
+
 def toutes():
     return pages_budget()
 
@@ -215,6 +263,8 @@ def appliquer(pages):
             recompose_grands_rdv(q)
         if q['cle'] == 'jumelage':
             recompose_jumelage(q)
+        if q['cle'] == 'services-municipaux':
+            recompose_services_municipaux(q)
     for p in toutes():
         positions = [i for i, q in enumerate(pages) if q['cle'] == p['cle']]
         if positions:
@@ -231,4 +281,4 @@ if __name__ == '__main__':
     appliquer(lot['pages'])
     json.dump(lot, open('pages.json', 'w', encoding='utf-8'), ensure_ascii=False)
     faites = [p['cle'] for p in toutes()]
-    print(len(lot['pages']), 'pages ; recomposées :', [c for c in faites if c in avant] + ['grands-rdv', 'jumelage'], '; ajoutées :', [c for c in faites if c not in avant])
+    print(len(lot['pages']), 'pages ; recomposées :', [c for c in faites if c in avant] + ['grands-rdv', 'jumelage', 'services-municipaux'], '; ajoutées :', [c for c in faites if c not in avant])
