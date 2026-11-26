@@ -141,7 +141,8 @@ def pages_budget():
 # 2. Les grands rendez-vous sportifs et culturels : agenda de la page, par catégorie
 # ---------------------------------------------------------------------------
 # Thématiques de l'agenda affichées sur la page (slugs) : un bouton par thématique permet de choisir.
-THEMES_GRANDS_RDV = ['culture', 'sport']
+# Décision de Ju du 26/11/2026 : « Culture et patrimoine » (déjà présente dans l'agenda) et « Sport ».
+THEMES_GRANDS_RDV = ['culture-et-patrimoine', 'sport']
 
 
 def b_agenda_selection(titre, themes, nombre=9):

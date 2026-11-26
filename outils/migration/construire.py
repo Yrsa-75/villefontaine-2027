@@ -416,5 +416,7 @@ for p in items:
                  'lien': m.get('evcal_lmlink') or '',
                  'annule': bool(re.search(r'annul', titre, re.I)),
                  'ancien': chemin_ancien(p)})
+import thematiques
+thematiques.appliquer(evts)  # Événements classés à la main (culture, sport).
 json.dump({'version': 1, 'actualites': actus, 'evenements': evts}, open('contenus.json', 'w'), ensure_ascii=False)
 print(len(actus), 'actualités,', len(evts), 'événements')
