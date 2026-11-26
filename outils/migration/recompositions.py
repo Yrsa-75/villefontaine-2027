@@ -232,6 +232,13 @@ def recompose_services_municipaux(p):
     image = re.search(r'<!-- wp:image .*?<!-- /wp:image -->', c, re.S)
     accordeons = re.findall(r'<!-- wp:details -->.*?<!-- /wp:details -->', c, re.S)
     carte = re.search(r'<!-- wp:vf/carte-services [^>]*?/-->', c)
+    # Retouche faite par Ju dans l'éditeur le 26/11/2026 : les horaires et la mention « sur rendez-vous » sont
+    # rappelés dans l'accordéon « Accueil de l'hôtel de ville ».
+    ancien = "<p>L'hôtel de ville est ouvert au public aux jours et horaires habituels.</p>\n<!-- /wp:paragraph -->"
+    nouveau = ("<p>L'hôtel de ville est ouvert au public aux jours et horaires habituels :</p>\n<!-- /wp:paragraph -->\n\n"
+               "<!-- wp:paragraph -->\n<p>Accueil physique le lundi, mardi, mercredi et vendredi de 8h30 à 12h et de 13h30 à 17h. Le jeudi de 10h30 à 12h et 13h30 à 17h. Ouverture le 1<sup>er</sup> samedi du mois de 8h30 à 12h. </p>\n<!-- /wp:paragraph -->\n\n"
+               "<!-- wp:paragraph -->\n<p><strong>Les services accueillent le public uniquement sur rendez-vous.</strong></p>\n<!-- /wp:paragraph -->")
+    accordeons = [x.replace(ancien, nouveau) for x in accordeons]
     blocs = [
         b_titre('Contacter la mairie', 2),
         f'<!-- wp:vf/contact-carte {j(HOTEL_DE_VILLE)} /-->',
