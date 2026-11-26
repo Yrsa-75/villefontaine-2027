@@ -163,6 +163,46 @@ def recompose_grands_rdv(p):
     return p
 
 
+# ---------------------------------------------------------------------------
+# 3. Jumelage : 4 rectangles, un par ville jumelle (sans sous-page : décision de Ju du 26/11/2026)
+# ---------------------------------------------------------------------------
+# Textes repris de la page du site actuel (« Zoom sur nos villes jumelées »), fautes de noms propres corrigées
+# (Francfort, la Hesse, Saxe-Anhalt, Kahl am Main). Pas de lien : le site actuel n'a pas d'autre contenu par ville.
+VILLES_JUMELLES = [
+    ('Kahl am Main', 'Allemagne, jumelée depuis 1981. Premier partenaire de Villefontaine. Kahl am Main est situé à 30 kilomètres de Francfort, à la limite entre la Hesse et la Bavière, dans une région d’étangs et de forêts.'),
+    ('Bitterfeld-Wolfen', 'Allemagne, jumelée depuis le 23 avril 1994. Notre second jumelage allemand s’est fait afin de développer les échanges scolaires pour les élèves du secondaire, ce qui n’est pas possible à Kahl am Main, dépourvu de lycées. Située à 30 km de Leipzig, dans le Land de Saxe-Anhalt, Wolfen s’honore d’un passé qui remonte à 600 ans.'),
+    ('Gremda', 'Tunisie, jumelée depuis le 6 novembre 1994. La ville est située à une dizaine de kilomètres au nord-ouest de Sfax, dans la région qu’on appelle le Sahel. Depuis la signature du jumelage avec Villefontaine, plusieurs échanges scolaires ont déjà eu lieu.'),
+    ('Salzano', 'Italie, jumelée depuis le 16 mai 2009. Ce jumelage a été conclu dans une volonté de consolider la connaissance et l’amitié entre les deux communautés. Salzano fait partie de la ville métropolitaine de Venise, en Vénétie.'),
+]
+
+
+def b_cartes(cartes, colonnes=2, niveau=3):
+    """Rectangles « Cartes de liens ». Sans adresse, la carte n'est pas cliquable."""
+    return f'<!-- wp:vf/cartes-liens {j({"cartes": cartes, "colonnes": colonnes, "niveau": niveau})} /-->'
+
+
+def recompose_jumelage(p):
+    """Remplace la partie « Zoom sur nos villes jumelées » (titres mal hiérarchisés) par 4 rectangles identiques,
+    placés avant « Qu'est-ce que le jumelage ? ». Le reste du texte converti de l'ancien site est gardé tel quel."""
+    import re
+    c = re.sub(r'\s*<!-- wp:vf/cartes-liens [^>]*?/-->', '', p['contenu'])
+    zoom = '<!-- wp:heading -->\n<h2 class="wp-block-heading">Zoom sur nos villes jumelées</h2>\n<!-- /wp:heading -->'
+    quoi = '<!-- wp:heading -->\n<h2 class="wp-block-heading">Qu’est-ce que le jumelage ?</h2>'
+    if zoom not in c or quoi not in c:
+        return p
+    avant_zoom, apres_zoom = c.split(zoom, 1)
+    if avant_zoom.find(quoi) >= 0:
+        # Première application : l'ancien « Zoom » (en fin de page) est supprimé, ses textes sont dans les rectangles.
+        histoire, definition = avant_zoom.split(quoi, 1)
+        definition = quoi + definition
+    else:
+        # Déjà recomposée : on garde l'histoire et la définition, on refait seulement les rectangles.
+        histoire, definition = avant_zoom, quoi + apres_zoom.split(quoi, 1)[1]
+    cartes = [{'titre': t, 'texte': x, 'url': '', 'icone': 'lieu'} for t, x in VILLES_JUMELLES]
+    p['contenu'] = '\n\n'.join([histoire.strip(), zoom, b_cartes(cartes), definition.strip()])
+    return p
+
+
 def toutes():
     return pages_budget()
 
@@ -173,6 +213,8 @@ def appliquer(pages):
     for q in pages:
         if q['cle'] == 'grands-rdv':
             recompose_grands_rdv(q)
+        if q['cle'] == 'jumelage':
+            recompose_jumelage(q)
     for p in toutes():
         positions = [i for i, q in enumerate(pages) if q['cle'] == p['cle']]
         if positions:
@@ -189,4 +231,4 @@ if __name__ == '__main__':
     appliquer(lot['pages'])
     json.dump(lot, open('pages.json', 'w', encoding='utf-8'), ensure_ascii=False)
     faites = [p['cle'] for p in toutes()]
-    print(len(lot['pages']), 'pages ; recomposées :', [c for c in faites if c in avant] + ['grands-rdv'], '; ajoutées :', [c for c in faites if c not in avant])
+    print(len(lot['pages']), 'pages ; recomposées :', [c for c in faites if c in avant] + ['grands-rdv', 'jumelage'], '; ajoutées :', [c for c in faites if c not in avant])
