@@ -15,7 +15,20 @@
 .js .heros__contenu > *:nth-child(3) { animation-delay: .2s; }
 .js .heros__contenu > *:nth-child(4) { animation-delay: .3s; }
 .immersif { position: relative; min-height: 0; display: flex; align-items: center; overflow: hidden; background: var(--nuit); color: var(--blanc); isolation: isolate; }
-.immersif__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -3; opacity: .78; animation: kenburns 22s var(--ease) both; }
+/* Les photos sont dans un calque : c'est lui qui porte la transparence, pour que deux photos puissent se fondre
+   l'une dans l'autre sans laisser voir le fond sombre. */
+.immersif__photos { position: absolute; inset: 0; z-index: -3; opacity: .78; overflow: hidden; }
+.immersif__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: kenburns 22s var(--ease) both; }
+/* Diaporama : la photo suivante apparaît en fondu par-dessus la précédente, qui reste visible dessous. */
+.immersif__photos.est-diaporama .immersif__photo { opacity: 0; transition: opacity 1.2s ease; }
+.immersif__photos.est-diaporama .immersif__photo.est-affichee,
+.immersif__photos.est-diaporama .immersif__photo.est-dessous { opacity: 1; }
+.immersif__photo--suite { animation: none; }
+/* Bouton pause du diaporama (RGAA 13.8 : un contenu en mouvement doit pouvoir être arrêté). */
+.immersif__pause { position: absolute; right: 22px; bottom: 22px; z-index: 3; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .45); background: rgba(7, 30, 36, .72); color: var(--blanc); cursor: pointer; transition: background .2s ease, transform .2s ease; }
+.immersif__pause:hover { background: rgba(7, 30, 36, .92); }
+.immersif__pause:focus-visible { outline: 3px solid var(--blanc); outline-offset: 3px; }
+.immersif__pause svg { width: 18px; height: 18px; fill: currentColor; }
 .immersif::before { content: ""; position: absolute; inset: 0; z-index: -2; background: linear-gradient(100deg, rgba(7, 30, 36, .94) 0%, rgba(7, 30, 36, .72) 38%, rgba(7, 30, 36, .15) 72%), linear-gradient(0deg, rgba(7, 30, 36, .85) 0%, transparent 38%); }
 .aurore { position: absolute; inset: -20%; z-index: -1; pointer-events: none; filter: blur(70px); opacity: .55; mix-blend-mode: screen; }
 .aurore span { position: absolute; border-radius: 50%; }
@@ -30,7 +43,7 @@
 .capsule:hover { background: rgba(255, 255, 255, .18); color: var(--blanc); }
 .capsule b { white-space: nowrap; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; background: #FFD66B; color: #3A2A00; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
 .capsule b::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #B54A1F; animation: clignote 1.6s ease-in-out infinite; }
-.immersif__surtitre { margin: 0 0 10px; font-size: 13px; font-weight: 700; letter-spacing: .32em; text-transform: uppercase; color: var(--lueur-vert); }
+.immersif__surtitre { margin: 0 0 10px; font-size: 13px; font-weight: 700; letter-spacing: .32em; text-transform: uppercase; color: #D7EE84; } /* Vert clair à toutes les largeurs (26/11/2026) : sur un ciel lumineux, le vert d'origine passait sous 4,5 de contraste sur téléphone. */
 .immersif h1 { font-size: clamp(19.5px, 2.9vw, 42px); font-weight: 700; line-height: 1.08; margin-bottom: 20px; }
 .immersif h1 .degrade { display: block; background: linear-gradient(95deg, #FFFFFF 0%, #D7EE84 35%, #8FD3C2 70%, #FFFFFF 100%); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: reflet 9s ease-in-out infinite alternate; }
 .immersif .heros__suggestions { margin-top: 12px; gap: 6px; font-size: 12px; }
@@ -49,7 +62,7 @@
    elle devenait invisible.
    Contrastes des textes vérifiés de 1200 à 2560 px avec la photo en place : à revérifier si la photo change. */
 @media (min-width: 1200px) {
-  .immersif__photo { opacity: .96; }
+  .immersif__photos { opacity: .96; }
   .immersif::before { background: radial-gradient(ellipse 46% 70% at 30% 47%, rgba(7, 30, 36, .7) 0%, rgba(7, 30, 36, .52) 55%, rgba(7, 30, 36, 0) 100%), linear-gradient(100deg, rgba(7, 30, 36, .55) 0%, rgba(7, 30, 36, .44) 30%, rgba(7, 30, 36, .24) 50%, rgba(7, 30, 36, .05) 64%, rgba(7, 30, 36, 0) 78%), linear-gradient(180deg, rgba(7, 30, 36, .8) 0%, rgba(7, 30, 36, .62) 9%, rgba(7, 30, 36, 0) 27%), linear-gradient(0deg, rgba(7, 30, 36, .55) 0%, rgba(7, 30, 36, 0) 28%); }
   .immersif .aurore { opacity: .3; }
   .immersif .aurore span:nth-child(3) { display: none; }
@@ -73,4 +86,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .aurore { display: none; }
+  .immersif__photos.est-diaporama .immersif__photo { transition: none; }
 }

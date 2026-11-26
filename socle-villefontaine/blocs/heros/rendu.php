@@ -37,11 +37,32 @@ if ( '' === $vf_image ) {
 	}
 }
 
+// Diaporama : les autres photos ne sont pas dans la page au chargement (la première reste l'élément le plus
+// gros, chargé en priorité). Leur adresse est transmise au script, qui les charge une fois la page affichée.
+$vf_suite = array();
+foreach ( array_slice( array_unique( array_map( 'absint', (array) ( $attributes['imagesSuite'] ?? array() ) ) ), 0, 7 ) as $vf_id ) {
+	if ( ! $vf_id || $vf_id === (int) $attributes['imageId'] || ! wp_attachment_is_image( $vf_id ) ) {
+		continue;
+	}
+	$vf_src = wp_get_attachment_image_src( $vf_id, 'full' );
+	if ( $vf_src ) {
+		$vf_suite[] = array(
+			'src'     => $vf_src[0],
+			'srcset'  => (string) wp_get_attachment_image_srcset( $vf_id, 'full' ),
+			'largeur' => (int) $vf_src[1],
+			'hauteur' => (int) $vf_src[2],
+		);
+	}
+}
+$vf_duree = max( 3, min( 15, (int) ( $attributes['duree'] ?? 5 ) ) );
+
 $vf_flash = trim( (string) $attributes['flashTexte'] );
 $vf_url   = trim( (string) $attributes['flashUrl'] );
 ?>
-<section class="immersif" aria-labelledby="titre-accueil">
+<section class="immersif" aria-labelledby="titre-accueil"<?php echo ( $vf_suite && '' !== $vf_image ) ? ' data-diaporama="' . esc_attr( wp_json_encode( $vf_suite ) ) . '" data-duree="' . (int) $vf_duree . '"' : ''; ?>>
+<div class="immersif__photos">
 <?php echo $vf_image; // phpcs:ignore WordPress.Security.EscapeOutput -- produit par wp_get_attachment_image ou échappé ci-dessus. ?>
+</div>
 <div class="aurore" aria-hidden="true"><span></span><span></span><span></span></div>
 <div class="grille-lumineuse" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
