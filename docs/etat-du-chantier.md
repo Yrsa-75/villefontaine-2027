@@ -1,6 +1,6 @@
 # Villefontaine 2027 : déploiement et état du chantier
 
-Mis à jour le 26/11/2026 (les 5 pages du document d'architecture recomposées : Budget, Grands rendez-vous, Jumelage, Services municipaux, Services publics ; Agenda 1.1.4 ; menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.14, thème 1.0.17, Agenda 1.1.4, Sécurité 1.1.0, Déploiement 1.3.4).
+Mis à jour le 26/11/2026 (les 5 pages du document d'architecture recomposées : Budget, Grands rendez-vous, Jumelage, Services municipaux, Services publics ; Agenda 1.1.4 ; menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.14, thème 1.0.17, Actualités 1.0.6, Agenda 1.1.4, Sécurité 1.1.0, Déploiement 1.3.4).
 
 Ce document existe en deux exemplaires identiques : dans le projet Claude (`claude/deploiement-et-etat-du-chantier.md`) et dans le dépôt (`docs/etat-du-chantier.md`).
 
@@ -39,7 +39,7 @@ Ce document existe en deux exemplaires identiques : dans le projet Claude (`clau
 - Attention : relancer `pages` sans clé remplace le contenu de toutes les pages migrées. Avant chaque relance, vérifier qu'aucune page n'a été modifiée à la main ; à ne plus faire une fois que les agents ont commencé à modifier les pages.
 
 ## Versions
-- Installées sur la préprod (26/11) : Socle 1.5.14, thème 1.0.17, Actualités 1.0.5, Agenda 1.1.4, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
+- Installées sur la préprod (26/11) : Socle 1.5.14, thème 1.0.17, Actualités 1.0.6, Agenda 1.1.4, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
 - Migration relancée le 19/11 au soir (pages, finaliser, actualites, evenements) : 91 pages migrées, 167 événements sans doublon, 178 redirections.
 - Nom du site passé à « Ville de Villefontaine » sur la préprod (19/11).
 
@@ -111,6 +111,12 @@ Vérification du 25/11 : 9 des 17 contenus en bleu étaient déjà conformes (8 
 - L'image d'une tuile est toujours recadrée en 3/2, même si le fichier est petit ou en hauteur (avant, une image plus petite que 720 × 480 étirait la tuile).
 - Actualité sans image : aplat bleu clair à la place, pour garder la grille régulière (listes d'actualités seulement, pas la recherche).
 
+## Actualités de l'accueil (Actualités 1.0.6, 26/11, retour de la mairie)
+- Demande de la mairie, transmise par Ju : plus de flèche sur le visuel, plus de mot « Actualités », plus de dégradé qui assombrit l'image ; le titre sur un pavé blanc sous le visuel, un cadre fin autour de l'ensemble.
+- Tuile du bloc « Actualités en mosaïque » refaite : visuel en haut, sans rien posé dessus (sauf la pastille « À la une » sur la première), titre en bleu nuit sur fond blanc, cadre 1 px. La une garde son résumé sous le titre.
+- Conséquence sur la disposition : le texte n'étant plus posé sur l'image, les tuiles ne sont plus de hauteur fixe. Les visuels sont au format 3/2 (celui des affiches de la mairie), donc affichés entiers. Sur ordinateur, la une occupe 8 colonnes sur 12 et 2 rangées (7 avant), les 5 autres 4 colonnes ; son visuel prend la hauteur restante (environ 1,6 pour 1, très peu rogné). Tablette : une sur toute la largeur en 16/9, puis 2 et 3 tuiles par rangée. Téléphone : une tuile par rangée.
+- Le dégradé fourni par Ju le 24/11 (Actualités 1.0.5) est donc abandonné, et le point de vigilance sur le contraste de l'étiquette « Actualités » n'a plus d'objet.
+
 ## Plugin « Sécurité Villefontaine » (securite-villefontaine 1.1.0, 25/11)
 Demandes de Ju : (1) fermer wp-admin et wp-login, connexion par /backoffice, blocage d'une adresse IP 1 heure après 3 échecs avec déblocage par l'administrateur ; (2) « mettre le paquet » sur la sécurité et habiller la page de connexion à la charte. Décision de Ju du 25/11 : pas de double authentification pour l'instant (si elle est ajoutée plus tard : obligatoire pour les administrateurs seulement).
 
@@ -172,7 +178,7 @@ Demandes de Ju : (1) fermer wp-admin et wp-login, connexion par /backoffice, blo
 - Typographie : toutes les tailles de texte réduites de 12 % (texte courant 17 → 15 px), titres de page (H1 des pages intérieures) réduits de 20 % (54 → 43 px sur grand écran). Plancher : aucun texte sous 12 px. Champs de formulaire maintenus à 16 px (en dessous, iOS zoome à la saisie). Le titre de l'accueil suit la règle des 12 %.
 - Grand visuel de l'accueil : 710 → 652 px de haut à 1440 px (40 px de marges retirées + effet des textes plus petits).
 - Kiosque : la différence avec la version de test venait des images (vignettes de partage Calaméo), pas du code. Le n° 120 du Mag n'est pas encore dans le kiosque de la préprod.
-- Tuiles d'actualités (Actualités 1.0.5) : le voile bleu qui couvrait toute la photo est supprimé. Dégradé limité à la zone du titre, valeurs fournies par Ju : `linear-gradient(0deg, rgba(7, 30, 36, .94) 20%, rgba(7, 30, 36, .44) calc(100% - var(--fondu) - 8px), rgba(7, 30, 36, 0) 100%)`. Toute la tuile est cliquable.
+- Tuiles d'actualités (Actualités 1.0.5) : le voile bleu qui couvrait toute la photo est supprimé. Dégradé limité à la zone du titre, valeurs fournies par Ju : `linear-gradient(0deg, rgba(7, 30, 36, .94) 20%, rgba(7, 30, 36, .44) calc(100% - var(--fondu) - 8px), rgba(7, 30, 36, 0) 100%)`. Toute la tuile est cliquable. (Remplacé le 26/11 : voir « Actualités de l'accueil ».)
 - Méga-menu (ordinateur) : marges réduites et espaces supprimés entre les liens de 3e niveau, d'après la capture de Ju.
 
 ## Page « Faire un signalement » (24/11)
@@ -208,7 +214,6 @@ Demandes de Ju : (1) fermer wp-admin et wp-login, connexion par /backoffice, blo
 - PDF : 156 documents, 26 balisés, 130 non balisés dont 30 scans. Vidéo du jardin collectif publiée le 12/11/2019 (non soumise) ; vidéo The Village = contenu de tiers.
 - axe-core : 0 erreur sur 24 pages types, en ordinateur et en mobile (avant le 24/11). Code HTML valide (validateur W3C). Navigation clavier, focus visible, 320 px, espacement du texte : conformes.
 - À refaire après les retouches des 24 et 25/11 : passe axe-core sur les pages types (tailles de texte, nouvel en-tête avec recherche, tuiles d'actualités, grand visuel de l'accueil), sur la page Démarches d'urbanisme et sur la page Signalement en conditions réelles.
-- Point de vigilance : sur les tuiles d'actualités, l'étiquette « Actualités » se trouve dans la partie claire du dégradé de Ju ; son contraste dépend de la photo. Proposition en attente : la placer sur une pastille sombre.
 - Schéma pluriannuel 2027-2029 rédigé (document Claude Docs), éléments entre crochets à compléter par la mairie (référent, budget, prestataires, date de mise en ligne).
 - Reste à faire pour « totalement conforme » : traiter les PDF (tri, liens vers les sources officielles, pages web, PDF accessibles) et les publications du kiosque ; description détaillée de la carte du grand projet centre-ville ; test complémentaire avec lecteurs d'écran (NVDA, VoiceOver).
 

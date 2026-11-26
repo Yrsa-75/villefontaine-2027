@@ -1,55 +1,48 @@
-/* Styles repris de la maquette V3 validée (actus) */
-.actus { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: auto auto; gap: 22px; }
-.pastille-une { position: absolute; top: 18px; left: 18px; z-index: 2; pointer-events: none; display: inline-flex; align-items: center; gap: 6px; background: var(--vert-400); color: var(--bleu-900); font-weight: 800; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; padding: 7px 12px; border-radius: 999px; }
-.mosaique { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: 120px; gap: 18px; }
-.tuile-actu { position: relative; display: flex; flex-direction: column; justify-content: flex-end; border-radius: 26px; overflow: hidden; color: var(--blanc); text-decoration: none; isolation: isolate; background: var(--nuit-2); }
-.tuile-actu img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .9s var(--ease), filter .6s; }
-/* Le voile sombre n'est plus posé sur toute la tuile : il est attaché au bloc de texte (voir .tuile-actu__corps),
-   pour laisser la photo visible tout en gardant un contraste suffisant sous les textes, quelle que soit leur longueur. */
-.tuile-actu:hover img { transform: scale(1.07); }
-/* Le bloc de texte n'est pas positionné : la zone cliquable du titre (h3 a::after) couvre ainsi toute la tuile, photo comprise. */
-.tuile-actu__corps { --fondu: 28px; padding: calc(var(--fondu) + 8px) 24px 18px; background: linear-gradient(0deg, rgba(7, 30, 36, .94) 20%, rgba(7, 30, 36, .44) calc(100% - var(--fondu) - 8px), rgba(7, 30, 36, 0) 100%); }
-.tuile-actu__theme { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lueur-vert); margin: 0 0 8px; }
-.tuile-actu h3 { font-size: 17.5px; font-weight: 750; line-height: 1.25; }
-.tuile-actu h3 a { color: var(--blanc); text-decoration: none; }
+/* Actualités en mosaïque : la « une » en grand à gauche, les suivantes autour.
+   Chaque tuile = le visuel entier en haut (ni voile, ni texte posé dessus), le titre sur un pavé blanc en dessous,
+   un cadre fin autour de l'ensemble (demande de la mairie, 26/11/2026). */
+.mosaique { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 18px; }
+.tuile-actu { position: relative; display: flex; flex-direction: column; border: 1px solid var(--trait); border-radius: 26px; overflow: hidden; background: var(--blanc); color: var(--bleu-900); transition: box-shadow .3s var(--ease), border-color .3s; }
+.tuile-actu:hover { box-shadow: var(--ombre-forte); border-color: transparent; }
+
+/* Le visuel garde le format 3/2 des images de la mairie : elles ne sont plus rognées. */
+.tuile-actu__visuel { position: relative; flex: none; aspect-ratio: 3 / 2; overflow: hidden; background: var(--bleu-100); }
+.tuile-actu__visuel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease); }
+.tuile-actu:hover .tuile-actu__visuel img { transform: scale(1.05); }
+.tuile-actu--haut .tuile-actu__visuel img { object-position: center top; }
+.tuile-actu__fond { position: absolute; inset: 0; background: radial-gradient(120% 90% at 85% 0%, rgba(167, 193, 60, .55), transparent 55%), linear-gradient(140deg, var(--bleu-700), var(--bleu-900)); }
+
+/* Le pavé de texte n'est pas positionné : la zone cliquable du titre (h3 a::after) couvre ainsi toute la tuile, visuel compris. */
+.tuile-actu__corps { flex: 1 1 auto; padding: 14px 20px 18px; background: var(--blanc); }
+.tuile-actu h3 { margin: 0; font-size: 17.5px; font-weight: 750; line-height: 1.25; min-height: 2.5em; }
+.tuile-actu h3 a { color: var(--bleu-900); text-decoration: none; }
 .tuile-actu h3 a::after { content: ""; position: absolute; inset: 0; }
 .tuile-actu:hover h3 a { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
-.tuile-actu p.resume { margin: 10px 0 0; color: #D9E6E9; font-size: 14px; max-width: 560px; }
-.tuile-actu--une { grid-column: span 7; grid-row: span 4; }
-.tuile-actu--une h3 { font-family: var(--titre); font-weight: 650; font-size: clamp(21px, 2.11vw, 30px); }
-.tuile-actu--une .tuile-actu__corps { --fondu: 64px; padding: calc(var(--fondu) + 8px) 32px 32px; }
-.tuile-actu--a { grid-column: span 5; grid-row: span 2; }
-.tuile-actu--b { grid-column: span 5; grid-row: span 2; }
-.tuile-actu--c { grid-column: span 6; grid-row: span 2; }
-.tuile-actu--d { grid-column: span 6; grid-row: span 2; }
-.fleche-coin { pointer-events: none; position: absolute; top: 18px; right: 18px; width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .35); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: transform .4s var(--ease), background .3s, color .3s; }
-.tuile-actu:hover .fleche-coin { transform: rotate(-45deg); background: var(--lueur-vert); color: var(--nuit); border-color: var(--lueur-vert); }
-.mosaique .tuile-actu--c, .mosaique .tuile-actu--d, .mosaique .tuile-actu--e { grid-column: span 4; grid-row: span 2; }
-.tuile-actu--haut img { object-position: center top; }
+.tuile-actu p.resume { margin: 10px 0 0; color: var(--encre-douce); font-size: 14px; max-width: 620px; }
+.tuile-actu p.resume:empty { display: none; }
 
-@media (max-width: 1180px) {
-  .actus { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .mosaique { grid-auto-rows: 110px; }
-  .tuile-actu--une { grid-column: span 12; grid-row: span 4; }
-  .tuile-actu--a, .tuile-actu--b, .tuile-actu--c, .tuile-actu--d { grid-column: span 6; }
-  .mosaique .tuile-actu--c, .mosaique .tuile-actu--d { grid-column: span 6; }
-  .mosaique .tuile-actu--e { grid-column: span 12; }
-}
-
-@media (max-width: 760px) {
-  .actus, .agenda { grid-template-columns: 1fr; }
-  .mosaique { grid-template-columns: 1fr; grid-auto-rows: minmax(240px, auto); }
-  .tuile-actu--une, .tuile-actu--a, .tuile-actu--b, .tuile-actu--c, .tuile-actu--d { grid-column: auto; grid-row: span 1; }
-  .tuile-actu--une { grid-row: span 2; }
-  .mosaique .tuile-actu--c, .mosaique .tuile-actu--d, .mosaique .tuile-actu--e { grid-column: auto; grid-row: span 1; }
-}
-
-/* Compléments WordPress */
-.tuile-actu__fond { position: absolute; inset: 0; z-index: -2; background: radial-gradient(120% 90% at 85% 0%, rgba(167, 193, 60, .55), transparent 55%), linear-gradient(140deg, var(--bleu-700), var(--bleu-900)); }
-/* Sans photo, le fond est déjà sombre : un voile léger suffit. */
-.tuile-actu--sans-image .tuile-actu__corps { background: linear-gradient(0deg, rgba(7, 30, 36, .5), rgba(7, 30, 36, 0)); }
-.mosaique--3 .tuile-actu--a, .mosaique--3 .tuile-actu--b { grid-column: span 5; grid-row: span 2; }
+.pastille-une { position: absolute; top: 18px; left: 18px; z-index: 2; pointer-events: none; display: inline-flex; align-items: center; gap: 6px; background: var(--vert-400); color: var(--bleu-900); font-weight: 800; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; padding: 7px 12px; border-radius: 999px; }
 .pastille-une svg { flex: 0 0 auto; }
+
+/* Ordinateur : la une sur 8 colonnes et 2 rangées, les autres sur 4 colonnes. Son visuel prend la hauteur restante. */
+.tuile-actu--une { grid-column: span 8; grid-row: span 2; }
+.tuile-actu--une .tuile-actu__visuel { flex: 1 1 auto; aspect-ratio: auto; min-height: 280px; }
+.tuile-actu--une .tuile-actu__corps { flex: none; padding: 22px 28px 26px; }
+.tuile-actu--une h3 { font-family: var(--titre); font-weight: 650; font-size: clamp(21px, 2.11vw, 30px); min-height: 0; }
+.tuile-actu--a, .tuile-actu--b, .tuile-actu--c, .tuile-actu--d, .tuile-actu--e { grid-column: span 4; }
+
+/* Tablette : la une sur toute la largeur (visuel en 16/9 pour ne pas dépasser la hauteur de l'écran), puis 2 et 3 tuiles par rangée. */
+@media (max-width: 1180px) {
+  .tuile-actu--une { grid-column: span 12; grid-row: auto; }
+  .tuile-actu--une .tuile-actu__visuel { flex: none; aspect-ratio: 16 / 9; min-height: 0; }
+  .tuile-actu--a, .tuile-actu--b { grid-column: span 6; }
+}
+
+/* Téléphone : une tuile par rangée, toutes au format 3/2. */
 @media (max-width: 760px) {
-  .mosaique--3 .tuile-actu--a, .mosaique--3 .tuile-actu--b { grid-column: auto; }
+  .mosaique { grid-template-columns: 1fr; gap: 16px; }
+  .tuile-actu--une, .tuile-actu--a, .tuile-actu--b, .tuile-actu--c, .tuile-actu--d, .tuile-actu--e { grid-column: auto; }
+  .tuile-actu--une .tuile-actu__visuel { aspect-ratio: 3 / 2; }
+  .tuile-actu--une .tuile-actu__corps { padding: 16px 20px 20px; }
+  .tuile-actu h3 { min-height: 0; }
 }
