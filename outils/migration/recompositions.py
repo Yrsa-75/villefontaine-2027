@@ -251,6 +251,70 @@ def recompose_services_municipaux(p):
     return p
 
 
+# ---------------------------------------------------------------------------
+# 5. Services publics : une seule page avec France Travail, La Poste, les impôts et le Pimms
+# ---------------------------------------------------------------------------
+# Coordonnées relevées le 26/11/2026, à faire valider par la mairie :
+# - France Travail : francetravail.fr (page de l'agence de Villefontaine) ;
+# - La Poste : localisateur de bureaux de La Poste (labanquepostale.fr), horaires du bureau des Dauphins ;
+# - impôts : adresse reprise d'un annuaire non officiel de l'administration, numéro national des impôts des particuliers ;
+# - Pimms : coordonnées déjà publiées par la mairie sur le site actuel.
+def b_contact(titre, **champs):
+    d = {'titre': titre, 'texte': '', 'adresse': '', 'tel': '', 'courriel': '', 'lien': '', 'horaires': ''}
+    d.update(champs)
+    return f'<!-- wp:vf/contact-carte {j(d)} /-->'
+
+
+def recompose_services_publics(p):
+    """L'ancienne page ne parlait que du Pimms (avis de fermeture d'août, dates d'avril, titres utilisés comme du texte).
+    Quatre parties désormais ; les accordéons et les documents du Pimms viennent de la conversion de l'ancien site."""
+    import re
+    c = p['contenu']
+    accordeons = re.findall(r'<!-- wp:details -->.*?<!-- /wp:details -->', c, re.S)
+    documents = re.search(r'<!-- wp:vf/documents [^>]*?/-->', c)
+    if not accordeons:
+        return p
+    # Le Pimms mobile : la liste des dates d'avril est périmée, la tournée à jour est dans le document joint.
+    accordeons = [re.sub(r'\s*<!-- wp:list -->\s*<ul class="wp-block-list"><!-- wp:list-item -->\s*<li>Mardi 1er avril</li>.*?<!-- /wp:list -->', '', a, flags=re.S) for a in accordeons]
+    blocs = [
+        b_paragraphe('Emploi, courrier, impôts, démarches du quotidien : les principaux services publics présents à Villefontaine, avec leurs coordonnées.'),
+
+        b_titre('France Travail', 2),
+        b_paragraphe('France Travail s’occupe principalement des dossiers de demande d’emploi et du versement des allocations de chômage. L’agence propose un accompagnement personnalisé vers l’emploi et des ateliers collectifs thématiques (CV, lettre de motivation, etc.).'),
+        b_contact('Agence France Travail de Villefontaine', texte='Employeurs : composez le 3995.',
+                  adresse='315 rue Serge Mauroit\n38090 Villefontaine', tel='3949',
+                  horaires='Sans rendez-vous : du lundi au vendredi, de 8 h 30 à 12 h 30\nSur rendez-vous : lundi, mardi et mercredi de 12 h 30 à 16 h 30, vendredi de 12 h 30 à 15 h 30',
+                  lien='https://www.francetravail.fr/annuaire/votre-agence-francetravail/villefontaine-38090'),
+
+        b_titre('La Poste', 2),
+        b_paragraphe('Deux points de contact La Poste vous accueillent à Villefontaine.'),
+        b_contact('Bureau de poste Villefontaine Les Dauphins', adresse='Place de l’Hôtel de Ville\n38090 Villefontaine',
+                  horaires='Du lundi au vendredi : 9 h à 12 h 30 et 14 h à 17 h 30\nSamedi : 9 h à 12 h',
+                  lien='https://www.labanquepostale.fr/particulier/localisation_bureau/resultat_localisation_bureau.detail.html/villefontaine-lesdauphins-385530.html'),
+        b_contact('Agence postale communale', adresse='601 chaussée des Escoffiers\n38090 Villefontaine', lien='https://www.laposte.fr/bureaux-poste'),
+
+        b_titre('Impôts', 2),
+        b_paragraphe('Le service des impôts des particuliers est installé au centre des finances publiques, place Charles-de-Gaulle. La plupart des démarches peuvent aussi se faire en ligne, depuis votre espace particulier sur impots.gouv.fr.'),
+        b_contact('Service des impôts des particuliers', adresse='Centre des finances publiques\nPlace Charles-de-Gaulle\n38097 Villefontaine Cedex',
+                  tel='0 809 401 401', lien='https://www.impots.gouv.fr/'),
+
+        b_titre('Pimms Médiation Isère, France services', 2),
+        b_paragraphe('Depuis 25 ans, les Pimms sont des lieux d’accueil ouverts à tous. Des médiateurs sociaux, professionnels du lien social, aident les habitants dans leurs démarches administratives pour un meilleur accès aux services publics.'),
+        b_paragraphe('Ouvert à Villefontaine en 2014, le Pimms Médiation Isère œuvre à l’accessibilité des habitants aux services nécessaires à la vie courante : il relaie et facilite la compréhension, complète l’offre de services de ses partenaires et propose des services généralistes (information de premier niveau, mise en rapport avec le bon interlocuteur).'),
+        b_contact('Pimms Médiation Isère de Villefontaine', adresse='8 place Jean Jaurès\n38090 Villefontaine', tel='04 37 05 03 69',
+                  courriel='villefontaine@pimmsmediation.fr', lien='https://www.pimmsmediation.fr/'),
+        b_paragraphe('Ses partenaires sont : la ville de Villefontaine, la CAPI, EDF, La Poste, SDH, ACTIS, CDC Habitat Social, Keolis Porte de l’Isère.'),
+        b_paragraphe('Trois autres points d’accueil sont situés sur le territoire : à Grenoble, Vizille et à Pont-de-Claix pour le Sud-Isère, ainsi que deux bus France Services.'),
+        b_paragraphe('L’équipe de Villefontaine est constituée de 5 médiateurs sociaux. Elle peut également accueillir des stagiaires (élèves, adultes en formation ou reconversion professionnelle).'),
+        '\n\n'.join(accordeons),
+        documents.group(0) if documents else '',
+    ]
+    p['contenu'] = '\n\n'.join(b for b in blocs if b)
+    # Colonne latérale : contact général de la mairie (l'encart ne présentait que le Pimms).
+    p['contact'] = {}
+    return p
+
+
 def toutes():
     return pages_budget()
 
@@ -265,6 +329,8 @@ def appliquer(pages):
             recompose_jumelage(q)
         if q['cle'] == 'services-municipaux':
             recompose_services_municipaux(q)
+        if q['cle'] == 'services-publics':
+            recompose_services_publics(q)
     for p in toutes():
         positions = [i for i, q in enumerate(pages) if q['cle'] == p['cle']]
         if positions:
@@ -281,4 +347,4 @@ if __name__ == '__main__':
     appliquer(lot['pages'])
     json.dump(lot, open('pages.json', 'w', encoding='utf-8'), ensure_ascii=False)
     faites = [p['cle'] for p in toutes()]
-    print(len(lot['pages']), 'pages ; recomposées :', [c for c in faites if c in avant] + ['grands-rdv', 'jumelage', 'services-municipaux'], '; ajoutées :', [c for c in faites if c not in avant])
+    print(len(lot['pages']), 'pages ; recomposées :', [c for c in faites if c in avant] + ['grands-rdv', 'jumelage', 'services-municipaux', 'services-publics'], '; ajoutées :', [c for c in faites if c not in avant])
