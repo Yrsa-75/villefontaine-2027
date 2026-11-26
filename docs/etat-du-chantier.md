@@ -1,6 +1,6 @@
 # Villefontaine 2027 : déploiement et état du chantier
 
-Mis à jour le 26/11/2026 (les 5 pages du document d'architecture recomposées : Budget, Grands rendez-vous, Jumelage, Services municipaux, Services publics ; Agenda 1.1.4 ; menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.12, thème 1.0.16, Agenda 1.1.4, Sécurité 1.1.0, Déploiement 1.3.4).
+Mis à jour le 26/11/2026 (les 5 pages du document d'architecture recomposées : Budget, Grands rendez-vous, Jumelage, Services municipaux, Services publics ; Agenda 1.1.4 ; menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.14, thème 1.0.16, Agenda 1.1.4, Sécurité 1.1.0, Déploiement 1.3.4).
 
 Ce document existe en deux exemplaires identiques : dans le projet Claude (`claude/deploiement-et-etat-du-chantier.md`) et dans le dépôt (`docs/etat-du-chantier.md`).
 
@@ -39,7 +39,7 @@ Ce document existe en deux exemplaires identiques : dans le projet Claude (`clau
 - Attention : relancer `pages` sans clé remplace le contenu de toutes les pages migrées. Avant chaque relance, vérifier qu'aucune page n'a été modifiée à la main ; à ne plus faire une fois que les agents ont commencé à modifier les pages.
 
 ## Versions
-- Installées sur la préprod (26/11) : Socle 1.5.12, thème 1.0.16, Actualités 1.0.5, Agenda 1.1.4, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
+- Installées sur la préprod (26/11) : Socle 1.5.14, thème 1.0.16, Actualités 1.0.5, Agenda 1.1.4, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
 - Migration relancée le 19/11 au soir (pages, finaliser, actualites, evenements) : 91 pages migrées, 167 événements sans doublon, 178 redirections.
 - Nom du site passé à « Ville de Villefontaine » sur la préprod (19/11).
 
@@ -95,11 +95,12 @@ Vérification du 25/11 : 9 des 17 contenus en bleu étaient déjà conformes (8 
 - Historique des essais du 25/11, pour ne pas les refaire : la version 1.5.10 dégageait la droite mais assombrissait trop la gauche et rendait la grille invisible ; la version 1.5.11 traçait la grille en deux tons (clair et sombre), ce qui lui faisait perdre son effet de dégradé. Ju a refusé les deux.
 - Contrastes des textes posés sur la photo (menu, info du jour, surtitre, titre, puces) calculés de 1 200 à 2 560 px : tous supérieurs à 5 pour 1 avec la photo actuelle (le menu était à 4,0 avant ces retouches). Calcul fait par simulation des couches, à revérifier si la photo change : le titre n'est protégé que par le halo.
 
-## Diaporama du grand visuel (Socle 1.5.13, 26/11, demande de Ju)
+## Diaporama du grand visuel (Socle 1.5.14, 26/11, demande de Ju)
 - Le bloc « Grand visuel d'accueil » accepte d'autres photos après la grande photo : panneau « Diaporama » de la colonne de droite (choix des photos dans la médiathèque, durée d'affichage de 3 à 15 secondes). Ju a demandé 4 photos et 3 secondes.
 - Fonctionnement : la photo suivante apparaît en fondu (1,2 s) par-dessus la précédente. Les photos suivantes ne sont pas dans la page au chargement : le script les charge une fois la page affichée, la première photo reste donc l'élément prioritaire (vitesse inchangée). Sans JavaScript, seule la première photo s'affiche.
-- Accessibilité (RGAA 13.8) : bouton rond « Mettre en pause / Lancer le diaporama des photos » en bas à droite du visuel (44 px, utilisable au clavier) ; le diaporama ne démarre pas tout seul quand la personne a demandé à son appareil de réduire les animations ; il s'arrête quand l'onglet n'est pas affiché. Les photos sont décoratives (texte alternatif vide).
+- Accessibilité (RGAA 13.8) : bouton rond « Mettre en pause / Lancer le diaporama des photos » en haut à droite du visuel, sous l'en-tête (44 px, utilisable au clavier). En 1.5.13 il était en bas à droite : jusqu'à 1 200 px de large, les accès rapides qui chevauchent le bas du visuel le recouvraient, d'où la 1.5.14 ; le diaporama ne démarre pas tout seul quand la personne a demandé à son appareil de réduire les animations ; il s'arrête quand l'onglet n'est pas affiché. Les photos sont décoratives (texte alternatif vide).
 - Contrastes mesurés en local sur les 3 photos reçues (lac, vue des toits, parvis), à 6 largeurs de 390 à 2 560 px, sur les pixels réellement couverts par du texte : tous les textes au-dessus de 5,4 pour 1 (seuil 4,5 ; 3 pour le titre). Pour y arriver, le surtitre « Connectée par nature » est passé au vert clair #D7EE84 à toutes les largeurs (sur téléphone il descendait à 4,1 sur un ciel lumineux). À refaire pour toute nouvelle photo : le titre blanc supporte mal une photo très claire sur la moitié gauche.
+- En place sur la préprod depuis le 26/11 : médias n° 1867 (vue du lac, photo principale), 1868 (vue des toits) et 1869 (parvis), 2 400×1 800 en WebP ; bloc de l'accueil réglé sur 3 secondes. L'ancienne photo (n° 1835) reste dans la médiathèque.
 - Photos : Ju a fourni 3 fichiers de 2 576 px (la vue du lac est la photo actuelle en meilleure définition, ce qui règle le point « fichier de 2 400 px ») ; la 4e photo est attendue. Sur la photo du parvis, l'enseigne « HOTEL DE VILLE » se trouve derrière le logo et le titre : lisible mais chargé, à juger par Ju.
 - Outils de test gardés hors dépôt : `essais/heros/diapo.py` (enchaînement, pause, clavier, animations réduites, sans JavaScript) et `mesure.py` (contrastes par photo).
 
@@ -224,7 +225,7 @@ Demandes de Ju : (1) fermer wp-admin et wp-login, connexion par /backoffice, blo
 - Pages à recomposer d'après le document d'architecture : Budget fait le 25/11, Les grands rendez-vous et Jumelage, Services municipaux et Services publics faits le 26/11 (les 5 corrections sont terminées) ; restent l'annuaire des associations et les catégories de la carte, qui dépendent des données de la mairie.
 - Agenda : la liste des 12 thématiques est toujours attendue du service communication ; d'ici là, 5 thématiques existent et seuls quelques événements sont classés. À dire aux agents : choisir la thématique de chaque événement, sinon il n'apparaît pas sur la page des grands rendez-vous.
 - Budget, à faire confirmer par la mairie : (1) l'année du graphique de répartition des dépenses repris dans « Les chiffres clés » : il n'est pas daté et ses montants (7,7, 6,5, 4,8, 4,1 et 3,4 millions d'euros) ne se retrouvent pas dans le rapport de présentation du budget 2024, il vaudrait mieux un visuel du dernier budget ; (2) le compte administratif 2022 n'est pas sur le site actuel (la page 2023 n'a que deux documents) ; (3) deux PDF sont très lourds et gagneraient à être allégés par la mairie : « Budget 2025 de la commune » (119 Mo) et « Compte administratif 2024 » (64 Mo).
-- Diaporama de l'accueil : 4e photo attendue de Ju ; installation du Socle 1.5.13 et dépôt des photos à terminer si ce n'est pas fait (voir « Diaporama du grand visuel »).
+- Diaporama de l'accueil : 4e photo attendue de Ju ; avis de Ju attendu sur la photo du parvis (enseigne derrière le titre).
 - 3 affiches en hauteur à refaire à 2 400 px de large (décision de Ju attendue).
 - Sécurité : IP de la mairie à obtenir pour les adresses de confiance (ou nombre d'essais plus élevé) ; double authentification écartée pour l'instant par Ju, à reproposer à la mise en ligne (c'est la mesure la plus efficace contre le vol de mot de passe).
 - Page urbanisme, à faire confirmer par le service urbanisme : (1) serre : le schéma saute de « ≤ 5 m² » à « > 20 m² : DPC » (rien entre 5 et 20 m², et pas de seuil de permis) ; (2) panneaux photovoltaïques : « ≤ 250 kW : DPC » et « ≥ 250 kW : PC » se recouvrent à 250 kW ; (3) la phrase « Attention à ne pas abîmer la porte » du Word n'a pas été publiée (elle semble être là par erreur) ; (4) garder ou retirer les 5 définitions de l'ancienne page. Le document d'architecture note aussi « Revenir vers Julien » pour l'urbanisme.
