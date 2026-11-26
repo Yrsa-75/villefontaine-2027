@@ -1,6 +1,6 @@
 # Villefontaine 2027 : déploiement et état du chantier
 
-Mis à jour le 26/11/2026 (les 5 pages du document d'architecture recomposées : Budget, Grands rendez-vous, Jumelage, Services municipaux, Services publics ; Agenda 1.1.4 ; menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.14, thème 1.0.16, Agenda 1.1.4, Sécurité 1.1.0, Déploiement 1.3.4).
+Mis à jour le 26/11/2026 (les 5 pages du document d'architecture recomposées : Budget, Grands rendez-vous, Jumelage, Services municipaux, Services publics ; Agenda 1.1.4 ; menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.14, thème 1.0.17, Agenda 1.1.4, Sécurité 1.1.0, Déploiement 1.3.4).
 
 Ce document existe en deux exemplaires identiques : dans le projet Claude (`claude/deploiement-et-etat-du-chantier.md`) et dans le dépôt (`docs/etat-du-chantier.md`).
 
@@ -39,7 +39,7 @@ Ce document existe en deux exemplaires identiques : dans le projet Claude (`clau
 - Attention : relancer `pages` sans clé remplace le contenu de toutes les pages migrées. Avant chaque relance, vérifier qu'aucune page n'a été modifiée à la main ; à ne plus faire une fois que les agents ont commencé à modifier les pages.
 
 ## Versions
-- Installées sur la préprod (26/11) : Socle 1.5.14, thème 1.0.16, Actualités 1.0.5, Agenda 1.1.4, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
+- Installées sur la préprod (26/11) : Socle 1.5.14, thème 1.0.17, Actualités 1.0.5, Agenda 1.1.4, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
 - Migration relancée le 19/11 au soir (pages, finaliser, actualites, evenements) : 91 pages migrées, 167 événements sans doublon, 178 redirections.
 - Nom du site passé à « Ville de Villefontaine » sur la préprod (19/11).
 
@@ -103,6 +103,13 @@ Vérification du 25/11 : 9 des 17 contenus en bleu étaient déjà conformes (8 
 - En place sur la préprod depuis le 26/11 : médias n° 1867 (vue du lac, photo principale), 1868 (vue des toits) et 1869 (parvis), 2 400×1 800 en WebP ; bloc de l'accueil réglé sur 3 secondes. L'ancienne photo (n° 1835) reste dans la médiathèque.
 - Photos : Ju a fourni 3 fichiers de 2 576 px (la vue du lac est la photo actuelle en meilleure définition, ce qui règle le point « fichier de 2 400 px ») ; la 4e photo est attendue. Sur la photo du parvis, l'enseigne « HOTEL DE VILLE » se trouve derrière le logo et le titre : lisible mais chargé, à juger par Ju.
 - Outils de test gardés hors dépôt : `essais/heros/diapo.py` (enchaînement, pause, clavier, animations réduites, sans JavaScript) et `mesure.py` (contrastes par photo).
+
+## Liste des actualités (thème 1.0.17, 26/11, demande de Ju)
+- Tuiles réduites à l'image, la catégorie et le titre, sur « Toutes les actualités » (templates/index.html) et sur les listes par catégorie (templates/archive.html). La date et l'extrait sont retirés des tuiles (ils restent dans l'article et dans les résultats de recherche, templates/search.html).
+- Espaces resserrés : marge intérieure 14/18/18 px, 6 px entre catégorie et titre, 20 px entre les tuiles.
+- Cause des grands espaces d'avant : l'espacement automatique de WordPress entre blocs (`:root :where(.is-layout-flow) > *`, 24 px) passait devant les marges à zéro du thème, à égalité de poids et chargé après. Les sélecteurs de global.css sont donc doublés (`.vf-carte .vf-carte__corps > *`, `.vf-liste .wp-block-query .wp-block-post-template`). À garder en tête pour tout nouveau gabarit fait de blocs natifs.
+- L'image d'une tuile est toujours recadrée en 3/2, même si le fichier est petit ou en hauteur (avant, une image plus petite que 720 × 480 étirait la tuile).
+- Actualité sans image : aplat bleu clair à la place, pour garder la grille régulière (listes d'actualités seulement, pas la recherche).
 
 ## Plugin « Sécurité Villefontaine » (securite-villefontaine 1.1.0, 25/11)
 Demandes de Ju : (1) fermer wp-admin et wp-login, connexion par /backoffice, blocage d'une adresse IP 1 heure après 3 échecs avec déblocage par l'administrateur ; (2) « mettre le paquet » sur la sécurité et habiller la page de connexion à la charte. Décision de Ju du 25/11 : pas de double authentification pour l'instant (si elle est ajoutée plus tard : obligatoire pour les administrateurs seulement).

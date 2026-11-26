@@ -197,13 +197,19 @@ ul.is-style-coches li::before { content: ""; position: absolute; left: 0; top: .
 /* Listes d'articles (archives, recherche) */
 .vf-liste { padding-top: 40px; }
 .vf-liste h1 { font-size: clamp(24px, 3.2vw, 38.5px); }
-.vf-liste .wp-block-post-template { list-style: none; margin: 32px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+/* Les sélecteurs sont doublés (.vf-liste .wp-block-query, .vf-carte .vf-carte__corps) pour passer devant
+   l'espacement automatique de WordPress entre blocs (24 px), qui s'ajoutait aux marges des tuiles. */
+.vf-liste .wp-block-query { margin-top: 20px; }
+.vf-liste .wp-block-query .wp-block-post-template { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .vf-carte { position: relative; height: 100%; display: flex; flex-direction: column; background: var(--blanc); border: 1px solid var(--trait); border-radius: var(--rayon); overflow: hidden; transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
 .vf-carte:hover { transform: translateY(-4px); box-shadow: var(--ombre-forte); }
-.vf-carte .wp-block-post-featured-image { margin: 0; aspect-ratio: 3 / 2; background: var(--bleu-100); }
-.vf-carte .wp-block-post-featured-image img { width: 100%; height: 100%; object-fit: cover; }
-.vf-carte__corps { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 8px; }
-.vf-carte__corps > * { margin: 0; }
+/* L'image est toujours recadrée en 3/2, même si le fichier d'origine est petit ou en hauteur. */
+.vf-carte .wp-block-post-featured-image { position: relative; flex: none; margin: 0; aspect-ratio: 3 / 2; min-height: 0; overflow: hidden; background: var(--bleu-100); }
+.vf-carte .wp-block-post-featured-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Actualité sans image : un aplat à la place, pour que la grille reste régulière (pas dans la recherche, où beaucoup de pages n'ont pas d'image). */
+:is(.blog, .archive) .vf-carte:not(:has(.wp-block-post-featured-image))::before { content: ""; flex: none; aspect-ratio: 3 / 2; background: var(--bleu-100); }
+.vf-carte > .vf-carte__corps { margin: 0; padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 6px; }
+.vf-carte .vf-carte__corps > * { margin: 0; }
 .vf-carte .wp-block-post-terms { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--vert-700); }
 .vf-carte .wp-block-post-terms a { color: inherit; text-decoration: none; position: relative; z-index: 2; }
 .vf-carte .wp-block-post-title { font-family: var(--wp--preset--font-family--figtree); font-size: 17.5px; font-weight: 800; letter-spacing: 0; }
@@ -248,10 +254,10 @@ main#contenu:focus { outline: none; }
 .wp-site-blocks { padding: 0; }
 
 @media (max-width: 1180px) {
-  .vf-liste .wp-block-post-template { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vf-liste .wp-block-query .wp-block-post-template { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
-  .vf-liste .wp-block-post-template { grid-template-columns: 1fr; }
+  .vf-liste .wp-block-query .wp-block-post-template { grid-template-columns: 1fr; }
   .contenu { font-size: 15px; }
   .is-style-a-savoir { padding: 22px 20px 22px 60px; }
   .is-style-a-savoir::before { left: 20px; top: 24px; }
