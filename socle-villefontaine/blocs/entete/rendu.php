@@ -77,7 +77,7 @@ if ( '' === $vf_logo_html ) {
 		?>
 		<div><h2><?php echo esc_html( $vf_r1['titre'] ); ?></h2>
 		<?php if ( $vf_r1['description'] ) : ?><p><?php echo esc_html( $vf_r1['description'] ); ?></p><?php endif; ?>
-		<?php // Le lien « Toute la rubrique » a été retiré de ce bloc à la demande de Ju (27/11/2026). La page de rubrique reste accessible par le fil d'Ariane, le plan du site et le menu sur téléphone. ?>
+		<?php // Le lien « Toute la rubrique » a été retiré de ce bloc à la demande de Ju (27/11/2026). La page de rubrique reste accessible par le fil d'Ariane, le plan du site et la recherche. ?>
 		</div>
 	</div>
 	<ul class="mega__colonnes">
@@ -144,9 +144,7 @@ if ( '' === $vf_logo_html ) {
 			<?php echo $vf_lien( $vf_r1, 'tiroir__lien' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
 		<?php else : ?>
 		<details><summary><?php echo esc_html( $vf_r1['titre'] ); ?> <?php echo $vf_chevron; // phpcs:ignore WordPress.Security.EscapeOutput ?></summary>
-			<?php if ( '#' !== $vf_r1['url'] && '' !== $vf_r1['url'] ) : ?>
-				<?php echo $vf_lien( array_merge( $vf_r1, array( 'titre' => $vf_r1['titre'] . ' : toute la rubrique' ) ), 'tiroir__lien' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>
-			<?php endif; ?>
+			<?php // La ligne « … : toute la rubrique » a été retirée ici aussi à la demande de Ju (27/11/2026). ?>
 			<?php foreach ( $vf_r1['enfants'] as $vf_r2 ) : ?>
 				<?php if ( ! $vf_r2['enfants'] ) : ?>
 					<?php echo $vf_lien( $vf_r2, 'tiroir__lien' ); // phpcs:ignore WordPress.Security.EscapeOutput ?>

@@ -1,6 +1,6 @@
 # Villefontaine 2027 : déploiement et état du chantier
 
-Mis à jour le 27/11/2026 (les 5 pages du document d'architecture recomposées : Budget, Grands rendez-vous, Jumelage, Services municipaux, Services publics ; Agenda 1.1.4 ; menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.16, thème 1.0.17, Actualités 1.0.6, Agenda 1.1.4, Sécurité 1.1.0, Déploiement 1.3.4).
+Mis à jour le 27/11/2026 (les 5 pages du document d'architecture recomposées : Budget, Grands rendez-vous, Jumelage, Services municipaux, Services publics ; Agenda 1.1.4 ; menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.17, thème 1.0.17, Actualités 1.0.6, Agenda 1.1.4, Sécurité 1.1.0, Déploiement 1.3.4).
 
 Ce document existe en deux exemplaires identiques : dans le projet Claude (`claude/deploiement-et-etat-du-chantier.md`) et dans le dépôt (`docs/etat-du-chantier.md`).
 
@@ -39,7 +39,7 @@ Ce document existe en deux exemplaires identiques : dans le projet Claude (`clau
 - Attention : relancer `pages` sans clé remplace le contenu de toutes les pages migrées. Avant chaque relance, vérifier qu'aucune page n'a été modifiée à la main ; à ne plus faire une fois que les agents ont commencé à modifier les pages.
 
 ## Versions
-- Installées sur la préprod (27/11) : Socle 1.5.16, thème 1.0.17, Actualités 1.0.6, Agenda 1.1.4, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
+- Installées sur la préprod (27/11) : Socle 1.5.17, thème 1.0.17, Actualités 1.0.6, Agenda 1.1.4, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
 - Migration relancée le 19/11 au soir (pages, finaliser, actualites, evenements) : 91 pages migrées, 167 événements sans doublon, 178 redirections.
 - Nom du site passé à « Ville de Villefontaine » sur la préprod (19/11).
 
@@ -52,7 +52,7 @@ Ce document fait foi pour le méga-menu. Le menu de la préprod suivait le plan 
 - Six pages du plan sans contenu sur le site actuel, créées en brouillon et hors menu (décision de Ju) : Joindre les élus (page n° 1840), Plan canicule (1841), Handicap (1842), Relais emploi du CCAS (1843), Infos Enedis et Semidao (1844), La collecte (1845). Quand la mairie fournit le texte : le saisir, publier la page, puis l'ajouter au menu dans Apparence > Menus.
 - Où c'est écrit : options `hors_menu`, `menu_titre`, `liens_menu` et `statut: draft` + `attente` dans `outils/migration/plan.py` ; `python3 menu.py` régénère le menu et les brouillons dans `pages.json` sans avoir besoin de l'export de l'ancien site. Sur la préprod, le menu a été retouché élément par élément (68 éléments au lieu de 77), sans relancer `finaliser`.
 - Le reste du document de Ju concerne le contenu des pages, pas le menu : voir la section suivante.
-- 27/11 (Socle 1.5.16, demande de Ju) : le lien « Toute la rubrique » est retiré du bloc de gauche des sous-menus (ordinateur). Les pages de rubrique (La mairie, Vie quotidienne, Cadre de vie, Sortir et bouger) ne sont donc plus liées depuis le menu sur ordinateur : elles restent accessibles par le fil d'Ariane, le plan du site, la recherche et, sur téléphone, par la ligne « … : toute la rubrique » du tiroir (conservée, c'est le seul accès à ces pages dans ce menu).
+- 27/11 (Socle 1.5.16 puis 1.5.17, demandes de Ju) : le lien « Toute la rubrique » est retiré du bloc de gauche des sous-menus (ordinateur), puis la ligne « … : toute la rubrique » du menu sur téléphone. Les pages de rubrique (La mairie, Vie quotidienne, Cadre de vie, Sortir et bouger) ne sont donc plus liées depuis aucun menu : elles restent en ligne, accessibles par le fil d'Ariane, le plan du site et la recherche. Si un accès doit revenir sans remettre le lien : rendre cliquable le titre de la rubrique dans le bloc de gauche (blocs/entete/rendu.php).
 
 ## Contenu des pages (passages en bleu du document d'architecture)
 Vérification du 25/11 : 9 des 17 contenus en bleu étaient déjà conformes (8 raccourcis de l'accueil, Commerces, Tranquillité, Accessibilité, Grands projets, Vie culturelle, Sports et loisirs, Jardins, Patrimoine). Corrections validées par Ju, dans cet ordre, une page à la fois :
