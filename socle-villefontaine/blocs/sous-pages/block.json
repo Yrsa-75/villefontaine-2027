@@ -2,16 +2,20 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "vf/sous-pages",
-	"version": "1.4.6",
+	"version": "1.5.18",
 	"title": "Pages de la rubrique",
 	"category": "villefontaine",
 	"icon": "screenoptions",
-	"description": "Tuiles automatiques vers les sous-pages de la page en cours (titre et extrait).",
+	"description": "Pavés automatiques vers les sous-pages de la page en cours : une image ou une icône, un titre.",
 	"textdomain": "socle-villefontaine",
 	"attributes": {
 		"titre": {
 			"type": "string",
 			"default": "Dans cette rubrique"
+		},
+		"titreMasque": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"usesContext": [

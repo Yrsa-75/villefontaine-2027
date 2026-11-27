@@ -67,7 +67,7 @@ h1, h2, h3 { line-height: 1.15; margin: 0; }
 .bande .section__tete { margin-bottom: 20px; }
 .pied { margin-top: 96px; background: var(--bleu-900); color: var(--blanc); }
 .pied a { color: var(--blanc); }
-.pied__grille { display: grid; grid-template-columns: 1.3fr 1.2fr 1fr 1fr; gap: 40px; padding-top: 64px; padding-bottom: 44px; }
+.pied__grille { display: grid; grid-template-columns: 1.3fr 1.3fr 1fr; gap: 40px; padding-top: 64px; padding-bottom: 44px; }
 .pied h2 { font-size: 15px; font-weight: 750; margin-bottom: 14px; }
 .pied p { margin: 0; font-size: 13.5px; line-height: 1.7; color: #D9E6E9; }
 .pied ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 13.5px; }
@@ -181,8 +181,10 @@ ul.is-style-coches li::before { content: ""; position: absolute; left: 0; top: .
 .vf-page--pleine .contenu { max-width: none; }
 /* Pleine largeur : le texte garde une largeur confortable à lire, les blocs de navigation (cartes, trombinoscope, agenda, carte) prennent toute la place. */
 .vf-page--pleine .contenu > * { max-width: 860px; }
-.vf-page--pleine .contenu > :is(.vf-sous-pages, .vf-cartes, .vf-trombi, .vf-carte-bloc, .vf-agenda, .vf-chiffres, .alignwide, .alignfull) { max-width: none; }
+.vf-page--pleine .contenu > :is(.vf-sous-pages, .vf-grille-contacts, .vf-cartes, .vf-trombi, .vf-carte-bloc, .vf-agenda, .vf-chiffres, .alignwide, .alignfull) { max-width: none; }
 .vf-page--pleine .vf-sous-pages .tuiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* Quatre pavés exactement : sur une seule rangée, plutôt que trois et un pavé seul en dessous. */
+@media (min-width: 1100px) { .vf-page--pleine .vf-sous-pages .tuiles:has(> :nth-child(4):last-child) { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 960px) { .vf-page--pleine .vf-sous-pages .tuiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .vf-page--pleine .vf-sous-pages .tuiles { grid-template-columns: 1fr; } }
 

@@ -5,7 +5,7 @@
  * Categories: footer
  * Block Types: core/template-part/footer
  * Inserter: no
- * Description: Pied de page du site : coordonnées, horaires, accès directs, réseaux sociaux et liens légaux.
+ * Description: Pied de page du site : coordonnées, horaires, réseaux sociaux et liens légaux.
  *
  * @package Villefontaine
  */
@@ -38,30 +38,6 @@ $vf_logo = get_theme_file_uri( 'assets/img/logo-villefontaine-blanc.png' );
 <!-- wp:paragraph -->
 <p>Lundi, mardi, mercredi et vendredi : 8 h 30 à 12 h et 13 h 30 à 17 h<br>Jeudi : 10 h 30 à 12 h et 13 h 30 à 17 h<br>1er samedi du mois : 8 h 30 à 12 h</p>
 <!-- /wp:paragraph --></div>
-<!-- /wp:group -->
-
-<!-- wp:group {"layout":{"type":"default"}} -->
-<div class="wp-block-group"><!-- wp:heading {"level":2} -->
-<h2 class="wp-block-heading">Accès directs</h2>
-<!-- /wp:heading -->
-
-<!-- wp:list -->
-<ul class="wp-block-list"><!-- wp:list-item -->
-<li><a href="/contact/">Contacter la mairie</a></li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li><a href="#panneau-demarches" data-ouvre-demarches>Vos démarches</a></li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li><a href="/carte-des-services/">Carte des services</a></li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li><a href="/villefontaine-recrute/">Villefontaine recrute</a></li>
-<!-- /wp:list-item --></ul>
-<!-- /wp:list --></div>
 <!-- /wp:group -->
 
 <!-- wp:group {"layout":{"type":"default"}} -->
