@@ -77,9 +77,7 @@ if ( '' === $vf_logo_html ) {
 		?>
 		<div><h2><?php echo esc_html( $vf_r1['titre'] ); ?></h2>
 		<?php if ( $vf_r1['description'] ) : ?><p><?php echo esc_html( $vf_r1['description'] ); ?></p><?php endif; ?>
-		<?php if ( '#' !== $vf_r1['url'] && '' !== $vf_r1['url'] ) : ?>
-			<a class="lien-fleche" href="<?php echo esc_url( $vf_r1['url'] ); ?>"><span>Toute la rubrique</span> <?php echo $vf_fleche; // phpcs:ignore WordPress.Security.EscapeOutput ?></a>
-		<?php endif; ?>
+		<?php // Le lien « Toute la rubrique » a été retiré de ce bloc à la demande de Ju (27/11/2026). La page de rubrique reste accessible par le fil d'Ariane, le plan du site et le menu sur téléphone. ?>
 		</div>
 	</div>
 	<ul class="mega__colonnes">

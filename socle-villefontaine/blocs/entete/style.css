@@ -31,7 +31,7 @@
 .mega__intro div { padding: 20px 22px 24px; }
 .mega__intro h2 { font-size: 21px; font-weight: 800; color: var(--bleu-800); margin-bottom: 8px; }
 .mega__intro p { margin: 0 0 14px; font-size: 13px; color: var(--encre-douce); }
-.mega__intro a { font-weight: 700; }
+.mega__intro div > :last-child { margin-bottom: 0; }
 .mega__colonnes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 32px; align-content: start; }
 .mega__rang2 { display: inline-flex; align-items: center; gap: 6px; font-weight: 750; font-size: 15px; color: var(--bleu-800); text-decoration: none; padding: 2px 0; }
 .mega__rang2 svg { opacity: 0; transform: translateX(-4px); transition: opacity .2s, transform .25s var(--ease); }
