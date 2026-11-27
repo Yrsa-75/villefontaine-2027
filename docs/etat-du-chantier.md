@@ -1,6 +1,6 @@
 # Villefontaine 2027 : déploiement et état du chantier
 
-Mis à jour le 26/11/2026 (les 5 pages du document d'architecture recomposées : Budget, Grands rendez-vous, Jumelage, Services municipaux, Services publics ; Agenda 1.1.4 ; menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.14, thème 1.0.17, Actualités 1.0.6, Agenda 1.1.4, Sécurité 1.1.0, Déploiement 1.3.4).
+Mis à jour le 27/11/2026 (les 5 pages du document d'architecture recomposées : Budget, Grands rendez-vous, Jumelage, Services municipaux, Services publics ; Agenda 1.1.4 ; menu aligné sur le document « ARCHITECTURE SITE NEW » ; règle des images : WebP, 2 400 px de large au plus ; voile du grand visuel allégé ; plugin Sécurité 1.1.0. Socle 1.5.15, thème 1.0.17, Actualités 1.0.6, Agenda 1.1.4, Sécurité 1.1.0, Déploiement 1.3.4).
 
 Ce document existe en deux exemplaires identiques : dans le projet Claude (`claude/deploiement-et-etat-du-chantier.md`) et dans le dépôt (`docs/etat-du-chantier.md`).
 
@@ -39,7 +39,7 @@ Ce document existe en deux exemplaires identiques : dans le projet Claude (`clau
 - Attention : relancer `pages` sans clé remplace le contenu de toutes les pages migrées. Avant chaque relance, vérifier qu'aucune page n'a été modifiée à la main ; à ne plus faire une fois que les agents ont commencé à modifier les pages.
 
 ## Versions
-- Installées sur la préprod (26/11) : Socle 1.5.14, thème 1.0.17, Actualités 1.0.6, Agenda 1.1.4, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
+- Installées sur la préprod (27/11) : Socle 1.5.15, thème 1.0.17, Actualités 1.0.6, Agenda 1.1.4, Annuaire 1.0.6, Kiosque 1.0.2, Sécurité 1.1.0, Déploiement 1.3.4.
 - Migration relancée le 19/11 au soir (pages, finaliser, actualites, evenements) : 91 pages migrées, 167 événements sans doublon, 178 redirections.
 - Nom du site passé à « Ville de Villefontaine » sur la préprod (19/11).
 
@@ -91,7 +91,7 @@ Vérification du 25/11 : 9 des 17 contenus en bleu étaient déjà conformes (8 
 ## Grand visuel de l'accueil (Socle 1.5.12, 25/11)
 - À partir de 1 200 px de large, la photo se voit sur toute la largeur (opacité 0,96 au lieu de 0,78). Le voile bleu nuit se limite à un halo derrière le bloc de texte, une bande sous le menu et un léger fondu en bas ; il est nul sur la droite. En dessous de 1 200 px, rien n'a changé (le texte occupe presque toute la largeur).
 - Les textes qui flottent sur la photo ont leur propre fond : « Info du jour » et les puces « Fréquent » sont sur un verre sombre (au lieu d'un verre clair), le surtitre est passé au vert clair #D7EE84.
-- Grille : tracé blanc et fondu en dégradé d'origine (Ju y tient), seule l'opacité est montée de 0,18 à 0,6 : sur une photo lumineuse, à 0,18 elle ne se voyait plus.
+- Grille : tracé blanc et fondu en dégradé d'origine (Ju y tient), seule l'opacité est montée de 0,18 à 0,6 : sur une photo lumineuse, à 0,18 elle ne se voyait plus. Le 27/11 (Socle 1.5.15), Ju a demandé de la baisser de moitié : 0,3 à partir de 1 200 px, 0,09 en dessous.
 - Historique des essais du 25/11, pour ne pas les refaire : la version 1.5.10 dégageait la droite mais assombrissait trop la gauche et rendait la grille invisible ; la version 1.5.11 traçait la grille en deux tons (clair et sombre), ce qui lui faisait perdre son effet de dégradé. Ju a refusé les deux.
 - Contrastes des textes posés sur la photo (menu, info du jour, surtitre, titre, puces) calculés de 1 200 à 2 560 px : tous supérieurs à 5 pour 1 avec la photo actuelle (le menu était à 4,0 avant ces retouches). Calcul fait par simulation des couches, à revérifier si la photo change : le titre n'est protégé que par le halo.
 

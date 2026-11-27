@@ -37,7 +37,7 @@
 .aurore span:nth-child(2) { width: 40vw; height: 40vw; left: 30%; top: 40%; background: radial-gradient(circle, rgba(103, 158, 170, .6), transparent 65%); animation: derive2 22s ease-in-out infinite alternate; }
 .aurore span:nth-child(3) { width: 30vw; height: 30vw; right: 6%; top: 4%; background: radial-gradient(circle, rgba(111, 195, 211, .45), transparent 65%); animation: derive1 26s ease-in-out infinite alternate-reverse; }
 .grain { position: absolute; inset: 0; z-index: -1; opacity: .07; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-.grille-lumineuse { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .18; background-image: linear-gradient(rgba(255, 255, 255, .5) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .5) 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse 60% 50% at 75% 40%, #000 0%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse 60% 50% at 75% 40%, #000 0%, transparent 70%); }
+.grille-lumineuse { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .09; background-image: linear-gradient(rgba(255, 255, 255, .5) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .5) 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse 60% 50% at 75% 40%, #000 0%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse 60% 50% at 75% 40%, #000 0%, transparent 70%); }
 .immersif__contenu { width: 100%; padding-top: 98px; padding-bottom: 116px; }
 .immersif__bloc { max-width: 760px; }
 .capsule { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px 8px 10px; border-radius: 999px; background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-size: 13px; color: var(--blanc); text-decoration: none; margin-bottom: 18px; transition: background .2s; }
@@ -59,15 +59,15 @@
 
 /* Grand écran : la photo se voit sur toute la largeur. Le voile se limite à un halo derrière le bloc de texte et à une bande
    sous le menu ; les éléments de texte qui flottent sur la photo (info du jour, puces) ont leur propre fond sombre.
-   La grille garde son tracé blanc et son fondu d'origine ; seule son opacité monte (.18 → .6), car sur une photo lumineuse
-   elle devenait invisible.
+   La grille garde son tracé blanc et son fondu d'origine ; son opacité est plus forte que sur petit écran, car sur une photo
+   lumineuse elle devenait invisible. Le 27/11, Ju a demandé de la baisser de moitié partout (.6 → .3 ici, .18 → .09 en dessous).
    Contrastes des textes vérifiés de 1200 à 2560 px avec la photo en place : à revérifier si la photo change. */
 @media (min-width: 1200px) {
   .immersif__photos { opacity: .96; }
   .immersif::before { background: radial-gradient(ellipse 46% 70% at 30% 47%, rgba(7, 30, 36, .7) 0%, rgba(7, 30, 36, .52) 55%, rgba(7, 30, 36, 0) 100%), linear-gradient(100deg, rgba(7, 30, 36, .55) 0%, rgba(7, 30, 36, .44) 30%, rgba(7, 30, 36, .24) 50%, rgba(7, 30, 36, .05) 64%, rgba(7, 30, 36, 0) 78%), linear-gradient(180deg, rgba(7, 30, 36, .8) 0%, rgba(7, 30, 36, .62) 9%, rgba(7, 30, 36, 0) 27%), linear-gradient(0deg, rgba(7, 30, 36, .55) 0%, rgba(7, 30, 36, 0) 28%); }
   .immersif .aurore { opacity: .3; }
   .immersif .aurore span:nth-child(3) { display: none; }
-  .immersif .grille-lumineuse { opacity: .6; }
+  .immersif .grille-lumineuse { opacity: .3; }
   .immersif .capsule { background: rgba(7, 30, 36, .55); }
   .immersif .capsule:hover { background: rgba(7, 30, 36, .75); }
   .immersif .heros__suggestions a { background: rgba(7, 30, 36, .55); border-color: rgba(255, 255, 255, .34); }
